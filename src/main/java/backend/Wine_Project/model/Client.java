@@ -1,7 +1,9 @@
 package backend.Wine_Project.model;
 
 import jakarta.persistence.*;
-import org.hibernate.mapping.List;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
