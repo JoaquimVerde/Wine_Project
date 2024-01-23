@@ -9,5 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface WineRepository extends JpaRepository<Wine, Long> {
-    Optional<Wine> findByNameAndYearAndWineType(WineCreateDto wine);
 }

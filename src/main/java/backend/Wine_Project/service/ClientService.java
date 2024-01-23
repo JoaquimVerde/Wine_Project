@@ -7,14 +7,16 @@ import backend.Wine_Project.exceptions.EmailAlreadyExistsException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.repository.ClientRepository;
 import backend.Wine_Project.util.Messages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ClientService implements ClientServiceI{
 
     private final ClientRepository clientRepository;
-
+    @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
@@ -38,20 +40,7 @@ public class ClientService implements ClientServiceI{
         return newClient.getId();
     }
 
-    @Override
-    public void delete(Long id) {
 
-    }
-
-    @Override
-    public void update(Long id, ClientReadDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public ClientReadDto get(Long id) {
-        return null;
-    }
 
 
 }

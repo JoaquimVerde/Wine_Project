@@ -23,7 +23,13 @@ public class WineConverter {
     }
 
     public static Wine fromWineCreateDtoToWine(WineCreateDto wine) {
-        return new Wine(wine.name(), wine.wineType(),wine.region(),
-                wine.grapeVarietiesList(),wine.price(), wine.alcohol(),wine.year());
+        return new Wine(
+                wine.name(),
+                wine.wineType(),
+                wine.region(),
+                wine.grapeVarietiesList(),
+                wine.price(),
+                wine.alcohol(),
+                wine.year());
     }
 }

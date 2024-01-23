@@ -1,6 +1,7 @@
 package backend.Wine_Project.model;
 
 import jakarta.persistence.*;
+
 import java.time.Year;
 import java.util.List;
 
@@ -8,12 +9,16 @@ import java.util.List;
 @Entity
 @Table
 public class Wine {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private WineType wineType;
+    @Enumerated(EnumType.STRING)
     private Region region;
+    @Enumerated(EnumType.STRING)
     private List<GrapeVarieties> grapeVarietiesList;
     private double RatingAvg;
     private double price;
@@ -116,4 +121,5 @@ public class Wine {
     public void setYear(Year year) {
         this.year = year;
     }
+
 }

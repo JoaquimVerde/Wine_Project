@@ -2,8 +2,6 @@ package backend.Wine_Project.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
@@ -17,8 +15,6 @@ public class Client {
     private String email;
     @Column(unique = true)
     private int nif;
-    private List<Wine> wineList;
-    private List<Wine> wishlist;
 
 
     public Client() {
@@ -62,19 +58,6 @@ public class Client {
         this.nif = nif;
     }
 
-    public List<Wine> getWineList() {
-        return wineList;
-    }
-
-    public void setWineList(List<Wine> wineList) {
-        this.wineList = wineList;
-    }
-
-    public List<Wine> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<Wine> wishlist) {
-        this.wishlist = wishlist;
-    }
 }
+
+

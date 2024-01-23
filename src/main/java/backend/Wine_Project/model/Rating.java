@@ -9,11 +9,11 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @ManyToOne
     private Client client;
+    @ManyToOne
     private Wine wine;
     private double rating;
-
     public Rating() {
     }
 
