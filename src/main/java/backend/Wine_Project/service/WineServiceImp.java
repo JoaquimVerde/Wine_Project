@@ -25,10 +25,10 @@ public WineServiceImp(WineRepository wineRepository){
     }
 
     @Override
-    public WineCreateDto create(WineCreateDto wine) {
+    public Long create(WineCreateDto wine) {
         Wine newWine = WineConverter.fromWineCreateDtoToWine(wine);
         wineRepository.save(newWine);
-        return wine;
+        return newWine.getId();
     }
 
     @Override

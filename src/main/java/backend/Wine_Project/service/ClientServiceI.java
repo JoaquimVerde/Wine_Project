@@ -5,9 +5,7 @@ import backend.Wine_Project.clientDto.ClientReadDto;
 
 import java.util.List;
 
-public interface ClientServiceI {
+public interface ClientServiceI extends CrudeService<ClientReadDto, ClientCreateDto, Long>{
 
-    List<ClientReadDto> getClients();
 
-    ClientCreateDto addNewClient(ClientCreateDto client);
 }

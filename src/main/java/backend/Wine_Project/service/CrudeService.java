@@ -2,10 +2,10 @@ package backend.Wine_Project.service;
 
 import java.util.List;
 
-public interface CrudeService<GET,CREATE> {
+public interface CrudeService<GET, CREATE, LONG> {
     List<GET> getAll();
-    GET create(CREATE wine);
+    LONG create(CREATE modelCreateDto);
     void delete(Long id);
-    void update(Long id, GET wine);
+    void update(Long id, GET modelUpdateDto);
     GET get(Long id);
 }

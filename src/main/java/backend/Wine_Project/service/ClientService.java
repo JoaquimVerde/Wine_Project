@@ -19,19 +19,39 @@ public class ClientService implements ClientServiceI{
         this.clientRepository = clientRepository;
     }
 
+
+
+
     @Override
-    public List<ClientReadDto> getClients() {
+    public List<ClientReadDto> getAll() {
         List<Client> clients = clientRepository.findAll();
         return ClientConverter.fromModelListToClientReadDtoList(clients);
     }
 
     @Override
-    public ClientCreateDto addNewClient(ClientCreateDto client) {
+    public Long create(ClientCreateDto client) {
         Optional<Client> clientOptional = this.clientRepository.findClientByEmail(client.email());
         if (clientOptional.isPresent())
             throw new EmailAlreadyExistsException(Messages.CLIENT_EMAIL_ALREADY_EXISTS.getMessage());
         Client newClient = ClientConverter.fromClientCreateDtoToModel(client);
         clientRepository.save(newClient);
-        return client;
+        return newClient.getId();
     }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public void update(Long id, ClientReadDto modelUpdateDto) {
+
+    }
+
+    @Override
+    public ClientReadDto get(Long id) {
+        return null;
+    }
+
+
 }
