@@ -22,13 +22,16 @@ public class ClientController {
 
     @GetMapping("/")
     public ResponseEntity<List<ClientReadDto>> getClients() {
-        return new ResponseEntity<>(clientService.getClients(), HttpStatus.OK);
+
+        return new ResponseEntity<>(clientService.getAll(), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<ClientCreateDto> addNewClient(@RequestBody ClientCreateDto client) {
-        return new ResponseEntity<>(clientService.addNewClient(client), HttpStatus.CREATED);
+    public ResponseEntity<Long> create(@RequestBody ClientCreateDto client) {
+        return new ResponseEntity<>(clientService.create(client), HttpStatus.CREATED);
     }
+
+   
 
 
 
