@@ -27,7 +27,7 @@ public WineServiceImp(WineRepository wineRepository){
     @Override
     public WineCreateDto create(WineCreateDto wine) {
         Wine newWine = WineConverter.fromWineCreateDtoToWine(wine);
-        wineRepository.save(newWine);;
+        wineRepository.save(newWine);
         return wine;
     }
 
