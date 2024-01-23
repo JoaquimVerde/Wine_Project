@@ -20,6 +20,16 @@ public class Wine {
     private double alcohol;
     private Year year;
 
+    public Wine(String name, WineType wineType, Region region, List<GrapeVarieties> grapeVarietiesList, double price, double alcohol, Year year) {
+        this.name = name;
+        this.wineType = wineType;
+        this.region = region;
+        this.grapeVarietiesList = grapeVarietiesList;
+        this.price = price;
+        this.alcohol = alcohol;
+        this.year = year;
+    }
+
     public Wine(Long id, String name, WineType wineType, Region region, List<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, Year year) {
         this.id = id;
         this.name = name;

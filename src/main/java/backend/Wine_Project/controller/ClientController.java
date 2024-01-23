@@ -22,6 +22,7 @@ public class ClientController {
 
     @GetMapping("/")
     public ResponseEntity<List<ClientReadDto>> getClients() {
+
         return new ResponseEntity<>(clientService.getAll(), HttpStatus.OK);
     }
 
@@ -29,6 +30,8 @@ public class ClientController {
     public ResponseEntity<Long> create(@RequestBody ClientCreateDto client) {
         return new ResponseEntity<>(clientService.create(client), HttpStatus.CREATED);
     }
+
+   
 
 
 
