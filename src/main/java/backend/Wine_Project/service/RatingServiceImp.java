@@ -8,9 +8,10 @@ import backend.Wine_Project.dtoRating.RatingReadDto;
 import backend.Wine_Project.model.Wine;
 import backend.Wine_Project.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class RatingServiceImp {
     private final RatingRepository ratingRepository;
 
