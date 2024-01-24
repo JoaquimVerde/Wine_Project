@@ -1,8 +1,8 @@
 package backend.Wine_Project.controller;
 
-import backend.Wine_Project.clientDto.ClientCreateDto;
-import backend.Wine_Project.clientDto.ClientReadDto;
-import backend.Wine_Project.service.ClientService;
+import backend.Wine_Project.dtoClient.ClientCreateDto;
+import backend.Wine_Project.dtoClient.ClientReadDto;
+import backend.Wine_Project.service.ClientServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +14,20 @@ import java.util.List;
 @RequestMapping("api/v1/clients")
 public class ClientController {
 
-    private final ClientService clientService;
+    private final ClientServiceImp clientServiceImp;
     @Autowired
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
+    public ClientController(ClientServiceImp clientServiceImp) {
+        this.clientServiceImp = clientServiceImp;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<ClientReadDto>> getClients() {
-        return new ResponseEntity<>(clientService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(clientServiceImp.getAll(), HttpStatus.OK);
     }
 
     @PostMapping("/")
     public ResponseEntity<Long> addNewClient(@RequestBody ClientCreateDto client) {
-        return new ResponseEntity<>(clientService.create(client), HttpStatus.CREATED);
+        return new ResponseEntity<>(clientServiceImp.create(client), HttpStatus.CREATED);
     }
 
 

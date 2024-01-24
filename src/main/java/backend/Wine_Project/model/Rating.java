@@ -14,11 +14,17 @@ public class Rating {
     @ManyToOne
     private Wine wine;
     private double rating;
+
+
+
     public Rating() {
     }
 
-
-
+    public Rating(Client client, Wine wine, double rating) {
+        this.client = client;
+        this.wine = wine;
+        this.rating = rating;
+    }
 
     public Long getId() {
         return id;

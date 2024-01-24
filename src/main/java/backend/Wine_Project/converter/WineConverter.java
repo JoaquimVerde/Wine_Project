@@ -1,6 +1,7 @@
 package backend.Wine_Project.converter;
 
 import backend.Wine_Project.dtoWine.WineCreateDto;
+import backend.Wine_Project.dtoWine.WineReadRatingDto;
 import backend.Wine_Project.model.Wine;
 
 import java.util.List;
@@ -31,5 +32,13 @@ public class WineConverter {
                 wine.price(),
                 wine.alcohol(),
                 wine.year());
+    }
+
+    public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
+        return new WineReadRatingDto(
+                wine.getName(),
+                wine.getWineType(),
+                wine.getYear()
+        );
     }
 }
