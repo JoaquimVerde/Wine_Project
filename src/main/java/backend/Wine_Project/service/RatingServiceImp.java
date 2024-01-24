@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class RatingServiceImp {
+public class RatingServiceImp implements RatingService {
     private final RatingRepository ratingRepository;
 
     private final ClientService clientService;
@@ -32,20 +32,24 @@ public class RatingServiceImp {
 
 
 
-
+    @Override
     public List<RatingReadDto> getAll() {
         List<Rating> ratings = ratingRepository.findAll();
         return RatingConverter.fromModelListToRatingReadDtoList(ratings);
     }
 
-
+    @Override
     public Long create(RatingCreateDto rating) {
 
         Client client = clientService.getById(rating.clientId());
         Wine wine = wineService.getById(rating.wineId());
+        double ratingAvg = ratingRepository.getAverageRating(wine.getId());
+        wine.setRatingAvg(ratingAvg);
 
         Rating ratingToAdd = new Rating(client, wine, rating.rating());
         ratingRepository.save(ratingToAdd);
         return ratingToAdd.getId();
     }
+
+
 }
