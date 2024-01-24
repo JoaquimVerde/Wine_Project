@@ -1,4 +1,4 @@
-package backend.Wine_Project.dto.clientDto;
+package backend.Wine_Project.clientDto;
 
 public record ClientCreateDto(
 

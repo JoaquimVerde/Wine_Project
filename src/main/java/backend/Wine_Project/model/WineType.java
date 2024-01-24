@@ -16,6 +16,7 @@ public class WineType {
     public WineType() {
     }
 
+
     public Long getId() {
         return id;
     }
@@ -30,5 +31,18 @@ public class WineType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Wine getWine() {
+        return wine;
+    }
+
+    public WineType(String name, Wine wine) {
+        this.name = name;
+        this.wine = wine;
+    }
+
+    public void setWine(Wine wine) {
+        this.wine = wine;
     }
 }
