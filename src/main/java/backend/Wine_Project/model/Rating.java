@@ -13,7 +13,7 @@ public class Rating {
     private Client client;
     @ManyToOne
     private Wine wine;
-    private double rating;
+    private double rate;
 
 
 
@@ -23,7 +23,7 @@ public class Rating {
     public Rating(Client client, Wine wine, double rating) {
         this.client = client;
         this.wine = wine;
-        this.rating = rating;
+        this.rate = rating;
     }
 
     public Long getId() {
@@ -50,11 +50,11 @@ public class Rating {
         this.wine = wine;
     }
 
-    public double getRating() {
-        return rating;
+    public double getRate() {
+        return rate;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 }

@@ -4,6 +4,6 @@ public record RatingCreateDto(
 
         Long clientId,
         Long wineId,
-        double rating
+        double rate
 ) {
 }

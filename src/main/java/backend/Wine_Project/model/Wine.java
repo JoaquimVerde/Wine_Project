@@ -22,7 +22,7 @@ public class Wine {
     private Region region;
     @OneToMany(mappedBy = "wine")
     private List<GrapeVarieties> grapeVarietiesList;
-    private double RatingAvg;
+    private double ratingAvg;
     private double price;
     private double alcohol;
     private Year year;
@@ -43,7 +43,7 @@ public class Wine {
         this.wineType = winetype;
         this.region = region;
         this.grapeVarietiesList = grapeVarietiesList;
-        RatingAvg = ratingAvg;
+        this.ratingAvg = ratingAvg;
         this.price = price;
         this.alcohol = alcohol;
         this.year = year;
@@ -93,11 +93,11 @@ public class Wine {
     }
 
     public double getRatingAvg() {
-        return RatingAvg;
+        return ratingAvg;
     }
 
-    public void setRatingAvg(int ratingAvg) {
-        RatingAvg = ratingAvg;
+    public void setRatingAvg(double ratingAvg) {
+        this.ratingAvg = ratingAvg;
     }
 
     public double getPrice() {
