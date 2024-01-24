@@ -7,6 +7,6 @@ public record RatingReadDto(
 
         ClientReadRatingDto client,
         WineReadRatingDto wine,
-        double rating
+        double rate
 ) {
 }

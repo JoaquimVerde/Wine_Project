@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long>  {
 
-    @Query("SELECT AVG(rating) FROM rating WHERE wine_id = ?1")
-    double getAverageRating(Long wineId);
+    @Query("SELECT AVG(rate) FROM Rating WHERE wine = ?1")
+    double getAverageRatingByWine(Long wineId);
 
 
 }
