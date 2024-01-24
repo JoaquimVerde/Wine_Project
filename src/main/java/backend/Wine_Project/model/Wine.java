@@ -14,20 +14,22 @@ public class Wine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Enumerated(EnumType.STRING)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "winetype_id",referencedColumnName = "id")
     private WineType wineType;
-    @Enumerated(EnumType.STRING)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "region_id",referencedColumnName = "id")
     private Region region;
-    @Enumerated(EnumType.STRING)
+    @OneToMany(mappedBy = "wine")
     private List<GrapeVarieties> grapeVarietiesList;
     private double RatingAvg;
     private double price;
     private double alcohol;
     private Year year;
 
-    public Wine(String name, WineType wineType, Region region, List<GrapeVarieties> grapeVarietiesList, double price, double alcohol, Year year) {
+    public Wine(String name, WineType winetype, Region region, List<GrapeVarieties> grapeVarietiesList, double price, double alcohol, Year year) {
         this.name = name;
-        this.wineType = wineType;
+        this.wineType = winetype;
         this.region = region;
         this.grapeVarietiesList = grapeVarietiesList;
         this.price = price;
@@ -35,10 +37,10 @@ public class Wine {
         this.year = year;
     }
 
-    public Wine(Long id, String name, WineType wineType, Region region, List<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, Year year) {
+    public Wine(Long id, String name, WineType winetype, Region region, List<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, Year year) {
         this.id = id;
         this.name = name;
-        this.wineType = wineType;
+        this.wineType = winetype;
         this.region = region;
         this.grapeVarietiesList = grapeVarietiesList;
         RatingAvg = ratingAvg;
