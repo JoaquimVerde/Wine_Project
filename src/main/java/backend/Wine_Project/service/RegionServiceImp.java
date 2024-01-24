@@ -5,10 +5,11 @@ import backend.Wine_Project.exceptions.RegionAlreadyExistsException;
 import backend.Wine_Project.model.Region;
 import backend.Wine_Project.regionDto.RegionDto;
 import backend.Wine_Project.repository.RegionRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class RegionServiceImp implements RegionService{
     public final RegionRepository regionRepository;
 
