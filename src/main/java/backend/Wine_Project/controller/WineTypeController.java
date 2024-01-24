@@ -20,8 +20,8 @@ public class WineTypeController{
         this.wineTypeService = wineTypeService;
     }
     @GetMapping("/")
-    public List<WineTypeDto> getWineTypes(){
-       return wineTypeService.getAll();
+    public ResponseEntity<List<WineTypeDto>> getWineTypes(){
+       return new ResponseEntity<>(wineTypeService.getAll(), HttpStatus.OK);
     }
     @PostMapping("/")
     public ResponseEntity<String> createWineType(@RequestBody WineTypeDto wineTypeDto){
