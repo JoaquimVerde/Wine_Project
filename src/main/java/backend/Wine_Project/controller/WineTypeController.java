@@ -4,9 +4,9 @@ import backend.Wine_Project.model.WineType;
 import backend.Wine_Project.service.WineTypeService;
 import backend.Wine_Project.wineTypeDto.WineTypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +22,11 @@ public class WineTypeController{
     @GetMapping("/")
     public List<WineTypeDto> getWineTypes(){
        return wineTypeService.getAll();
+    }
+    @PostMapping("/")
+    public ResponseEntity<String> createWineType(@RequestBody WineTypeDto wineTypeDto){
+        wineTypeService.create(wineTypeDto);
+        return new ResponseEntity<>("Wine type created successfully", HttpStatus.CREATED);
     }
 
 
