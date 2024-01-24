@@ -1,7 +1,8 @@
 package backend.Wine_Project.converter;
 
-import backend.Wine_Project.clientDto.ClientCreateDto;
-import backend.Wine_Project.clientDto.ClientReadDto;
+import backend.Wine_Project.dtoClient.ClientCreateDto;
+import backend.Wine_Project.dtoClient.ClientReadDto;
+import backend.Wine_Project.dtoClient.ClientReadRatingDto;
 import backend.Wine_Project.model.Client;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public class ClientConverter {
                 client.name(),
                 client.email(),
                 client.nif()
+        );
+    }
+
+    public static ClientReadRatingDto fromModelToClientReadRatingDto (Client client){
+        return new ClientReadRatingDto(
+                client.getName()
         );
     }
 }
