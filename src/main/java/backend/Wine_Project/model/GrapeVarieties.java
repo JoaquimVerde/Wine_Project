@@ -15,6 +15,11 @@ public class GrapeVarieties {
     public GrapeVarieties() {
     }
 
+    public GrapeVarieties(String name, Wine wine) {
+        this.name = name;
+        this.wine = wine;
+    }
+
     public Long getId() {
         return id;
     }
@@ -29,5 +34,13 @@ public class GrapeVarieties {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Wine getWine() {
+        return wine;
+    }
+
+    public void setWine(Wine wine) {
+        this.wine = wine;
     }
 }

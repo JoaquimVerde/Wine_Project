@@ -28,7 +28,7 @@ public class WineTypeServiceImp implements WineTypeService{
 
     @Override
     public Long create(WineTypeDto wineTypeDto) {
-        Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeDto);
+        Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeDto.name());
         if(wineTypeOptional.isPresent())
             throw new WineTypeAlreadyExistsException("Wine type already exists!");
         WineType wineType = WineTypeConverter.fromWineTypeDtoToWineType(wineTypeDto);

@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface WineTypeRepository extends JpaRepository<WineType, Long> {
-    Optional<WineType> findByName(WineTypeDto modelCreateDto);
+
+    Optional<WineType> findByName(String name);
 }
