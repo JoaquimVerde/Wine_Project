@@ -4,6 +4,8 @@ import backend.Wine_Project.model.Order;
 import backend.Wine_Project.orderDto.OrderCreateDto;
 import backend.Wine_Project.orderDto.OrderGetDto;
 
+import java.util.List;
+
 public class OrderConverter {
 
     public static OrderGetDto fromModelToOrderGetDto(Order order) {
@@ -17,6 +19,10 @@ public class OrderConverter {
         return new Order(
                 orderCreateDto.totalPrice()
         );
+    }
+
+    public static List<OrderGetDto> fromModelListToOrederGetDtoList (List<Order> orders) {
+        return orders.stream().map(OrderConverter::fromModelToOrderGetDto).toList();
     }
 
 }
