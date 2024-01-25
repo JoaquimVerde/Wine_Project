@@ -22,6 +22,10 @@ public class Region {
         this.wine = wine;
     }
 
+    public Region(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

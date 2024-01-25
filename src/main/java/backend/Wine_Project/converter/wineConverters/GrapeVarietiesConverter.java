@@ -7,14 +7,15 @@ import java.util.List;
 
 public class GrapeVarietiesConverter {
     public static GrapeVarietiesDto fromGrapeVarietiesToGrapeVarietiesDto(GrapeVarieties grapeVarieties){
-        return new GrapeVarietiesDto(grapeVarieties.getName(), grapeVarieties.getWine());
+        return new GrapeVarietiesDto(grapeVarieties.getName());
     }
     public static GrapeVarieties fromGrapeVarietiesDtoToGrapeVarieties(GrapeVarietiesDto grapeVarietiesDto){
-        return new GrapeVarieties(grapeVarietiesDto.name(),grapeVarietiesDto.wine());
+        return new GrapeVarieties(grapeVarietiesDto.name());
     }
     public static List<GrapeVarietiesDto> fromGrapeVarietiesListToGrapeVarietiesDtoList(List<GrapeVarieties> grapeVarietiesList){
         return grapeVarietiesList.stream()
                 .map(GrapeVarietiesConverter::fromGrapeVarietiesToGrapeVarietiesDto)
                 .toList();
     }
+
 }

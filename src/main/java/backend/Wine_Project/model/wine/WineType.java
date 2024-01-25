@@ -17,6 +17,10 @@ public class WineType {
     public WineType() {
     }
 
+    public WineType(String name) {
+        this.name = name;
+    }
+
 
     public Long getId() {
         return id;

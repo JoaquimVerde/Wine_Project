@@ -1,6 +1,6 @@
 package backend.Wine_Project.controller.wineControllers;
 
-import backend.Wine_Project.dto.regionDto.RegionDto;
+import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.service.wineService.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +19,12 @@ public class RegionController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<RegionDto>> getRegions(){
+    public ResponseEntity<List<RegionCreateDto>> getRegions(){
         return new ResponseEntity<>(regionService.getAll(), HttpStatus.OK);
     }
     @PostMapping("/")
-    public ResponseEntity<String> addNewRegion(@RequestBody RegionDto regionDto){
-        regionService.create(regionDto);
+    public ResponseEntity<String> addNewRegion(@RequestBody RegionCreateDto regionCreateDto){
+        regionService.create(regionCreateDto);
         return new ResponseEntity<>("Region added successfully",HttpStatus.CREATED);
     }
 

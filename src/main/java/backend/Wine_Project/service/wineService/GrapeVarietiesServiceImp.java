@@ -1,15 +1,19 @@
 package backend.Wine_Project.service.wineService;
 
 import backend.Wine_Project.converter.wineConverters.GrapeVarietiesConverter;
+import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.GrapeVarietyAlreadyExistsException;
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.repository.GrapeVarietiesRepository;
+import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
@@ -26,27 +30,28 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
 
     @Override
     public Long create(GrapeVarietiesDto modelCreateDto) {
-        Optional<GrapeVarieties> grapeVarietiesOptional = grapeVarietiesRepository.findByName(modelCreateDto.name());
+        Optional<GrapeVarieties> grapeVarietiesOptional = grapeVarietiesRepository.findGrapeVarietiesByName(modelCreateDto.name());
         if(grapeVarietiesOptional.isPresent())
             throw new GrapeVarietyAlreadyExistsException("Grape variety already exists, please use one in the database");
-        GrapeVarieties grapeVarieties = GrapeVarietiesConverter.fromGrapeVarietiesDtoToGrapeVarieties(modelCreateDto);
+        GrapeVarieties grapeVarieties = new GrapeVarieties(modelCreateDto.name());
         grapeVarietiesRepository.save(grapeVarieties);
         return grapeVarieties.getId();
     }
 
 
-    @Override
-    public void delete(Long id) {
 
-    }
 
     @Override
-    public void update(Long id, GrapeVarietiesDto modelUpdateDto) {
+    public GrapeVarieties getById(Long id) {
+        Optional<GrapeVarieties> optionalGrapeVarieties = grapeVarietiesRepository.findById(id);
+        if (optionalGrapeVarieties.isEmpty()) {
+            throw new ClientIdNotFoundException(Messages.CLIENT_ID_NOT_FOUND.getMessage() + id);
+        }
 
+        return optionalGrapeVarieties.get();
     }
 
-    @Override
-    public GrapeVarietiesDto get(Long id) {
-        return null;
-    }
+
+
+
 }

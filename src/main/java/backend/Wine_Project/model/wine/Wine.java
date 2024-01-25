@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.Year;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -20,24 +21,27 @@ public class Wine {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "region_id",referencedColumnName = "id")
     private Region region;
-    @OneToMany(mappedBy = "wine")
-    private List<GrapeVarieties> grapeVarietiesList;
+    @ManyToMany
+    @JoinTable(
+            name = "wine_grapeVariety",
+            joinColumns = @JoinColumn(name = "wine_id"),
+            inverseJoinColumns = @JoinColumn(name = "grapeVariety_id"))
+    private Set<GrapeVarieties> grapeVarietiesList;
     private double ratingAvg;
     private double price;
     private double alcohol;
-    private Year year;
+    private int year;
 
-    public Wine(String name, WineType winetype, Region region, List<GrapeVarieties> grapeVarietiesList, double price, double alcohol, Year year) {
+    public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year) {
         this.name = name;
         this.wineType = winetype;
         this.region = region;
-        this.grapeVarietiesList = grapeVarietiesList;
         this.price = price;
         this.alcohol = alcohol;
         this.year = year;
     }
 
-    public Wine(Long id, String name, WineType winetype, Region region, List<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, Year year) {
+    public Wine(Long id, String name, WineType winetype, Region region, Set<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, int year) {
         this.id = id;
         this.name = name;
         this.wineType = winetype;
@@ -84,11 +88,11 @@ public class Wine {
         this.region = region;
     }
 
-    public List<GrapeVarieties> getGrapeVarietiesList() {
+    public Set<GrapeVarieties> getGrapeVarietiesList() {
         return grapeVarietiesList;
     }
 
-    public void setGrapeVarietiesList(List<GrapeVarieties> grapeVarietiesList) {
+    public void setGrapeVarietiesList(Set<GrapeVarieties> grapeVarietiesList) {
         this.grapeVarietiesList = grapeVarietiesList;
     }
 
@@ -116,11 +120,11 @@ public class Wine {
         this.alcohol = alcohol;
     }
 
-    public Year getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Year year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

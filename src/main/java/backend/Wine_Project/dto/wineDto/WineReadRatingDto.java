@@ -8,6 +8,6 @@ public record WineReadRatingDto(
 
         String name,
         WineType wineType,
-        Year year
+        int year
 ) {
 }

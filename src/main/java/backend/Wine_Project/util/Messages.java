@@ -7,7 +7,10 @@ public enum Messages {
     ORDER_ALREADY_EXISTS("Order Id already exists"),
 
     CLIENT_ID_NOT_FOUND("Client Id Not Found."),
-    WINE_ID_NOT_FOUND("Wine Id Not Found");
+    WINE_ID_NOT_FOUND("Wine Id Not Found"),
+
+    WINE_ALREADY_EXISTS("Wine already exists!");
+
 
 
 
