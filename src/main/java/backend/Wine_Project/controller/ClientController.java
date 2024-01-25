@@ -1,8 +1,8 @@
 package backend.Wine_Project.controller;
 
-import backend.Wine_Project.dtoClient.ClientCreateDto;
-import backend.Wine_Project.dtoClient.ClientReadDto;
-import backend.Wine_Project.service.ClientServiceImp;
+import backend.Wine_Project.dto.clientDto.ClientCreateDto;
+import backend.Wine_Project.dto.clientDto.ClientReadDto;
+import backend.Wine_Project.service.clientService.ClientServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

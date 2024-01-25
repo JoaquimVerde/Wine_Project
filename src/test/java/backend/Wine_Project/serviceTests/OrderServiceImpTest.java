@@ -1,11 +1,11 @@
 package backend.Wine_Project.serviceTests;
 
-import backend.Wine_Project.exceptions.OrderALreadyExistsException;
+import backend.Wine_Project.exceptions.OrderAlreadyExistsException;
 import backend.Wine_Project.model.Order;
-import backend.Wine_Project.orderDto.OrderCreateDto;
-import backend.Wine_Project.orderDto.OrderGetDto;
+import backend.Wine_Project.dto.orderDto.OrderCreateDto;
+import backend.Wine_Project.dto.orderDto.OrderGetDto;
 import backend.Wine_Project.repository.OrderRepository;
-import backend.Wine_Project.service.OrderServiceImp;
+import backend.Wine_Project.service.orderService.OrderServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -56,6 +56,6 @@ public class OrderServiceImpTest {
         OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
         when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.of(new Order()));
 
-        assertThrows(OrderALreadyExistsException.class, () -> orderService.create(orderCreateDto));
+        assertThrows(OrderAlreadyExistsException.class, () -> orderService.create(orderCreateDto));
     }
 }

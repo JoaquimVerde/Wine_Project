@@ -1,8 +1,8 @@
 package backend.Wine_Project.controller;
 
-import backend.Wine_Project.orderDto.OrderCreateDto;
-import backend.Wine_Project.orderDto.OrderGetDto;
-import backend.Wine_Project.service.OrderServiceImp;
+import backend.Wine_Project.dto.orderDto.OrderCreateDto;
+import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.service.orderService.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,6 @@
 package backend.Wine_Project.repository;
 
-import backend.Wine_Project.grapeVarietiesDto.GrapeVarietiesDto;
-import backend.Wine_Project.model.GrapeVarieties;
+import backend.Wine_Project.model.wine.GrapeVarieties;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

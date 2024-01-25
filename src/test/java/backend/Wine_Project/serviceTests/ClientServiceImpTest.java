@@ -1,12 +1,12 @@
 package backend.Wine_Project.serviceTests;
 
-import backend.Wine_Project.dtoClient.ClientCreateDto;
-import backend.Wine_Project.dtoClient.ClientReadDto;
+import backend.Wine_Project.dto.clientDto.ClientCreateDto;
+import backend.Wine_Project.dto.clientDto.ClientReadDto;
 import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.EmailAlreadyExistsException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.repository.ClientRepository;
-import backend.Wine_Project.service.ClientServiceImp;
+import backend.Wine_Project.service.clientService.ClientServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

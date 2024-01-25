@@ -1,9 +1,8 @@
 package backend.Wine_Project.controller;
 
-import backend.Wine_Project.dtoClient.ClientCreateDto;
-import backend.Wine_Project.dtoRating.RatingCreateDto;
-import backend.Wine_Project.dtoRating.RatingReadDto;
-import backend.Wine_Project.service.RatingServiceImp;
+import backend.Wine_Project.dto.ratingDto.RatingCreateDto;
+import backend.Wine_Project.dto.ratingDto.RatingReadDto;
+import backend.Wine_Project.service.ratingService.RatingServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

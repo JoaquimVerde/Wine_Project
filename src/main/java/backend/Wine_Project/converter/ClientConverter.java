@@ -1,8 +1,8 @@
 package backend.Wine_Project.converter;
 
-import backend.Wine_Project.dtoClient.ClientCreateDto;
-import backend.Wine_Project.dtoClient.ClientReadDto;
-import backend.Wine_Project.dtoClient.ClientReadRatingDto;
+import backend.Wine_Project.dto.clientDto.ClientCreateDto;
+import backend.Wine_Project.dto.clientDto.ClientReadDto;
+import backend.Wine_Project.dto.clientDto.ClientReadRatingDto;
 import backend.Wine_Project.model.Client;
 
 import java.util.List;

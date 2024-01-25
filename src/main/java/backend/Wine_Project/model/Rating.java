@@ -1,5 +1,6 @@
 package backend.Wine_Project.model;
 
+import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
 
 @Entity
