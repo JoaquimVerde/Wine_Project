@@ -3,6 +3,7 @@ package backend.Wine_Project.service.wineService;
 import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
+import backend.Wine_Project.exceptions.RegionIdNotFoundException;
 import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.WineIdNotFoundException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
@@ -93,6 +94,8 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
         }
         return optionalWine.get();
     }
+
+
 
 
 

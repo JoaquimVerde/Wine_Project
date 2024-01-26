@@ -1,7 +1,8 @@
 package backend.Wine_Project.service.wineService;
 
 import backend.Wine_Project.converter.wineConverters.RegionConverter;
-import backend.Wine_Project.exceptions.ClientIdNotFoundException;
+import backend.Wine_Project.converter.wineConverters.WineConverter;
+import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.exceptions.RegionAlreadyExistsException;
 import backend.Wine_Project.exceptions.RegionIdNotFoundException;
 import backend.Wine_Project.model.wine.Region;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 public class RegionServiceImp implements RegionService{
     public final RegionRepository regionRepository;
@@ -59,5 +62,14 @@ public class RegionServiceImp implements RegionService{
             throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage() + id);
         }
         return optionalRegion.get();
+    }
+
+    @Override
+    public Set<WineReadDto> getWinesByRegion(Long regionId) {
+        Optional<Region> optionalRegion = regionRepository.findById(regionId);
+        if (optionalRegion.isEmpty()) {
+            throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage() + regionId);
+        }
+        return WineConverter.fromSetOfWinesToSetOfWinesReadDto(regionRepository.findWinesByRegion(regionId));
     }
 }
