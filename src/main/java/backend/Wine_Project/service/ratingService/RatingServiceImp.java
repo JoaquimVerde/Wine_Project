@@ -45,6 +45,7 @@ public class RatingServiceImp implements RatingService {
 
         Client client = clientService.getById(rating.clientId());
         Wine wine = wineService.getById(rating.wineId());
+
         double ratingAvg = ratingRepository.getAverageRatingByWine(wine.getId());
         wine.setRatingAvg(ratingAvg);
 

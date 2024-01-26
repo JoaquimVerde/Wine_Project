@@ -40,7 +40,7 @@ public class WineConverter {
     public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
         return new WineReadRatingDto(
                 wine.getName(),
-                wine.getWineType(),
+                WineTypeConverter.fromWineTypeToWineTypeDto(wine.getWineType()),
                 wine.getYear()
         );
     }
