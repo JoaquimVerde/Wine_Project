@@ -11,6 +11,8 @@ public class Order {
     @ManyToOne
     private Client client;
     private double totalPrice;
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
     public Order() {
     }

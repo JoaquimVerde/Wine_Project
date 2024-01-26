@@ -16,8 +16,9 @@ public enum Messages {
     WINE_TYPE_ID_NOT_FOUND("Wine Type Id Not Found!"),
 
 
-    ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity!");
+    ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity!"),
 
+    ITEM_ID_NOT_FOUND("Item Id Not Found");
 
 
 

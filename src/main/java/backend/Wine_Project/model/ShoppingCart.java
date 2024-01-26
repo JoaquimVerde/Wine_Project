@@ -3,7 +3,6 @@ package backend.Wine_Project.model;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -13,33 +12,18 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    private Client client;
     @ManyToMany
-    Set<Item> items;
+    private Set<Item> items;
     double totalAmount;
-
-    public ShoppingCart() {
-        this.items = new HashSet<>();
-        this.totalAmount = 0;
-    }
+    private boolean ordered;
 
     public ShoppingCart(Set<Item> items) {
-        this.items = items;
-    }
-
-    public void addToCart(Item item) {
-        this.items.add(item);
-    }
-
-    public void removeFromCart(Item item) {
-        Iterator<Item> it = items.iterator();
-
-        while(it.hasNext()) {
-            Item item2 = it.next();
-            if (item2.getWine().equals(item.getWine())) {
-                this.items.remove(item);
-                break;
-            }
-        }
+        this.items = new HashSet<>(items);
+        this.totalAmount = 0;
+        items = new HashSet<>();
+        ordered = false;
     }
 
     public Long getId() {
@@ -64,6 +48,22 @@ public class ShoppingCart {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public boolean isOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(boolean ordered) {
+        this.ordered = ordered;
     }
 
     // ToDo Show Cart
