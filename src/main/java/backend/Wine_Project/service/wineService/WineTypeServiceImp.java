@@ -1,7 +1,8 @@
 package backend.Wine_Project.service.wineService;
 
+import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.converter.wineConverters.WineTypeConverter;
-import backend.Wine_Project.exceptions.ClientIdNotFoundException;
+import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.exceptions.WineTypeAlreadyExistsException;
 import backend.Wine_Project.exceptions.WineTypeIdNotFoundException;
 import backend.Wine_Project.model.wine.WineType;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class WineTypeServiceImp implements WineTypeService{
@@ -60,5 +62,14 @@ public class WineTypeServiceImp implements WineTypeService{
             throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage() + id);
         }
         return optionalWineType.get();
+    }
+
+    @Override
+    public Set<WineReadDto> getWinesByType(Long wineTypeId) {
+        Optional<WineType> optionalWineType = wineTypeRepository.findById(wineTypeId);
+        if (optionalWineType.isEmpty()) {
+            throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage() + wineTypeId);
+        }
+        return WineConverter.fromSetOfWinesToSetOfWinesReadDto(wineTypeRepository.findWinesByType(wineTypeId));
     }
 }

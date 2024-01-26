@@ -7,6 +7,8 @@ import backend.Wine_Project.dto.wineDto.WineReadRatingDto;
 import backend.Wine_Project.model.wine.Wine;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class WineConverter {
 
@@ -40,9 +42,13 @@ public class WineConverter {
     public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
         return new WineReadRatingDto(
                 wine.getName(),
-                wine.getWineType(),
+                WineTypeConverter.fromWineTypeToWineTypeDto(wine.getWineType()),
                 wine.getYear()
         );
+    }
+
+    public static Set<WineReadDto> fromSetOfWinesToSetOfWinesReadDto(Set<Wine> wines) {
+        return wines.stream().map(WineConverter::fromWineToWineReadDto).collect(Collectors.toSet());
     }
 
 
