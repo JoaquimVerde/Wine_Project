@@ -41,8 +41,6 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
     }
 
 
-
-
     @Override
     public GrapeVarieties getById(Long id) {
         Optional<GrapeVarieties> optionalGrapeVarieties = grapeVarietiesRepository.findById(id);
