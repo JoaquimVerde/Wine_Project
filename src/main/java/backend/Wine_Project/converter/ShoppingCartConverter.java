@@ -1,21 +1,22 @@
 package backend.Wine_Project.converter;
 
-import backend.Wine_Project.dto.shoppingCartDto.CartCreateDto;
-import backend.Wine_Project.dto.shoppingCartDto.CartGetDto;
+import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
+import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 import backend.Wine_Project.model.ShoppingCart;
 
 public class ShoppingCartConverter {
 
-    public static CartGetDto fromModelToCartGetDto(ShoppingCart cart) {
-        return new CartGetDto(
+    public static ShoppingCartGetDto fromModelToCartGetDto(ShoppingCart cart) {
+        return new ShoppingCartGetDto(
                 cart.getId(),
                 cart.getItems()
         );
     }
 
-    public static ShoppingCart fromCartCreateDtoToModel (CartCreateDto cart) {
+    public static ShoppingCart fromCartCreateDtoToModel (ShoppingCartCreateDto cart) {
         return new ShoppingCart(
                 cart.items()
         );
     }
+
 }
