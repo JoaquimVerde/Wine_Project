@@ -31,4 +31,10 @@ public class WineController {
         return new ResponseEntity<>("Wine created successfully", HttpStatus.CREATED);
     }
 
+    @DeleteMapping(path = "{wineId}")
+    public ResponseEntity<String> deleteWine(@PathVariable("wineId") Long wineId) {
+        wineService.deleteWine(wineId);
+        return new ResponseEntity<>("Wine successfully deleted", HttpStatus.OK);
+    }
+
 }

@@ -95,6 +95,15 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
         return optionalWine.get();
     }
 
+    public Long deleteWine(Long wineId) {
+
+        if (!wineRepository.existsById(wineId)) {
+            throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + wineId);
+        }
+        wineRepository.deleteById(wineId);
+        return wineId;
+    }
+
 
 
 
