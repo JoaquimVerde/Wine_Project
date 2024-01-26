@@ -3,7 +3,7 @@ package backend.Wine_Project.service.wineService;
 import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
-import backend.Wine_Project.exceptions.RegionIdNotFoundException;
+import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.WineIdNotFoundException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
@@ -93,6 +93,41 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
             throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + id);
         }
         return optionalWine.get();
+    }
+
+    public Long deleteWine(Long wineId) {
+
+        if (!wineRepository.existsById(wineId)) {
+            throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + wineId);
+        }
+        wineRepository.deleteById(wineId);
+        return wineId;
+    }
+    @Override
+    public void updateWine(Long id, WineUpdateDto wine) {
+        Optional<Wine> wineOptional = wineRepository.findById(id);
+        if (wineOptional.isEmpty()) {
+            throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + id);
+        }
+
+        Wine wineToUpdate = wineOptional.get();
+
+        if (wine.name() != null && wine.name().length() > 0 && !wine.name().equals(wineToUpdate.getName())) {
+            wineToUpdate.setName(wine.name());
+        }
+
+        wineToUpdate.setWineType(wineTypeService.getById(wine.wineTypeId()));
+        Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
+        for (Long grapeId : wine.grapeVarietiesId()) {
+            grapeVarietiesSet.add(grapeVarietiesService.getById(grapeId));
+        }
+        wineToUpdate.setGrapeVarietiesList(grapeVarietiesSet);
+        wineToUpdate.setRegion(regionService.getById(wine.regionId()));
+        wineToUpdate.setPrice(wine.price());
+        wineToUpdate.setAlcohol(wine.alcohol());
+        wineToUpdate.setYear(wine.year());
+
+        wineRepository.save(wineToUpdate);
     }
 
 
