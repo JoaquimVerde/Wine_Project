@@ -21,7 +21,6 @@ import java.util.*;
 public class WineServiceImp implements WineService{
 
 private final WineRepository wineRepository;
-
 private final GrapeVarietiesService grapeVarietiesService;
 private final RegionService regionService;
 private final WineTypeService wineTypeService;
@@ -48,16 +47,12 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
         if(optionalWine.isPresent())
             throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
 
-
-        Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year());
-
         Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
-
         for (Long id : wine.grapeVarietiesId()) {
             grapeVarietiesSet.add(grapeVarietiesService.getById(id));
         }
 
-        newWine.setGrapeVarietiesList(grapeVarietiesSet);
+        Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year(), grapeVarietiesSet);
 
         wineRepository.save(newWine);
         return newWine.getId();
@@ -129,8 +124,6 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
 
         wineRepository.save(wineToUpdate);
     }
-
-
 
 
 

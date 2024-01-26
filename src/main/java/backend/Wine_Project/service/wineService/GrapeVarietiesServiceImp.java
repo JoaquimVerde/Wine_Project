@@ -51,7 +51,4 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
         return optionalGrapeVarieties.get();
     }
 
-
-
-
 }
