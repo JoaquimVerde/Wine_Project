@@ -9,10 +9,14 @@ public enum Messages {
     CLIENT_ID_NOT_FOUND("Client Id Not Found."),
     WINE_ID_NOT_FOUND("Wine Id Not Found"),
 
+
     WINE_ALREADY_EXISTS("Wine already exists!"),
     REGION_ID_NOT_FOUND("Region Id Not Found!"),
     GRAPE_VARIETY_ID_NOT_FOUND("Grape Variety Id Not Found!"),
-    WINE_TYPE_ID_NOT_FOUND("Wine Type Id Not Found!");
+    WINE_TYPE_ID_NOT_FOUND("Wine Type Id Not Found!"),
+
+
+    ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity!");
 
 
 
