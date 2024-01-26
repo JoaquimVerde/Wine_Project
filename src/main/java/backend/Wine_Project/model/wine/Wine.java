@@ -30,13 +30,14 @@ public class Wine {
     private double alcohol;
     private int year;
 
-    public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year) {
+    public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year, Set<GrapeVarieties> grapeVarietiesList ) {
         this.name = name;
         this.wineType = winetype;
         this.region = region;
         this.price = price;
         this.alcohol = alcohol;
         this.year = year;
+        this.grapeVarietiesList = grapeVarietiesList;
     }
 
     public Wine(Long id, String name, WineType winetype, Region region, Set<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, int year) {
