@@ -16,7 +16,7 @@ public class ItemConverter {
         return new ItemGetDto(
                 item.getWine().getId(),
                 item.getQuantity(),
-                item.getItemTotalAmount()
+                item.getTotalPrice()
         );
     }
 
