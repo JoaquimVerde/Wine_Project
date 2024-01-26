@@ -3,6 +3,7 @@ package backend.Wine_Project.service.wineService;
 import backend.Wine_Project.converter.wineConverters.WineTypeConverter;
 import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.WineTypeAlreadyExistsException;
+import backend.Wine_Project.exceptions.WineTypeIdNotFoundException;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineTypeRepository;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
@@ -56,7 +57,7 @@ public class WineTypeServiceImp implements WineTypeService{
     public WineType getById(Long id) {
         Optional<WineType> optionalWineType = wineTypeRepository.findById(id);
         if (optionalWineType.isEmpty()) {
-            throw new ClientIdNotFoundException(Messages.CLIENT_ID_NOT_FOUND.getMessage() + id);
+            throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage() + id);
         }
         return optionalWineType.get();
     }

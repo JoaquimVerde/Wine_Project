@@ -15,11 +15,9 @@ public class Wine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "winetype_id",referencedColumnName = "id")
+    @ManyToOne
     private WineType wineType;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "region_id",referencedColumnName = "id")
+    @ManyToOne
     private Region region;
     @ManyToMany
     @JoinTable(

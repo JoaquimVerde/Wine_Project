@@ -3,6 +3,7 @@ package backend.Wine_Project.service.wineService;
 import backend.Wine_Project.converter.wineConverters.RegionConverter;
 import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.RegionAlreadyExistsException;
+import backend.Wine_Project.exceptions.RegionIdNotFoundException;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.repository.RegionRepository;
@@ -55,7 +56,7 @@ public class RegionServiceImp implements RegionService{
     public Region getById(Long id) {
         Optional<Region> optionalRegion = regionRepository.findById(id);
         if (optionalRegion.isEmpty()) {
-            throw new ClientIdNotFoundException(Messages.CLIENT_ID_NOT_FOUND.getMessage() + id);
+            throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage() + id);
         }
         return optionalRegion.get();
     }

@@ -4,6 +4,7 @@ import backend.Wine_Project.converter.wineConverters.GrapeVarietiesConverter;
 import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.GrapeVarietyAlreadyExistsException;
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
+import backend.Wine_Project.exceptions.GrapeVarietyIdNotFoundException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.repository.GrapeVarietiesRepository;
 import backend.Wine_Project.util.Messages;
@@ -45,7 +46,7 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
     public GrapeVarieties getById(Long id) {
         Optional<GrapeVarieties> optionalGrapeVarieties = grapeVarietiesRepository.findById(id);
         if (optionalGrapeVarieties.isEmpty()) {
-            throw new ClientIdNotFoundException(Messages.CLIENT_ID_NOT_FOUND.getMessage() + id);
+            throw new GrapeVarietyIdNotFoundException(Messages.GRAPE_VARIETY_ID_NOT_FOUND.getMessage() + id);
         }
 
         return optionalGrapeVarieties.get();

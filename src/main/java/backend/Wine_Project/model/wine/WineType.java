@@ -1,7 +1,8 @@
 package backend.Wine_Project.model.wine;
 
-import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table
@@ -10,11 +11,16 @@ public class WineType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne(mappedBy = "wineType")
-    private Wine wine;
+    @OneToMany(mappedBy = "wineType")
+    private Set<Wine> wine;
 
 
     public WineType() {
+    }
+
+    public WineType(String name, Set<Wine> wine) {
+        this.name = name;
+        this.wine = wine;
     }
 
     public WineType(String name) {
@@ -38,16 +44,13 @@ public class WineType {
         this.name = name;
     }
 
-    public Wine getWine() {
+    public Set<Wine> getWine() {
         return wine;
     }
 
-    public WineType(String name, Wine wine) {
-        this.name = name;
-        this.wine = wine;
-    }
 
-    public void setWine(Wine wine) {
+
+    public void setWine(Set<Wine> wine) {
         this.wine = wine;
     }
 }
