@@ -3,7 +3,6 @@ package backend.Wine_Project.model;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -24,22 +23,6 @@ public class ShoppingCart {
 
     public ShoppingCart(Set<Item> items) {
         this.items = items;
-    }
-
-    public void addToCart(Item item) {
-        this.items.add(item);
-    }
-
-    public void removeFromCart(Item item) {
-        Iterator<Item> it = items.iterator();
-
-        while(it.hasNext()) {
-            Item item2 = it.next();
-            if (item2.getWine().equals(item.getWine())) {
-                this.items.remove(item);
-                break;
-            }
-        }
     }
 
     public Long getId() {
