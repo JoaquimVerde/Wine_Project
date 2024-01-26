@@ -12,13 +12,15 @@ public class Item {
     @OneToOne(cascade = CascadeType.ALL)
     private Wine wine;
     private int quantity;
-    private double itemTotalAmount;
+    private double totalPrice;
 
+    public Item() {
+    }
 
     public Item (Wine wine, int quantity) {
         this.wine = wine;
         this.quantity = quantity;
-        this.itemTotalAmount = wine.getPrice() * quantity;
+        this.totalPrice = wine.getPrice() * quantity;
     }
 
     public Long getId() {
@@ -41,12 +43,12 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public double getItemTotalAmount() {
-        return itemTotalAmount;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setItemTotalAmount(double itemTotalAmount) {
-        this.itemTotalAmount = itemTotalAmount;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String toString() {
@@ -54,4 +56,6 @@ public class Item {
         itemString = itemString + this.quantity + "\n";
         return itemString;
     }
+
+
 }

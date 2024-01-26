@@ -4,9 +4,11 @@ import backend.Wine_Project.model.Item;
 
 import java.util.Set;
 
-public record CartGetDto(
-        Long id,
-        Set<Item> itemsSet
+public record ShoppingCartCreateDto(
+
+        Long clientId,
+        Set<Item> items,
+        double totalAmount
 
 ) {
 }
