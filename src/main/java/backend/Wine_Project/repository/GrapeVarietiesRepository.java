@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface GrapeVarietiesRepository extends JpaRepository<GrapeVarieties, Long> {
 
-    Optional<GrapeVarieties> findByName(String name);
+    Optional<GrapeVarieties> findGrapeVarietiesByName(String name);
 }

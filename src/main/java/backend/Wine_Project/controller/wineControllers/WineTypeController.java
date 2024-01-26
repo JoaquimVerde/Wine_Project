@@ -1,7 +1,7 @@
 package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.service.wineService.WineTypeService;
-import backend.Wine_Project.dto.wineTypeDto.WineTypeDto;
+import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,12 @@ public class WineTypeController{
         this.wineTypeService = wineTypeService;
     }
     @GetMapping("/")
-    public ResponseEntity<List<WineTypeDto>> getWineTypes(){
+    public ResponseEntity<List<WineTypeCreateDto>> getWineTypes(){
        return new ResponseEntity<>(wineTypeService.getAll(), HttpStatus.OK);
     }
     @PostMapping("/")
-    public ResponseEntity<String> createWineType(@RequestBody WineTypeDto wineTypeDto){
-        wineTypeService.create(wineTypeDto);
+    public ResponseEntity<String> createWineType(@RequestBody WineTypeCreateDto wineTypeCreateDto){
+        wineTypeService.create(wineTypeCreateDto);
         return new ResponseEntity<>("Wine type created successfully", HttpStatus.CREATED);
     }
 

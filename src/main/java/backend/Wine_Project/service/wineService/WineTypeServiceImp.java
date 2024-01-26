@@ -1,10 +1,13 @@
 package backend.Wine_Project.service.wineService;
 
 import backend.Wine_Project.converter.wineConverters.WineTypeConverter;
+import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.WineTypeAlreadyExistsException;
+import backend.Wine_Project.exceptions.WineTypeIdNotFoundException;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineTypeRepository;
-import backend.Wine_Project.dto.wineTypeDto.WineTypeDto;
+import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
+import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,18 +22,18 @@ public class WineTypeServiceImp implements WineTypeService{
     }
 
     @Override
-    public List<WineTypeDto> getAll() {
+    public List<WineTypeCreateDto> getAll() {
         List<WineType> wineTypes = wineTypeRepository.findAll();
         return WineTypeConverter.fromWineTypeListToWineTypeDtoList(wineTypes);
 
     }
 
     @Override
-    public Long create(WineTypeDto wineTypeDto) {
-        Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeDto.name());
+    public Long create(WineTypeCreateDto wineTypeCreateDto) {
+        Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeCreateDto.name());
         if(wineTypeOptional.isPresent())
             throw new WineTypeAlreadyExistsException("Wine type already exists!");
-        WineType wineType = WineTypeConverter.fromWineTypeDtoToWineType(wineTypeDto);
+        WineType wineType = new WineType(wineTypeCreateDto.name());
         wineTypeRepository.save(wineType);
         return wineType.getId();
     }
@@ -41,12 +44,21 @@ public class WineTypeServiceImp implements WineTypeService{
     }
 
     @Override
-    public void update(Long id, WineTypeDto modelUpdateDto) {
+    public void update(Long id, WineTypeCreateDto modelUpdateDto) {
 
     }
 
     @Override
-    public WineTypeDto get(Long id) {
+    public WineTypeCreateDto get(Long id) {
         return null;
+    }
+
+    @Override
+    public WineType getById(Long id) {
+        Optional<WineType> optionalWineType = wineTypeRepository.findById(id);
+        if (optionalWineType.isEmpty()) {
+            throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage() + id);
+        }
+        return optionalWineType.get();
     }
 }

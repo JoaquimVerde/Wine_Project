@@ -3,6 +3,8 @@ package backend.Wine_Project.model.wine;
 import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table
 public class GrapeVarieties {
@@ -10,15 +12,19 @@ public class GrapeVarieties {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne
-    private Wine wine;
+    @ManyToMany(mappedBy = "grapeVarietiesList")
+    private Set<Wine> wine;
 
     public GrapeVarieties() {
     }
 
-    public GrapeVarieties(String name, Wine wine) {
+    public GrapeVarieties(String name, Set<Wine> wine) {
         this.name = name;
         this.wine = wine;
+    }
+
+    public GrapeVarieties(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -37,11 +43,11 @@ public class GrapeVarieties {
         this.name = name;
     }
 
-    public Wine getWine() {
+    public Set<Wine> getWine() {
         return wine;
     }
 
-    public void setWine(Wine wine) {
+    public void setWine(Set<Wine> wine) {
         this.wine = wine;
     }
 }

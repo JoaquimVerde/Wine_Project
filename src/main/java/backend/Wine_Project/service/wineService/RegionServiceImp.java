@@ -1,10 +1,13 @@
 package backend.Wine_Project.service.wineService;
 
 import backend.Wine_Project.converter.wineConverters.RegionConverter;
+import backend.Wine_Project.exceptions.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.RegionAlreadyExistsException;
+import backend.Wine_Project.exceptions.RegionIdNotFoundException;
 import backend.Wine_Project.model.wine.Region;
-import backend.Wine_Project.dto.regionDto.RegionDto;
+import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.repository.RegionRepository;
+import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,16 +21,16 @@ public class RegionServiceImp implements RegionService{
     }
 
     @Override
-    public List<RegionDto> getAll() {
+    public List<RegionCreateDto> getAll() {
         return RegionConverter.fromRegionListToRegionDtoList(regionRepository.findAll());
     }
 
     @Override
-    public Long create(RegionDto modelCreateDto) {
+    public Long create(RegionCreateDto modelCreateDto) {
         Optional<Region> regionOptional = regionRepository.findByName(modelCreateDto.name());
         if(regionOptional.isPresent())
             throw new RegionAlreadyExistsException("Region already exist, please use the region of database");
-        Region region = RegionConverter.fromRegionDtoToRegion(modelCreateDto);
+        Region region = new Region(modelCreateDto.name());
         regionRepository.save(region);
 
         return region.getId();
@@ -40,12 +43,21 @@ public class RegionServiceImp implements RegionService{
     }
 
     @Override
-    public void update(Long id, RegionDto modelUpdateDto) {
+    public void update(Long id, RegionCreateDto modelUpdateDto) {
 
     }
 
     @Override
-    public RegionDto get(Long id) {
+    public RegionCreateDto get(Long id) {
         return null;
+    }
+
+    @Override
+    public Region getById(Long id) {
+        Optional<Region> optionalRegion = regionRepository.findById(id);
+        if (optionalRegion.isEmpty()) {
+            throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage() + id);
+        }
+        return optionalRegion.get();
     }
 }

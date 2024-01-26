@@ -5,14 +5,14 @@ import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.WineType;
 
 import java.time.Year;
-import java.util.List;
 import java.util.Set;
 
-public record WineCreateDto(
+public record WineReadDto(
+
         String name,
-        Long wineTypeId,
-        Set<Long> grapeVarietiesId,
-        Long regionId,
+        WineType wineType,
+        Set<GrapeVarieties> grapeVarietiesId,
+        Region region,
         double price,
         double alcohol,
         int year
