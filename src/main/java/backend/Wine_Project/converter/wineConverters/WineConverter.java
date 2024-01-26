@@ -1,5 +1,6 @@
 package backend.Wine_Project.converter.wineConverters;
 
+import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineReadRatingDto;
@@ -13,9 +14,9 @@ public class WineConverter {
     public static WineReadDto fromWineToWineReadDto(Wine wine) {
         return new WineReadDto(
                 wine.getName(),
-                wine.getWineType(),
-                wine.getGrapeVarietiesList(),
-                wine.getRegion(),
+                WineTypeConverter.fromWineTypeToWineTypeDto(wine.getWineType()),
+                GrapeVarietiesConverter.fromGrapeVarietiesListToGrapeVarietiesDtoList(wine.getGrapeVarietiesList()),
+                RegionConverter.fromRegionToRegionDto(wine.getRegion()),
                 wine.getPrice(),
                 wine.getAlcohol(),
                 wine.getYear()

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/grapeVarieties")
@@ -19,7 +20,7 @@ public class GrapeVarietiesController {
         this.grapeVarietiesService = grapeVarietiesService;
     }
     @GetMapping("/")
-    public ResponseEntity<List<GrapeVarietiesDto>> getGrapeVarieties(){
+    public ResponseEntity<Set<GrapeVarietiesDto>> getGrapeVarieties(){
         return new ResponseEntity<>(grapeVarietiesService.getAll(), HttpStatus.OK);
     }
     @PostMapping("/")

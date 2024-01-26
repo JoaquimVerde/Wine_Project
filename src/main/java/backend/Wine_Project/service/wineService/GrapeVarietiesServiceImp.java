@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
@@ -25,8 +26,8 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
     }
 
     @Override
-    public List<GrapeVarietiesDto> getAll() {
-        return GrapeVarietiesConverter.fromGrapeVarietiesListToGrapeVarietiesDtoList(grapeVarietiesRepository.findAll());
+    public Set<GrapeVarietiesDto> getAll() {
+        return GrapeVarietiesConverter.fromGrapeVarietiesListToGrapeVarietiesDtoList(grapeVarietiesRepository.findAll().stream().collect(Collectors.toSet()));
     }
 
     @Override

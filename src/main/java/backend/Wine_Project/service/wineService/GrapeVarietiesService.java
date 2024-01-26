@@ -5,10 +5,11 @@ import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.service.CrudService;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GrapeVarietiesService {
 
-    List<GrapeVarietiesDto> getAll();
+    Set<GrapeVarietiesDto> getAll();
 
     Long create(GrapeVarietiesDto modelCreateDto);
 
