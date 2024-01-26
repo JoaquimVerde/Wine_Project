@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/wines")
@@ -29,6 +30,13 @@ public class WineController {
         wineService.create(wineCreateDto);
         return new ResponseEntity<>("Wine created successfully", HttpStatus.CREATED);
     }
+    @GetMapping("/search")
+    public ResponseEntity<Set<WineReadDto>> searchWines(@RequestParam(required = false)String name, @RequestParam int year,
+                                                        @RequestParam(required = false) Long wineTypeId){
+        return new ResponseEntity<>(wineService.search(name, year, wineTypeId), HttpStatus.OK);
+
+    }
+
 
 
 

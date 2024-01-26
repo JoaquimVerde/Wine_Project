@@ -10,6 +10,7 @@ import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineRepository;
+import backend.Wine_Project.repository.WineTypeRepository;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,16 @@ import java.util.*;
 public class WineServiceImp implements WineService{
 
 private final WineRepository wineRepository;
+private final WineTypeRepository wineTypeRepository;
 
 private final GrapeVarietiesService grapeVarietiesService;
 private final RegionService regionService;
 private final WineTypeService wineTypeService;
 
 @Autowired
-public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
+public WineServiceImp(WineRepository wineRepository, WineTypeRepository wineTypeRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
     this.wineRepository = wineRepository;
+    this.wineTypeRepository = wineTypeRepository;
     this.grapeVarietiesService = grapeVarietiesService;
     this.regionService = regionService;
     this.wineTypeService = wineTypeService;
@@ -93,6 +96,44 @@ public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grape
         }
         return optionalWine.get();
     }
+
+    public Set<WineReadDto> search(String name, int year, Long wineTypeId) {
+        if(name != null && year > 0 && wineTypeId != null){
+
+            List<Wine> wines = wineRepository.findWinesByNameAndYearAndWineTypeId(name, year, wineTypeId);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        if(name != null && year > 0){
+            List<Wine> wines = wineRepository.findByNameAndYear(name, year);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+
+        }
+        if(name != null && wineTypeId != null){
+
+            List<Wine> wines = wineRepository.findByNameAndWineTypeId(name,wineTypeId);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        if (year > 0 && wineTypeId != null) {
+
+            List<Wine> wines = wineRepository.findByYearAndWineTypeId(year, wineTypeId);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        if (name != null) {
+            List<Wine> wines = wineRepository.findByName(name);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        if (year > 0) {
+            List<Wine> wines = wineRepository.findByYear( year);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        if (wineTypeId != null) {
+
+            List<Wine> wines = wineRepository.findByWineTypeId(wineTypeId);
+            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+        }
+        return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wineRepository.findAll()));
+    }
+
 
 
 
