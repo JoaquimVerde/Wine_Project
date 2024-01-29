@@ -2,6 +2,7 @@ package backend.Wine_Project.controller;
 
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
+import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class ShoppingCartController {
     @PostMapping("/")
     public ResponseEntity<Long> createShoppingCart(@RequestBody ShoppingCartCreateDto shoppingCart) {
         return new ResponseEntity<>(shoppingCartService.create(shoppingCart), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(path = "shoppingCartID")
+    public ResponseEntity<ShoppingCart> deleteShoppingCart(@PathVariable("shoppingCartID") Long shoppingCartID ) {
+        shoppingCartService.delete(shoppingCartID);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
