@@ -7,8 +7,7 @@ import java.util.Set;
 public record ShoppingCartCreateDto(
 
         Long clientId,
-        Set<Item> items,
-        double totalAmount
+        Set<Long> itemsId
 
 ) {
 }
