@@ -39,6 +39,17 @@ public class RegionServiceImp implements RegionService{
         return region.getId();
 
     }
+    @Override
+    public List<RegionCreateDto> createRegions(List<RegionCreateDto> regions){
+        for (RegionCreateDto region: regions) {
+            Optional<Region> regionOptional = regionRepository.findByName(region.name());
+            if(regionOptional.isPresent())
+                throw new RegionAlreadyExistsException("Region already exist, please use the region of database");
+            Region newRegion = new Region(region.name());
+            regionRepository.save(newRegion);
+        }
+        return regions;
+    }
 
     @Override
     public void delete(Long id) {

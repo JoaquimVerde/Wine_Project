@@ -39,6 +39,18 @@ public class WineTypeServiceImp implements WineTypeService{
         wineTypeRepository.save(wineType);
         return wineType.getId();
     }
+    @Override
+    public List<WineTypeCreateDto> createWineTypes(List<WineTypeCreateDto> wineTypes){
+        for (WineTypeCreateDto wineType: wineTypes) {
+            Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineType.name());
+            if(wineTypeOptional.isPresent())
+                throw new WineTypeAlreadyExistsException("Wine type already exists!");
+            WineType newWineType = new WineType(wineType.name());
+            wineTypeRepository.save(newWineType);
+        }
+        return wineTypes;
+    }
+
 
     @Override
     public void delete(Long id) {

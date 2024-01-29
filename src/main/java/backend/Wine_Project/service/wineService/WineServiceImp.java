@@ -37,6 +37,28 @@ public WineServiceImp(WineRepository wineRepository, WineTypeRepository wineType
     this.regionService = regionService;
     this.wineTypeService = wineTypeService;
 }
+@Override
+public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
+
+    for (WineCreateDto wine: wines) {
+        Region region = regionService.getById(wine.regionId());
+        WineType wineType = wineTypeService.getById(wine.wineTypeId());
+
+        Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
+        if(optionalWine.isPresent())
+            throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
+
+        Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
+        for (Long id : wine.grapeVarietiesId()) {
+            grapeVarietiesSet.add(grapeVarietiesService.getById(id));
+        }
+
+        Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year(), grapeVarietiesSet);
+        wineRepository.save(newWine);
+    }
+    return wines;
+}
+
     @Override
     public List<WineReadDto> getAll() {
         return WineConverter.fromListOfWinesToListOfWinesReadDto(wineRepository.findAll());

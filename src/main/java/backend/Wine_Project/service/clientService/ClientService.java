@@ -14,4 +14,6 @@ public interface ClientService {
     Long create(ClientCreateDto client);
 
     Client getById(Long id);
+
+    List<ClientCreateDto> createCostumers(List<ClientCreateDto> clients);
 }
