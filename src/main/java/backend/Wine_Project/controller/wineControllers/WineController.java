@@ -1,5 +1,6 @@
 package backend.Wine_Project.controller.wineControllers;
 
+import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineUpdateDto;
@@ -47,9 +48,14 @@ public class WineController {
     }
 
     @PatchMapping(path = "{wineID}")
-    public ResponseEntity<String> updateClient(@PathVariable("wineID") Long id, @Valid @RequestBody WineUpdateDto wine) {
+    public ResponseEntity<String> updateWine(@PathVariable("wineID") Long id, @Valid @RequestBody WineUpdateDto wine) {
         wineService.updateWine(id, wine);
         return new ResponseEntity<>("Wine successfully updated", HttpStatus.OK);
+    }
+
+    @PostMapping("/addWines")
+    public ResponseEntity<List<WineCreateDto>> addNewWines(@RequestBody List<WineCreateDto> wines) {
+        return new ResponseEntity<>(wineService.createWines(wines), HttpStatus.CREATED);
     }
 
 }

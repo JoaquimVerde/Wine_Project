@@ -1,6 +1,7 @@
 package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
+import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,5 +28,10 @@ public class GrapeVarietiesController {
     public ResponseEntity<String> addNewGrapeVariety(@RequestBody GrapeVarietiesDto grapeVarietiesDto){
         grapeVarietiesService.create(grapeVarietiesDto);
         return new ResponseEntity<>("New grape variety added successfully", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/addGrapeVarieties")
+    public ResponseEntity<List<GrapeVarietiesDto>> addNewGrapeVarieties(@RequestBody List<GrapeVarietiesDto> grapeVarieties) {
+        return new ResponseEntity<>(grapeVarietiesService.createGrapeVarieties(grapeVarieties), HttpStatus.CREATED);
     }
 }

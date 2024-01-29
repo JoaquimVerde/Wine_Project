@@ -5,9 +5,12 @@ import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.service.CrudService;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RegionService extends CrudService<RegionCreateDto, RegionCreateDto, Long> {
+
+    List<RegionCreateDto> createRegions(List<RegionCreateDto> regions);
 
     Region getById(Long id);
 

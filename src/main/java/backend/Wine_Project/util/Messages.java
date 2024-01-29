@@ -19,12 +19,13 @@ public enum Messages {
     ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity! "),
     ITEM_ID_NOT_FOUND("Item Id Not Found! "),
 
+
     SHOPPING_CART_NOT_FOUND("Shopping cart Id not found!"),
     SHOPPING_CART_CANNOT_BE_DELETE("This Shopping cart cannot be deleted. It's already been ordered!"),
 
-    KNOWN_EXCEPTION("Known exception: ");
+    KNOWN_EXCEPTION("Known exception: "),
 
-
+    RATING_ALREADY_EXISTS("Rating already exists");
 
 
     private String message;

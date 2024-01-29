@@ -30,6 +30,11 @@ public class ClientController {
         return new ResponseEntity<>(clientServiceImp.create(client), HttpStatus.CREATED);
     }
 
+    @PostMapping("/addClients")
+    public ResponseEntity<List<ClientCreateDto>> addNewClients(@RequestBody List<ClientCreateDto> clients) {
+        return new ResponseEntity<>(clientServiceImp.createCostumers(clients), HttpStatus.CREATED);
+    }
+
 
 
 
