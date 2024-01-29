@@ -2,6 +2,7 @@ package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
+import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class RegionController {
     @GetMapping(path = "{regionId}")
     public ResponseEntity<Set<WineReadDto>> getWinesByRegionId(@PathVariable("regionId") Long regionId) {
         return new ResponseEntity<>(regionService.getWinesByRegion(regionId), HttpStatus.OK);
+    }
+
+    @PostMapping("/addRegions")
+    public ResponseEntity<List<RegionCreateDto>> addNewRegions(@RequestBody List<RegionCreateDto> regions) {
+        return new ResponseEntity<>(regionService.createRegions(regions), HttpStatus.CREATED);
     }
 
 

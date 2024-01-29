@@ -1,5 +1,6 @@
 package backend.Wine_Project.controller.wineControllers;
 
+import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.service.wineService.WineTypeService;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
@@ -33,6 +34,11 @@ public class WineTypeController{
     @GetMapping(path = "{wineTypeId}")
     public ResponseEntity<Set<WineReadDto>> getWinesByType(@PathVariable("wineTypeId") Long wineTypeId) {
         return new ResponseEntity<>(wineTypeService.getWinesByType(wineTypeId), HttpStatus.OK);
+    }
+
+    @PostMapping("/addWineTypes")
+    public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@RequestBody List<WineTypeCreateDto> wineTypes) {
+        return new ResponseEntity<>(wineTypeService.createWineTypes(wineTypes), HttpStatus.CREATED);
     }
 
 
