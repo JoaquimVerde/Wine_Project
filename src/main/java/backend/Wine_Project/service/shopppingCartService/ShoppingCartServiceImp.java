@@ -4,16 +4,22 @@ import backend.Wine_Project.converter.ShoppingCartConverter;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
+
+import backend.Wine_Project.model.Client;
+
 import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
 import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
+
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
 import backend.Wine_Project.service.clientService.ClientService;
+import backend.Wine_Project.service.itemService.ItemService;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -24,11 +30,13 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final WineService wineService;
     private final ClientService clientService;
+    private final ItemService itemService;
 
-    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService) {
+    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.wineService = wineService;
         this.clientService = clientService;
+        this.itemService = itemService;
     }
 
     @Override
@@ -42,11 +50,17 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     @Override
     public Long create(ShoppingCartCreateDto cart) {
 
-        ShoppingCart shoppingCart = ShoppingCartConverter.fromCartCreateDtoToModel(cart);
+        Client client = clientService.getById(cart.clientId());
+        Set<Item> items = new HashSet<>();
+        for (Long itemId: cart.itemsId()) {
+            items.add(itemService.getById(itemId));
+        }
 
-        shoppingCartRepository.save(shoppingCart);
+        ShoppingCart newShoppingCart = new ShoppingCart(client, items);
 
-        return shoppingCart.getId();
+        shoppingCartRepository.save(newShoppingCart);
+
+        return newShoppingCart.getId();
     }
 
     @Override
