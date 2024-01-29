@@ -19,4 +19,5 @@ public interface WineService extends CrudService<WineReadDto, WineCreateDto, Lon
 
     void updateWine(Long id, WineUpdateDto wine);
 
+    void saveWine(Wine wine);
 }

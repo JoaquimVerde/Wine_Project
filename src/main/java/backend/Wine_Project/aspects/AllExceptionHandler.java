@@ -28,7 +28,7 @@ public class AllExceptionHandler {
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body((exception.getMessage()));
     }
-    @ExceptionHandler(value = {EmailAlreadyExistsException.class, GrapeVarietyAlreadyExistsException.class, ItemAlreadyExistsException.class, OrderAlreadyExistsException.class, RegionAlreadyExistsException.class, WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class})
+    @ExceptionHandler(value = {RatingAlreadyExistsException.class, EmailAlreadyExistsException.class, GrapeVarietyAlreadyExistsException.class, ItemAlreadyExistsException.class, OrderAlreadyExistsException.class, RegionAlreadyExistsException.class, WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class})
     public ResponseEntity<String> handleObjectAlreadyExists(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
