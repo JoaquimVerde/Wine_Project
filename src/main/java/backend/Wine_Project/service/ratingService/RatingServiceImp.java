@@ -2,6 +2,8 @@ package backend.Wine_Project.service.ratingService;
 
 import backend.Wine_Project.converter.RatingConverter;
 import backend.Wine_Project.dto.ratingDto.RatingCreateDto;
+import backend.Wine_Project.exceptions.RatingAlreadyExistsException;
+import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Rating;
 import backend.Wine_Project.dto.ratingDto.RatingReadDto;
@@ -9,10 +11,13 @@ import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.RatingRepository;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.service.clientService.ClientService;
+import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class RatingServiceImp implements RatingService {
     private final RatingRepository ratingRepository;
@@ -45,12 +50,18 @@ public class RatingServiceImp implements RatingService {
 
         Client client = clientService.getById(rating.clientId());
         Wine wine = wineService.getById(rating.wineId());
-
-        double ratingAvg = ratingRepository.getAverageRatingByWine(wine.getId());
-        wine.setRatingAvg(ratingAvg);
+        Optional<Rating> optionalRating = ratingRepository.findByClientAndWine(client, wine);
+        if(optionalRating.isPresent())
+            throw new RatingAlreadyExistsException(Messages.RATING_ALREADY_EXISTS.getMessage());
 
         Rating ratingToAdd = new Rating(client, wine, rating.rate());
         ratingRepository.save(ratingToAdd);
+
+        double ratingAvg = ratingRepository.getAverageRatingByWine(wine);
+        wine.setRatingAvg(ratingAvg);
+        wineService.saveWine(wine);
+
+
         return ratingToAdd.getId();
     }
 

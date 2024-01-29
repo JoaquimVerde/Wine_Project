@@ -19,7 +19,9 @@ public enum Messages {
     ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity! "),
 
     ITEM_ID_NOT_FOUND("Item Id Not Found! "),
-    KNOWN_EXCEPTION("Known exception: ");
+    KNOWN_EXCEPTION("Known exception: "),
+
+    RATING_ALREADY_EXISTS("Rating already exists");
 
 
 
