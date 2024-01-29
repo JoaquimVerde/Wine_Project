@@ -4,11 +4,14 @@ import backend.Wine_Project.converter.ShoppingCartConverter;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
+import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
+import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.wineService.WineService;
+import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -49,6 +52,16 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     @Override
     public void delete(Long id) {
 
+        ShoppingCart shCart = shoppingCartRepository.findById(id).get();
+
+        if (!shoppingCartRepository.findById(id).isPresent()) {
+            throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
+        }
+        if (shoppingCartRepository.findById(id).isPresent() && shCart.isOrdered()) {
+            throw new ShoppingCartCannotBeDeletedException(Messages.SHOPPING_CART_CANNOT_BE_DELETE.getMessage());
+        }
+
+        shoppingCartRepository.deleteById(id);
     }
 
     @Override
