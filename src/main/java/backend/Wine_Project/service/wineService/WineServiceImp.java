@@ -191,6 +191,8 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
         wineRepository.save(wineToUpdate);
     }
+    @Override
+    public void saveWine (Wine wine){ wineRepository.save(wine);}
 
 
 

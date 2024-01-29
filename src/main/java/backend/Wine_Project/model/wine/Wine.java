@@ -40,7 +40,7 @@ public class Wine {
         this.grapeVarietiesList = grapeVarietiesList;
     }
 
-    public Wine(Long id, String name, WineType winetype, Region region, Set<GrapeVarieties> grapeVarietiesList, int ratingAvg, double price, double alcohol, int year) {
+    public Wine(Long id, String name, WineType winetype, Region region, Set<GrapeVarieties> grapeVarietiesList, double ratingAvg, double price, double alcohol, int year) {
         this.id = id;
         this.name = name;
         this.wineType = winetype;
