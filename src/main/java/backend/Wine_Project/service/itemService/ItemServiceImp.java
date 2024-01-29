@@ -32,8 +32,12 @@ public class ItemServiceImp implements ItemService{
     @Override
     public List<ItemGetDto> getAll() {
         List<Item> items = this.itemRepository.findAll();
-        return items.stream().map(ItemConverter::fromModelToItemGetDto).toList();
+        return items.stream()
+                .map(ItemConverter::fromModelToItemGetDto)
+                .toList();
     }
+
+
 
     @Override
     public Long create(ItemCreateDto item) {

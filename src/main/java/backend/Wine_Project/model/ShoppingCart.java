@@ -19,6 +19,9 @@ public class ShoppingCart {
     double totalAmount;
     private boolean ordered;
 
+    public ShoppingCart() {
+    }
+
     public ShoppingCart(Client client, Set<Item> items) {
         this.client = client;
         this.items = new HashSet<>(items);
@@ -69,7 +72,5 @@ public class ShoppingCart {
         this.ordered = ordered;
     }
 
-    // ToDo Show Cart
-    // Todo GetTotal amount
-    // Todo print Invoice
+
 }
