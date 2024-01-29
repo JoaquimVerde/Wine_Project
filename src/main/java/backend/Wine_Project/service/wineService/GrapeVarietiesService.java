@@ -13,6 +13,8 @@ public interface GrapeVarietiesService {
 
     Long create(GrapeVarietiesDto modelCreateDto);
 
+    List<GrapeVarietiesDto> createGrapeVarieties(List<GrapeVarietiesDto> grapeVarieties);
+
     GrapeVarieties getById(Long id);
 
 
