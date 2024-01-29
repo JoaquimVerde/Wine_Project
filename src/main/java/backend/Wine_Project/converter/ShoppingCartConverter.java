@@ -13,10 +13,6 @@ public class ShoppingCartConverter {
         );
     }
 
-    public static ShoppingCart fromCartCreateDtoToModel (ShoppingCartCreateDto cart) {
-        return new ShoppingCart(
-                cart.items()
-        );
-    }
+
 
 }
