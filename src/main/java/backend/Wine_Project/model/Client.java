@@ -19,7 +19,7 @@ public class Client {
     @Column(unique = true)
     private int nif;
 
-    @OneToMany
+    @ManyToMany
     private Set<Wine> ratedWines;
 
 
