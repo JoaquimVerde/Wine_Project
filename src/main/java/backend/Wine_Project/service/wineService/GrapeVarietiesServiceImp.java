@@ -10,6 +10,7 @@ import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
 
     @Override
     public Set<GrapeVarietiesDto> getAll() {
-        return GrapeVarietiesConverter.fromGrapeVarietiesListToGrapeVarietiesDtoList(grapeVarietiesRepository.findAll().stream().collect(Collectors.toSet()));
+        return GrapeVarietiesConverter.fromGrapeVarietiesListToGrapeVarietiesDtoList(new HashSet<>(grapeVarietiesRepository.findAll()));
     }
 
     @Override
