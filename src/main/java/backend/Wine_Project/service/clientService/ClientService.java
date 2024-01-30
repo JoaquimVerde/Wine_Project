@@ -16,4 +16,6 @@ public interface ClientService {
     Client getById(Long id);
 
     List<ClientCreateDto> createCostumers(List<ClientCreateDto> clients);
+
+    void saveClient(Client client);
 }

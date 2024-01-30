@@ -62,6 +62,9 @@ public class ClientServiceImp implements ClientService {
         return clients;
     }
 
+    @Override
+    public void saveClient(Client client){ clientRepository.save(client);}
+
 
 
 

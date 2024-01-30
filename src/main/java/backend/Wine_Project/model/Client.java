@@ -1,6 +1,9 @@
 package backend.Wine_Project.model;
 
+import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 
 @Entity
@@ -15,6 +18,9 @@ public class Client {
     private String email;
     @Column(unique = true)
     private int nif;
+
+    @OneToMany
+    private Set<Wine> ratedWines;
 
 
     public Client() {
@@ -58,6 +64,13 @@ public class Client {
         this.nif = nif;
     }
 
+    public Set<Wine> getRatedWines() {
+        return ratedWines;
+    }
+
+    public void setRatedWines(Set<Wine> ratedWines) {
+        this.ratedWines = ratedWines;
+    }
 }
 
 
