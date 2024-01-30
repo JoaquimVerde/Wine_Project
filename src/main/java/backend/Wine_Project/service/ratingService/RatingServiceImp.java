@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class RatingServiceImp implements RatingService {
@@ -66,8 +68,13 @@ public class RatingServiceImp implements RatingService {
         client.getRatedWines().add(wine);
         clientService.saveClient(client);
 
-        ratingToAdd.setReview(lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 10 characters, based on the following information: "+
-                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear()));
+        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 100 characters, based on the following information: "+
+                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear()).substring(320,380);
+
+
+        ratingToAdd.setReview(review);
+
+
         ratingRepository.save(ratingToAdd);
 
         return ratingToAdd.getId();
