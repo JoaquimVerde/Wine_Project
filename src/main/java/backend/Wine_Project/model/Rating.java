@@ -16,6 +16,8 @@ public class Rating {
     private Wine wine;
     private double rate;
 
+    private String review;
+
 
 
     public Rating() {
@@ -57,5 +59,13 @@ public class Rating {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }

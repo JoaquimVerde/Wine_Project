@@ -3,12 +3,12 @@ package backend.Wine_Project.service.ratingService;
 import backend.Wine_Project.converter.RatingConverter;
 import backend.Wine_Project.dto.ratingDto.RatingCreateDto;
 import backend.Wine_Project.exceptions.RatingAlreadyExistsException;
-import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Rating;
 import backend.Wine_Project.dto.ratingDto.RatingReadDto;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.RatingRepository;
+import backend.Wine_Project.service.LMStudioService;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.util.Messages;
@@ -26,14 +26,17 @@ public class RatingServiceImp implements RatingService {
 
     private final WineService wineService;
 
+    private final LMStudioService lmStudioService;
+
 
 
 
     @Autowired
-    public RatingServiceImp(RatingRepository ratingRepository, ClientService clientService, WineService wineService) {
+    public RatingServiceImp(RatingRepository ratingRepository, ClientService clientService, WineService wineService, LMStudioService lmStudioService) {
         this.ratingRepository = ratingRepository;
         this.clientService = clientService;
         this.wineService = wineService;
+        this.lmStudioService = lmStudioService;
     }
 
 
@@ -62,6 +65,10 @@ public class RatingServiceImp implements RatingService {
         wineService.saveWine(wine);
         client.getRatedWines().add(wine);
         clientService.saveClient(client);
+
+        ratingToAdd.setReview(lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 10 characters, based on the following information: "+
+                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear()));
+        ratingRepository.save(ratingToAdd);
 
         return ratingToAdd.getId();
     }

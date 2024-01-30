@@ -7,6 +7,7 @@ public record RatingReadDto(
 
         ClientReadRatingDto client,
         WineReadRatingDto wine,
-        double rate
+        double rate,
+        String review
 ) {
 }
