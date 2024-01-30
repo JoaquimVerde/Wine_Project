@@ -13,7 +13,8 @@ public class RatingConverter {
         return new RatingReadDto(
                 ClientConverter.fromModelToClientReadRatingDto(rating.getClient()),
                 WineConverter.fromWineToWineReadRatingDto(rating.getWine()),
-                rating.getRate()
+                rating.getRate(),
+                rating.getReview()
         );
     }
 

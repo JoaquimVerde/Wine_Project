@@ -4,16 +4,9 @@ import backend.Wine_Project.converter.ShoppingCartConverter;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
-<<<<<<< HEAD
 import backend.Wine_Project.model.Client;
-=======
-
-import backend.Wine_Project.model.Client;
-
 import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
 import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
-
->>>>>>> a81ea7e2793e75d6d2f353f41d0f17f66d2601dc
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
