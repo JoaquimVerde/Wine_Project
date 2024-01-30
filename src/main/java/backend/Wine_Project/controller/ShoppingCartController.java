@@ -2,7 +2,9 @@ package backend.Wine_Project.controller;
 
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
+import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
 import backend.Wine_Project.model.ShoppingCart;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ import java.util.List;
 @RequestMapping("api/v1/shoppingCarts")
 public class ShoppingCartController {
 
-    private final ShoppingCartServiceImp shoppingCartService;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
     public ShoppingCartController(ShoppingCartServiceImp shoppingCartService) {
@@ -32,10 +34,16 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCartService.create(shoppingCart), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "shoppingCartID")
+    @DeleteMapping(path = "{shoppingCartID}")
     public ResponseEntity<ShoppingCart> deleteShoppingCart(@PathVariable("shoppingCartID") Long shoppingCartID ) {
         shoppingCartService.delete(shoppingCartID);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping(path = "{shoppingCartId}")
+    public ResponseEntity<Long> updateShoppingCart(@PathVariable("shoppingCartId") Long shoppingCartId, @RequestBody ShoppingCartUpdateDto shoppingCartUpdateDto) {
+        shoppingCartService.update(shoppingCartId, shoppingCartUpdateDto);
+        return new ResponseEntity<>(shoppingCartId,HttpStatus.OK);
     }
 
 }
