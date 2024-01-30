@@ -1,5 +1,6 @@
 package backend.Wine_Project.converter;
 
+import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.clientDto.ClientReadDto;
 import backend.Wine_Project.dto.clientDto.ClientReadRatingDto;
@@ -12,7 +13,8 @@ public class ClientConverter {
     public static ClientReadDto fromModelToClientReadDto (Client client){
         return new ClientReadDto(
                 client.getName(),
-                client.getEmail()
+                client.getEmail(),
+                WineConverter.fromSetOfWinesToSetOfWinesReadDto(client.getRatedWines())
         );
     }
 
