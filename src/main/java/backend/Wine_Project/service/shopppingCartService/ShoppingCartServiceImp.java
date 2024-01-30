@@ -96,9 +96,15 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
             for (Long itemId : cartUpdateDto.itemsId()) {
                 itemsToUpdate.add(itemService.getById(itemId));
             }
-
-
             shoppingCartToUpdate.setItems(itemsToUpdate);
+
+            shoppingCartToUpdate.setTotalAmount(0);
+
+            for (Item item: shoppingCartToUpdate.getItems()) {
+
+                shoppingCartToUpdate.setTotalAmount(shoppingCartToUpdate.getTotalAmount() + item.getTotalPrice());
+            }
+
             shoppingCartRepository.save(shoppingCartToUpdate);
         }
         return shoppingCartToUpdate.getId();
