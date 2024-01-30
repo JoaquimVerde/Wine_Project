@@ -6,15 +6,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Component;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Component
 @ControllerAdvice
-public class DivisionExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DivisionExceptionHandler.class);
+public class AllExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(AllExceptionHandler.class);
 
     @ExceptionHandler(value = {ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class, RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class})
     public ResponseEntity<String> handleIdNotFound(Exception exception){
@@ -25,6 +32,18 @@ public class DivisionExceptionHandler {
     public ResponseEntity<String> handleObjectAlreadyExists(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<Object> validationsHandlerNotValid(MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+
+        exception.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 
 
