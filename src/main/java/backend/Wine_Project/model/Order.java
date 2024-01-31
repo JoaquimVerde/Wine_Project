@@ -17,13 +17,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
-    public Order(Client client, double totalPrice) {
+
+    public Order(Client client, ShoppingCart shoppingCart, double totalPrice) {
         this.client = client;
         this.totalPrice = totalPrice;
+        this.shoppingCart = shoppingCart;
     }
 
     public Long getId() {
@@ -48,5 +47,13 @@ public class Order {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 }

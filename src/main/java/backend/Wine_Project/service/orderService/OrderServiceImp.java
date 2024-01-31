@@ -1,26 +1,33 @@
 package backend.Wine_Project.service.orderService;
 
 import backend.Wine_Project.converter.OrderConverter;
-import backend.Wine_Project.exceptions.OrderAlreadyExistsException;
-import backend.Wine_Project.model.Order;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.model.Client;
+import backend.Wine_Project.model.Order;
+import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
+import backend.Wine_Project.service.clientService.ClientService;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImp implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final ClientService clientService;
+    private final ShoppingCartServiceImp shoppingCartService;
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository) {
+    public OrderServiceImp(OrderRepository orderRepository, ClientService clientService, ShoppingCartServiceImp shoppingCartService) {
         this.orderRepository = orderRepository;
+        this.clientService = clientService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @Override
@@ -31,12 +38,21 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Long create(OrderCreateDto order) {
-        Optional<Order> orderOptional = this.orderRepository.findById(order.clientId());
-        if (orderOptional.isPresent())
-            throw new OrderAlreadyExistsException(Messages.ORDER_ALREADY_EXISTS.getMessage());
-        Order newOrder = OrderConverter.fromOrderCreateDtoToModel(order);
+
+        Client client = clientService.getById(order.clientId());
+        ShoppingCart shoppingCart = shoppingCartService.getById(order.shoppingCartId());
+
+        if (shoppingCart.isOrdered()) {
+            throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
+        }
+
+        Order newOrder = new Order(client, shoppingCart, shoppingCart.getTotalAmount());
+
+        shoppingCartService.closeShoppingCart(shoppingCart);
+
         orderRepository.save(newOrder);
         return newOrder.getId();
+
     }
 
     @Override
