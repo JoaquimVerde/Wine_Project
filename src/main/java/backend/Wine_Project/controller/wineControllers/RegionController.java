@@ -39,13 +39,11 @@ public class RegionController {
         regionService.create(regionCreateDto);
         return new ResponseEntity<>("Region added successfully",HttpStatus.CREATED);
     }
-    @Operation(summary = "Get region by id", description = "Returns a region as per the id")
+    @Operation(summary = "Get wines by region id", description = "Returns wines as per the region id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieve"),
             @ApiResponse(responseCode = "404", description = "Not found - The region was not found"),
-            @ApiResponse(responseCode = "400", description = "Bad Request - You didn't given a valid id")
     })
-
     @GetMapping(path = "{regionId}")
     public ResponseEntity<Set<WineReadDto>> getWinesByRegionId(@PathVariable("regionId") Long regionId) {
         return new ResponseEntity<>(regionService.getWinesByRegion(regionId), HttpStatus.OK);
