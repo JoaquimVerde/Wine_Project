@@ -6,6 +6,7 @@ import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.WineIdNotFoundException;
+import backend.Wine_Project.exceptions.WineNotFoundException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
@@ -122,34 +123,56 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         if(name != null && year > 0 && wineTypeId != null){
 
             List<Wine> wines = wineRepository.findWinesByNameAndYearAndWineTypeId(name, year, wineTypeId);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+
         }
         if(name != null && year > 0){
             List<Wine> wines = wineRepository.findByNameAndYear(name, year);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
 
         }
         if(name != null && wineTypeId != null){
 
             List<Wine> wines = wineRepository.findByNameAndWineTypeId(name,wineTypeId);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (year > 0 && wineTypeId != null) {
 
             List<Wine> wines = wineRepository.findByYearAndWineTypeId(year, wineTypeId);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (name != null) {
             List<Wine> wines = wineRepository.findByName(name);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (year > 0) {
             List<Wine> wines = wineRepository.findByYear( year);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (wineTypeId != null) {
 
             List<Wine> wines = wineRepository.findByWineTypeId(wineTypeId);
+            if(wines.isEmpty()){
+                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
+            }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wineRepository.findAll()));
