@@ -26,7 +26,8 @@ public enum Messages {
     WINES_NOT_FOUND("Couldn't find any wines"),
 
 
-    RATING_ALREADY_EXISTS("Rating already exists");
+    RATING_ALREADY_EXISTS("Rating already exists"),
+    YEAR_CANNOT_BE_FUTURE("Year cannot be future.");
 
 
 

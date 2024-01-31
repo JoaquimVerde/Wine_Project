@@ -7,6 +7,7 @@ import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.exceptions.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.WineIdNotFoundException;
 import backend.Wine_Project.exceptions.WineNotFoundException;
+import backend.Wine_Project.exceptions.YearCannotBeFutureException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
@@ -17,6 +18,7 @@ import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -74,6 +76,9 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
         if(optionalWine.isPresent())
             throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
+        if(wine.year() > LocalDate.now().getYear()){
+            throw new YearCannotBeFutureException(Messages.YEAR_CANNOT_BE_FUTURE.getMessage());
+        }
 
         Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
         for (Long id : wine.grapeVarietiesId()) {
@@ -194,6 +199,10 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         if (wineOptional.isEmpty()) {
             throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + id);
         }
+        if(wine.year() > LocalDate.now().getYear()){
+            throw new YearCannotBeFutureException(Messages.YEAR_CANNOT_BE_FUTURE.getMessage());
+        }
+
 
         Wine wineToUpdate = wineOptional.get();
 
