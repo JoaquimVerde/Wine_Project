@@ -16,7 +16,7 @@ public class Rating {
     @ManyToOne
     private Wine wine;
     private double rate;
-    @Size(max = 100)
+    @Size(max = 10000)
     private String review;
 
 
