@@ -20,6 +20,7 @@ public enum Messages {
     ITEM_ID_NOT_FOUND("Item Id Not Found! "),
     SHOPPING_CART_NOT_FOUND("Shopping cart Id not found!"),
     SHOPPING_CART_CANNOT_BE_DELETE("This Shopping cart cannot be deleted. It's already been ordered!"),
+    SHOPPING_CART_CANNOT_BE_UPDATED("This Shopping cart cannot be updated. It's already been ordered!"),
 
     KNOWN_EXCEPTION("Known exception: "),
 
