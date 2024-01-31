@@ -29,9 +29,9 @@ public class WineController {
     }
     @Operation(summary = "Get all wines", description = "Returns all wines names, region, wine type, etc ...")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved")
-    @GetMapping("/")
-    public ResponseEntity<List<WineReadDto>> getWines(){
-       return new ResponseEntity<>(wineService.getAll(), HttpStatus.OK);
+    @GetMapping(path = "{pageNumber}/{pageSize}")
+    public ResponseEntity<List<WineReadDto>> getWines(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
+       return new ResponseEntity<>(wineService.getAll(pageNumber, pageSize), HttpStatus.OK);
     }
     @Operation(summary = "Create a new wine ", description = "Create a wine with given parameters")
     @ApiResponses(value = {

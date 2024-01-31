@@ -16,6 +16,9 @@ import backend.Wine_Project.repository.WineRepository;
 import backend.Wine_Project.repository.WineTypeRepository;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -63,8 +66,10 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 }
 
     @Override
-    public List<WineReadDto> getAll() {
-        return WineConverter.fromListOfWinesToListOfWinesReadDto(wineRepository.findAll());
+    public List<WineReadDto> getAll(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, "name");
+        Page<Wine> pageWine = wineRepository.findAll(pageRequest);
+        return pageWine.stream().map(WineConverter::fromWineToWineReadDto).toList();
     }
 
     @Override
@@ -91,26 +96,12 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         return newWine.getId();
     }
 
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void update(Long id, WineReadDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public void update(Long id, WineCreateDto wine) {
-
-    }
 
 
-    @Override
-    public WineReadDto get(Long id) {
-        return null;
-    }
+
+
+
+
 
 
 
