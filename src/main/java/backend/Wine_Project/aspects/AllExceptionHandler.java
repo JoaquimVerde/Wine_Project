@@ -23,7 +23,7 @@ import java.util.Map;
 public class AllExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(AllExceptionHandler.class);
 
-    @ExceptionHandler(value = {ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class, RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class})
+    @ExceptionHandler(value = {WineNotFoundException.class, ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class, RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class})
     public ResponseEntity<String> handleIdNotFound(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body((exception.getMessage()));

@@ -23,6 +23,7 @@ public enum Messages {
     SHOPPING_CART_CANNOT_BE_UPDATED("This Shopping cart cannot be updated. It's already been ordered!"),
 
     KNOWN_EXCEPTION("Known exception: "),
+    WINES_NOT_FOUND("Couldn't find any wines"),
 
 
     RATING_ALREADY_EXISTS("Rating already exists");
