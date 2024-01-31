@@ -4,7 +4,7 @@ import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "item")
+@Table
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

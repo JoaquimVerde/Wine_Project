@@ -5,7 +5,6 @@ import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.itemDto.ItemGetDto;
 import backend.Wine_Project.exceptions.ItemAlreadyExistsException;
 import backend.Wine_Project.exceptions.ItemIdNotFoundException;
-import backend.Wine_Project.exceptions.WineIdNotFoundException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.ItemRepository;
@@ -65,13 +64,6 @@ public class ItemServiceImp implements ItemService{
         return null;
     }
 
-    public Item getItemById(Long id) {
-        Optional<Item> optionalItem = itemRepository.findById(id);
-        if (optionalItem.isEmpty()) {
-            throw new WineIdNotFoundException(Messages.ITEM_ID_NOT_FOUND.getMessage() + id);
-        }
-        return optionalItem.get();
-    }
     @Override
     public Item getById(Long id){
         Optional<Item> optionalItem = itemRepository.findById(id);
