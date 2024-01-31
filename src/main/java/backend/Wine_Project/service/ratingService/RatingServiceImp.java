@@ -12,11 +12,16 @@ import backend.Wine_Project.service.LMStudioService;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.util.Messages;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 @Service
 public class RatingServiceImp implements RatingService {
@@ -66,8 +71,19 @@ public class RatingServiceImp implements RatingService {
         client.getRatedWines().add(wine);
         clientService.saveClient(client);
 
-        ratingToAdd.setReview(lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 10 characters, based on the following information: "+
-                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear()));
+        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 100 characters, based on the following information: "+
+                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear());
+
+        try {
+            JSONObject jsonObject = new JSONObject(review);
+            JSONArray choicesArray = jsonObject.getJSONArray("choices");
+            JSONObject firstChoice = choicesArray.getJSONObject(0);
+            String textValue = firstChoice.getString("text");
+            ratingToAdd.setReview(textValue);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
         ratingRepository.save(ratingToAdd);
 
         return ratingToAdd.getId();

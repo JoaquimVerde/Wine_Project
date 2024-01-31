@@ -2,6 +2,7 @@ package backend.Wine_Project.model;
 
 import backend.Wine_Project.model.wine.Wine;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table
@@ -15,7 +16,7 @@ public class Rating {
     @ManyToOne
     private Wine wine;
     private double rate;
-
+    @Size(max = 10000)
     private String review;
 
 
