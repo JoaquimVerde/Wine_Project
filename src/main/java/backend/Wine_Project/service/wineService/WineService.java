@@ -10,10 +10,14 @@ import java.util.List;
 import java.util.Set;
 
 
-public interface WineService extends CrudService<WineReadDto, WineCreateDto, Long> {
+public interface WineService {
+
     List<WineCreateDto> createWines(List<WineCreateDto> wines);
 
-    void update(Long id, WineCreateDto wine);
+
+    List<WineReadDto> getAll(int pageNumber, int pageSize);
+
+    Long create(WineCreateDto wine);
 
     Wine getById(Long id);
 
