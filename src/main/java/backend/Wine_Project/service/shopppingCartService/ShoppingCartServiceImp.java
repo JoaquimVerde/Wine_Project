@@ -4,12 +4,11 @@ import backend.Wine_Project.converter.ShoppingCartConverter;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
-
-import backend.Wine_Project.model.Client;
-
+import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
 import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
+import backend.Wine_Project.exceptions.ShoppingCartCannotBeUpdatedException;
 import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
-
+import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
@@ -19,10 +18,7 @@ import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ShoppingCartServiceImp implements ShoppingCartService {
