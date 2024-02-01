@@ -25,46 +25,48 @@ public class Order {
         this.shoppingCart = shoppingCart;
         this.totalPrice = shoppingCart.getTotalAmount();
         this.client = shoppingCart.getClient();
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
     }
 
 
-    public byte[] getPdfContent() {
-        return pdfContent;
-    }
+        public Long getId () {
+            return id;
+        }
 
-    public void setPdfContent(byte[] pdfContent) {
-        this.pdfContent = pdfContent;
+        public void setId (Long id){
+            this.id = id;
+        }
+
+        public double getTotalPrice () {
+            return totalPrice;
+        }
+
+        public void setTotalPrice ( double totalPrice){
+            this.totalPrice = totalPrice;
+        }
+
+        public Client getClient () {
+            return client;
+        }
+
+        public void setClient (Client client){
+            this.client = client;
+        }
+
+        public ShoppingCart getShoppingCart () {
+            return shoppingCart;
+        }
+
+        public void setShoppingCart (ShoppingCart shoppingCart){
+            this.shoppingCart = shoppingCart;
+        }
+
+
+        public byte[] getPdfContent () {
+            return pdfContent;
+        }
+
+        public void setPdfContent ( byte[] pdfContent){
+            this.pdfContent = pdfContent;
+        }
     }
 
