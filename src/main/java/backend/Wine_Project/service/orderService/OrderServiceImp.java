@@ -12,12 +12,6 @@ import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.InvoiceGeneratorService;
 
-import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
-import backend.Wine_Project.model.Client;
-import backend.Wine_Project.model.Order;
-import backend.Wine_Project.model.ShoppingCart;
-import backend.Wine_Project.repository.OrderRepository;
-
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
