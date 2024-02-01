@@ -20,18 +20,18 @@ public class LMStudioService {
     }
 
     public String callLocalLMStudio(String textToProcess) {
-        // Set up the request headers
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Set up the request body
+
         String requestBody = "{\"prompt\": \"" + textToProcess + "\",\"temp\":0.1,\"n_predict\":300}";
 
-        // Create an HTTP entity with the headers and body
+
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
-        // Make the POST request to your local LMStudio server
-        String lmStudioUrl = "http://localhost:8081/v1/completions"; // Replace YOUR_PORT with the port where your local LMStudio server is running
+
+        String lmStudioUrl = "http://localhost:8081/v1/completions";
         return restTemplate.exchange(lmStudioUrl, HttpMethod.POST, requestEntity, String.class).getBody();
     }
 
