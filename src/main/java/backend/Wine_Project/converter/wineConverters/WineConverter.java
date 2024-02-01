@@ -24,8 +24,8 @@ public class WineConverter {
                 wine.getYear()
         );
     }
-    public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> carList) {
-        return carList.stream().map(WineConverter::fromWineToWineReadDto).toList();
+    public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> wineList) {
+        return wineList.stream().map(WineConverter::fromWineToWineReadDto).toList();
     }
 
 

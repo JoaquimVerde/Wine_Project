@@ -5,6 +5,7 @@ import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
+import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
 import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
 import backend.Wine_Project.exceptions.ShoppingCartCannotBeUpdatedException;
 import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
@@ -148,6 +149,24 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         }
 
         return totalAmount;
+    }
+
+    public void closeShoppingCart(ShoppingCart shoppingCart) {
+        Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(shoppingCart.getId());
+
+        if (!shCartOptional.isPresent()) {
+            throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
+        }
+
+        if (shCartOptional.get().isOrdered()) {
+            throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
+        }
+
+        ShoppingCart shCartToClose = shCartOptional.get();
+
+        shCartToClose.setOrdered(true);
+        shoppingCartRepository.save(shCartToClose);
+
     }
 
     public void printInvoice(ShoppingCart shoppingCart) {

@@ -7,9 +7,14 @@ public record OrderCreateDto(
         @NotEmpty
         @Min(value = 1)
         Long clientId,
+        @NotNull
         @NotEmpty
-        @DecimalMin("0.0")
-        double totalPrice
+        @Min(value = 1)
+        Long shoppingCartId
+        //@NotEmpty
+        //@DecimalMin("0.0")
+      //  double totalPrice
+
 
 ) {
 }

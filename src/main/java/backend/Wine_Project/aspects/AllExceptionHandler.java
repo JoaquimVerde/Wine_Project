@@ -46,6 +46,12 @@ public class AllExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    @ExceptionHandler(value = {YearCannotBeFutureException.class})
+    public ResponseEntity<String> handleBadRequest(Exception exception){
+        logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 
 
 }
