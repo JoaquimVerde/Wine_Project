@@ -13,8 +13,10 @@ import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
+import backend.Wine_Project.service.InvoiceGeneratorService;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.itemService.ItemService;
+import backend.Wine_Project.service.orderService.OrderServiceImp;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
@@ -28,13 +30,19 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     private final WineService wineService;
     private final ClientService clientService;
     private final ItemService itemService;
+    private final InvoiceGeneratorService invoiceGeneratorService;
+    private OrderServiceImp orderService;
 
-    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService) {
+
+    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService, InvoiceGeneratorService invoiceGeneratorService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.wineService = wineService;
         this.clientService = clientService;
         this.itemService = itemService;
+        this.invoiceGeneratorService = invoiceGeneratorService;
     }
+
+
 
     @Override
     public List<ShoppingCartGetDto> getAll() {
@@ -169,21 +177,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
     }
 
-    public void printInvoice(ShoppingCart shoppingCart) {
-        Set<Item> itemsShoppingCart = shoppingCart.getItems();
-        Iterator<Item> it = itemsShoppingCart.iterator();
 
-        //TODO get another format to the invoice???? email? file?
-
-        while(it.hasNext()) {
-            Item nextItem = it.next();
-
-            System.out.println(nextItem.getWine().getName() + "\t");
-            System.out.println(nextItem.getQuantity() + "\t");
-            System.out.println(nextItem.getTotalPrice() + "\t");
-        }
-        System.out.println("\t\t\t" + setTotalAmount(shoppingCart.getItems(), shoppingCart));
-    }
 
     @Override
     public ShoppingCart getById(Long id){

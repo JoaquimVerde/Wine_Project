@@ -1,6 +1,7 @@
 package backend.Wine_Project.dto.orderDto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
 public record OrderCreateDto(
 
@@ -8,8 +9,6 @@ public record OrderCreateDto(
         @NotEmpty
         @Min(value = 1)
         Long shoppingCartId
-
-
 
 ) {
 }

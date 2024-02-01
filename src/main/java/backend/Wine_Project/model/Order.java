@@ -13,15 +13,19 @@ public class Order {
     private double totalPrice;
     @OneToOne
     private ShoppingCart shoppingCart;
+    @Lob
+    @Column(length = 1048576)
+    private byte[] pdfContent;
 
     public Order() {
     }
 
 
-
     public Order(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
-    }
+        this.totalPrice = shoppingCart.getTotalAmount();
+        this.client = shoppingCart.getClient();
+
 
     public Long getId() {
         return id;
@@ -54,4 +58,13 @@ public class Order {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-}
+
+
+    public byte[] getPdfContent() {
+        return pdfContent;
+    }
+
+    public void setPdfContent(byte[] pdfContent) {
+        this.pdfContent = pdfContent;
+    }
+
