@@ -161,13 +161,14 @@ public class OrderServiceImp implements OrderService {
         PDPage page = new PDPage();
         document.addPage(page);
         String sanitizedContent = new String(pdfBytes, StandardCharsets.UTF_8);
+        String sanitizedContent2 = sanitizedContent.replaceAll("[^\\x20-\\x7E]", "").replace("\n", " ").replace("\r", "");
 
 
         try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-            contentStream.setFont(PDType1Font.HELVETICA_BOLD , 12);
+            contentStream.setFont(PDType1Font.COURIER_BOLD , 12);
             contentStream.beginText();
             contentStream.newLineAtOffset(100, 700);
-            contentStream.showText(sanitizedContent);
+            contentStream.showText(sanitizedContent2);
             contentStream.endText();
         }
 
