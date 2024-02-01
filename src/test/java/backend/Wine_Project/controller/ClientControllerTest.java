@@ -87,5 +87,39 @@ private static ObjectMapper objectMapper;
                 .andExpect(jsonPath("$",hasSize(2)));
 
     }
+    @Test
+    @DisplayName("test create a list of clients and returns a list of clients dtos")
+    void testCreateListOfClientsAndReturnsListOfClientsDTOS() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/clients/addClients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("[\n" +
+                        "    {\n" +
+                        "    \"name\": \"Joaquim Verde\",\n" +
+                        "    \"email\": \"jverde@email.com\",\n" +
+                        "    \"nif\": 111727339\n" +
+                        "    },\n" +
+                        "\n" +
+                        "    {\n" +
+                        "    \"name\": \"André Nunes\",\n" +
+                        "    \"email\": \"anunes@email.com\",\n" +
+                        "    \"nif\": 112388511\n" +
+                        "    },\n" +
+                        "    {\n" +
+                        "    \"name\": \"Cláudia Lamas\",\n" +
+                        "    \"email\": \"clamas@email.com\",\n" +
+                        "    \"nif\": 119478511\n" +
+                        "    },\n" +
+                        "    {\n" +
+                        "    \"name\": \"João Moutinho\",\n" +
+                        "    \"email\": \"jmoutinho@email.com\",\n" +
+                        "    \"nif\": 116388274\n" +
+                        "    }\n" +
+                        "]"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/clients/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$",hasSize(4)));
+
+    }
 
 }

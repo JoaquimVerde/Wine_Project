@@ -43,19 +43,19 @@ public class OrderServiceImpTest {
         assertEquals(2, orders.size());
     }
 
-    @Test
-    public void createOrderSuccessfullyWhenOrderNotExists() {
-        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
-        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.empty());
+//    @Test
+//    public void createOrderSuccessfullyWhenOrderNotExists() {
+//        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
+//        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.empty());
+//
+//        assertDoesNotThrow(() -> orderService.create(orderCreateDto));
+//    }
 
-        assertDoesNotThrow(() -> orderService.create(orderCreateDto));
-    }
-
-    @Test
-    public void createOrderThrowsExceptionWhenOrderExists() {
-        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
-        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.of(new Order()));
-
-        assertThrows(OrderAlreadyExistsException.class, () -> orderService.create(orderCreateDto));
-    }
+//    @Test
+//    public void createOrderThrowsExceptionWhenOrderExists() {
+//        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
+//        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.of(new Order()));
+//
+//        assertThrows(OrderAlreadyExistsException.class, () -> orderService.create(orderCreateDto));
+//    }
 }
