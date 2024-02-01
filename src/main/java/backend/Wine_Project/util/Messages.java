@@ -21,12 +21,15 @@ public enum Messages {
     SHOPPING_CART_NOT_FOUND("Shopping cart Id not found!"),
     SHOPPING_CART_CANNOT_BE_DELETE("This Shopping cart cannot be deleted. It's already been ordered!"),
     SHOPPING_CART_CANNOT_BE_UPDATED("This Shopping cart cannot be updated. It's already been ordered!"),
-
+    SHOPPING_CART_ALREADY_ORDERED("This Shopping cart has already been ordered!"),
+    PDF_GENERATION_ERROR("Error generating PDF"),
     KNOWN_EXCEPTION("Known exception: "),
     WINES_NOT_FOUND("Couldn't find any wines"),
 
 
-    RATING_ALREADY_EXISTS("Rating already exists");
+    RATING_ALREADY_EXISTS("Rating already exists"),
+
+    ERROR_GENERATING_INVOICE("Error generating invoice!");
 
 
 

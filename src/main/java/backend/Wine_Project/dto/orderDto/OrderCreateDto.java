@@ -1,15 +1,17 @@
 package backend.Wine_Project.dto.orderDto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
 public record OrderCreateDto(
-        @NotNull
+       // @NotNull
+       // @NotEmpty
+        //@Min(value = 1)
+       // Long clientId,
         @NotEmpty
         @Min(value = 1)
-        Long clientId,
-        @NotEmpty
-        @DecimalMin("0.0")
-        double totalPrice
+        Long shCartId
+
 
 ) {
 }
