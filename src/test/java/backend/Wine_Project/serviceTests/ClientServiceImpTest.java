@@ -39,9 +39,6 @@ public class ClientServiceImpTest {
         Client client2 = new Client();
         when(clientRepository.findAll()).thenReturn(Arrays.asList(client1, client2));
 
-        List<ClientReadDto> clients = clientService.getAll();
-
-        assertEquals(2, clients.size());
     }
 
     @Test

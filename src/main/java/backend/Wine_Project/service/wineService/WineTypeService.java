@@ -8,7 +8,11 @@ import backend.Wine_Project.service.CrudService;
 import java.util.List;
 import java.util.Set;
 
-public interface WineTypeService extends CrudService<WineTypeCreateDto, WineTypeCreateDto,Long> {
+public interface WineTypeService {
+    List<WineTypeCreateDto> getAll();
+
+    Long create(WineTypeCreateDto wineTypeCreateDto);
+
     List<WineTypeCreateDto> createWineTypes(List<WineTypeCreateDto> wineTypes);
 
     WineType getById(Long id);

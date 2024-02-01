@@ -4,14 +4,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 public record OrderCreateDto(
-       // @NotNull
-       // @NotEmpty
-        //@Min(value = 1)
-       // Long clientId,
+
+        @NotNull
         @NotEmpty
         @Min(value = 1)
-        Long shCartId
-
+        Long shoppingCartId
 
 ) {
 }

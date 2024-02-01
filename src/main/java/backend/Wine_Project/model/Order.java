@@ -20,11 +20,12 @@ public class Order {
     public Order() {
     }
 
+
     public Order(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
         this.totalPrice = shoppingCart.getTotalAmount();
         this.client = shoppingCart.getClient();
-    }
+
 
     public Long getId() {
         return id;
@@ -58,6 +59,7 @@ public class Order {
         this.shoppingCart = shoppingCart;
     }
 
+
     public byte[] getPdfContent() {
         return pdfContent;
     }
@@ -65,4 +67,4 @@ public class Order {
     public void setPdfContent(byte[] pdfContent) {
         this.pdfContent = pdfContent;
     }
-}
+

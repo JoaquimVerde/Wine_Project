@@ -179,23 +179,6 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
 
 
-
-
-/*
-    public void generateInvoice(ShoppingCart shoppingCart) {
-
-        try {
-            String invoiceContent = printInvoice(shoppingCart);
-            InvoiceGeneratorService.generateInvoice("invoice.pdf", invoiceContent);
-        } catch (IOException e) {
-            e.getMessage();
-        }
-    }
-
- */
-
-
-
     @Override
     public ShoppingCart getById(Long id){
         Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findById(id);

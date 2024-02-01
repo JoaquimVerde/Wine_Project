@@ -1,7 +1,12 @@
 package backend.Wine_Project.dto.orderDto;
 
+import backend.Wine_Project.dto.clientDto.ClientReadDto;
+import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
+
 public record OrderGetDto(
-        Long clientId,
+
+
+        ShoppingCartGetDto shoppingCart,
         double totalPrice
 ) {
 }

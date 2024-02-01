@@ -29,9 +29,9 @@ public class WineController {
     }
     @Operation(summary = "Get all wines", description = "Returns all wines names, region, wine type, etc ...")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved")
-    @GetMapping("/")
-    public ResponseEntity<List<WineReadDto>> getWines(){
-       return new ResponseEntity<>(wineService.getAll(), HttpStatus.OK);
+    @GetMapping(path = "{pageNumber}/{pageSize}")
+    public ResponseEntity<List<WineReadDto>> getWines(@PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize){
+       return new ResponseEntity<>(wineService.getAll(pageNumber, pageSize), HttpStatus.OK);
     }
     @Operation(summary = "Create a new wine ", description = "Create a wine with given parameters")
     @ApiResponses(value = {
@@ -39,9 +39,9 @@ public class WineController {
             @ApiResponse(responseCode = "409", description = "Conflict - The wine already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> createWines(@RequestBody WineCreateDto wineCreateDto){
-        wineService.create(wineCreateDto);
-        return new ResponseEntity<>("Wine created successfully", HttpStatus.CREATED);
+    public ResponseEntity<WineCreateDto> createWines(@RequestBody WineCreateDto wineCreateDto){
+
+        return new ResponseEntity<>(wineService.create(wineCreateDto), HttpStatus.CREATED);
     }
     @Operation(summary = "Get wines with given parameters", description = "Get wines by wine name, year and wine type id")
     @ApiResponses(value = {

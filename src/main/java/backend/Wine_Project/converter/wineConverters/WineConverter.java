@@ -21,11 +21,12 @@ public class WineConverter {
                 RegionConverter.fromRegionToRegionDto(wine.getRegion()),
                 wine.getPrice(),
                 wine.getAlcohol(),
-                wine.getYear()
+                wine.getYear(),
+                wine.getRatingAvg()
         );
     }
-    public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> carList) {
-        return carList.stream().map(WineConverter::fromWineToWineReadDto).toList();
+    public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> wineList) {
+        return wineList.stream().map(WineConverter::fromWineToWineReadDto).toList();
     }
 
 

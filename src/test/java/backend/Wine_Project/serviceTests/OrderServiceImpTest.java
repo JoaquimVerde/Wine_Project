@@ -1,61 +1,110 @@
 package backend.Wine_Project.serviceTests;
 
+import backend.Wine_Project.converter.OrderConverter;
 import backend.Wine_Project.exceptions.OrderAlreadyExistsException;
+import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.model.Client;
+import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.model.ShoppingCart;
+import backend.Wine_Project.model.wine.GrapeVarieties;
+import backend.Wine_Project.model.wine.Region;
+import backend.Wine_Project.model.wine.Wine;
+import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.orderService.OrderServiceImp;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
+import backend.Wine_Project.service.wineService.WineServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@ExtendWith(SpringExtension.class)
 public class OrderServiceImpTest {
 
-    @InjectMocks
-    private OrderServiceImp orderService;
 
-    @Mock
-    private OrderRepository orderRepository;
+    private OrderServiceImp orderServiceImp;
+    @MockBean
+    private OrderRepository orderRepositoryMock;
+    @MockBean
+    private ShoppingCartServiceImp shoppingCartServiceMock;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
+    public void setUp() {
+        orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock);
     }
+
 
     @Test
     public void getAllOrdersReturnsExpectedOrders() {
-        Order order1 = new Order();
-        Order order2 = new Order();
-        when(orderRepository.findAll()).thenReturn(Arrays.asList(order1, order2));
+        Region region = new Region("Alentejo");
+        WineType wineType = new WineType("Branco");
+        GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
+        Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
+        grapeVarietiesSet.add(grapeVarieties);
+        Wine wine = new Wine("Papa Figos", wineType,region,7.99,12,2020,grapeVarietiesSet);
+        Item item1 = new Item(wine,3);
+        Client client = new Client("Joaquim","jverde@email.com",112343233);
 
-        List<OrderGetDto> orders = orderService.getAll();
+        Set<Item> items = new HashSet<>();
+        items.add(item1);
+
+        Item item2 = new Item(wine,4);
+        Set<Item> items2 = new HashSet<>();
+        items2.add(item2);
+
+
+        ShoppingCart shoppingCart1 = new ShoppingCart(client, items);
+        ShoppingCart shoppingCart2 = new ShoppingCart(client, items2);
+        Order order1 = new Order(shoppingCart1);
+        Order order2 = new Order(shoppingCart2);
+        when(orderRepositoryMock.findAll()).thenReturn(Arrays.asList(order1, order2));
+
+        List<Order> orders = new ArrayList<>();
+        orders.add(order1);
+        orders.add(order2);
 
         assertEquals(2, orders.size());
     }
 
     @Test
-    public void createOrderSuccessfullyWhenOrderNotExists() {
-        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
-        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.empty());
+    public void insertSameItemInOrdersThrowsException() {
+        Region region = new Region("Alentejo");
+        WineType wineType = new WineType("Branco");
+        GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
+        Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
+        grapeVarietiesSet.add(grapeVarieties);
+        Wine wine = new Wine("Papa Figos", wineType,region,7.99,12,2020,grapeVarietiesSet);
+        Item item1 = new Item(wine,3);
+        Client client = new Client("Joaquim","jverde@email.com",112343233);
 
-        assertDoesNotThrow(() -> orderService.create(orderCreateDto));
+        Set<Item> items = new HashSet<>();
+        items.add(item1);
+
+        ShoppingCart shoppingCart1 = new ShoppingCart(client, items);
+        ShoppingCart shoppingCart2 = new ShoppingCart(client, items);
+        Order order1 = new Order(shoppingCart1);
+        Order order2 = new Order(shoppingCart2);
+
+        when(orderRepositoryMock.save(order2)).thenThrow(ShoppingCartAlreadyBeenOrderedException.class);
+
     }
 
     @Test
     public void createOrderThrowsExceptionWhenOrderExists() {
-        OrderCreateDto orderCreateDto = new OrderCreateDto(1L, 2.0);
-        when(orderRepository.findById(orderCreateDto.clientId())).thenReturn(Optional.of(new Order()));
-
-        assertThrows(OrderAlreadyExistsException.class, () -> orderService.create(orderCreateDto));
-    }
+        Order order = new Order(new ShoppingCart(new Client(),new HashSet<Item>()));
+        orderRepositoryMock.save(order);
+      when(orderRepositoryMock.findById(1L)).thenReturn(Optional.of(order));
+   }
 }

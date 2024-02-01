@@ -3,6 +3,7 @@ package backend.Wine_Project.service.orderService;
 import backend.Wine_Project.converter.OrderConverter;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+
 import backend.Wine_Project.exceptions.PDFGeneratorException;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
 import backend.Wine_Project.model.Item;
@@ -10,6 +11,13 @@ import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.InvoiceGeneratorService;
+
+import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.model.Client;
+import backend.Wine_Project.model.Order;
+import backend.Wine_Project.model.ShoppingCart;
+import backend.Wine_Project.repository.OrderRepository;
+
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
@@ -31,13 +39,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+
 import java.util.Set;
+
 
 @Service
 public class OrderServiceImp implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ShoppingCartServiceImp shoppingCartService;
+
     private final ClientService clientService;
 
     private final InvoiceGeneratorService invoiceGeneratorService;
@@ -48,6 +59,7 @@ public class OrderServiceImp implements OrderService {
         this.shoppingCartService = shoppingCartService;
         this.clientService = clientService;
         this.invoiceGeneratorService = invoiceGeneratorService;
+
     }
 
     @Override
@@ -59,13 +71,14 @@ public class OrderServiceImp implements OrderService {
     @Override
     public Long create(OrderCreateDto order) {
 
-        ShoppingCart shoppingCart = shoppingCartService.getById(order.shCartId());
+        ShoppingCart shoppingCart = shoppingCartService.getById(order.shoppingCartId());
 
         if (shoppingCart.isOrdered()) {
             throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
         }
 
         Order newOrder = new Order(shoppingCart);
+
         try {
             newOrder.setPdfContent(generatePDFBytes(printInvoice(shoppingCart)));
             savePDFToFile("src/main/java/backend/Wine_Project/invoices/invoice_"+ newOrder.getId() + ".pdf", generatePDFBytes(printInvoice(shoppingCart)));
@@ -77,6 +90,7 @@ public class OrderServiceImp implements OrderService {
 
         orderRepository.save(newOrder);
         return newOrder.getId();
+
 
     }
 
@@ -165,6 +179,7 @@ public class OrderServiceImp implements OrderService {
 
         document.save(filePath); // Save the document to the specified file path
         document.close();
+
     }
 
     @Override

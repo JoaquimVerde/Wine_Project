@@ -6,6 +6,7 @@ import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class GrapeVarietiesController {
             @ApiResponse(responseCode = "409", description = "Conflict - The grape variety already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> addNewGrapeVariety(@RequestBody GrapeVarietiesDto grapeVarietiesDto){
+    public ResponseEntity<String> addNewGrapeVariety(@Valid @RequestBody GrapeVarietiesDto grapeVarietiesDto){
         grapeVarietiesService.create(grapeVarietiesDto);
         return new ResponseEntity<>("New grape variety added successfully", HttpStatus.CREATED);
     }
