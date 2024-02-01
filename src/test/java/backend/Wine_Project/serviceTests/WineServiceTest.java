@@ -28,9 +28,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class WineServiceTest {
 
+    private WineServiceImp wineServiceImp;
     @MockBean
     private WineRepository wineRepositoryMock;
-    private WineServiceImp wineServiceImp;
     @MockBean
     private GrapeVarietiesService grapeVarietiesServiceMock;
     @MockBean

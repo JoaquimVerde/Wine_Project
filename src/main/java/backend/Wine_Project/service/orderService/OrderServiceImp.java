@@ -20,13 +20,11 @@ import java.util.List;
 public class OrderServiceImp implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final ClientService clientService;
     private final ShoppingCartServiceImp shoppingCartService;
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository, ClientService clientService, ShoppingCartServiceImp shoppingCartService) {
+    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService) {
         this.orderRepository = orderRepository;
-        this.clientService = clientService;
         this.shoppingCartService = shoppingCartService;
     }
 
