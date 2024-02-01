@@ -28,7 +28,8 @@ public enum Messages {
 
 
     RATING_ALREADY_EXISTS("Rating already exists"),
-    YEAR_CANNOT_BE_FUTURE("Year cannot be future.");
+    YEAR_CANNOT_BE_FUTURE("Year cannot be future."),
+    GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database");
 
 
 
