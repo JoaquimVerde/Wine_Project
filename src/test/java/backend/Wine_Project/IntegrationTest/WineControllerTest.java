@@ -36,16 +36,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class WineControllerTest {
 
     private static ObjectMapper objectMapper;
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private WineRepository wineRepository;
-
     @Autowired
     private WineServiceImp wineServiceImp;
-
     @Autowired
     private WineTypeRepository wineTypeRepository;
     @Autowired

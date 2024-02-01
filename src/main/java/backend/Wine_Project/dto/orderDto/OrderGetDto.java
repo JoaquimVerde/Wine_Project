@@ -5,7 +5,6 @@ import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 
 public record OrderGetDto(
 
-        ClientReadDto client,
 
         ShoppingCartGetDto shoppingCart,
         double totalPrice
