@@ -29,21 +29,19 @@ public class WineServiceImp implements WineService{
 
 private final WineRepository wineRepository;
 
-private final WineTypeRepository wineTypeRepository;
-
 private final GrapeVarietiesService grapeVarietiesService;
 private final RegionService regionService;
 private final WineTypeService wineTypeService;
 
 @Autowired
-public WineServiceImp(WineRepository wineRepository, WineTypeRepository wineTypeRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
+public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
     this.wineRepository = wineRepository;
-    this.wineTypeRepository = wineTypeRepository;
     this.grapeVarietiesService = grapeVarietiesService;
     this.regionService = regionService;
     this.wineTypeService = wineTypeService;
 }
-@Override
+
+    @Override
 public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
     for (WineCreateDto wine: wines) {
@@ -73,7 +71,7 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
     }
 
     @Override
-    public Long create(WineCreateDto wine) {
+    public WineCreateDto create(WineCreateDto wine) {
 
         Region region = regionService.getById(wine.regionId());
         WineType wineType = wineTypeService.getById(wine.wineTypeId());
@@ -93,7 +91,7 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year(), grapeVarietiesSet);
 
         wineRepository.save(newWine);
-        return newWine.getId();
+        return wine;
     }
 
 

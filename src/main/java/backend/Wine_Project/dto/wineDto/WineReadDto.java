@@ -18,6 +18,7 @@ public record WineReadDto(
         RegionCreateDto region,
         double price,
         double alcohol,
-        int year
+        int year,
+        double averageRating
 ) {
 }
