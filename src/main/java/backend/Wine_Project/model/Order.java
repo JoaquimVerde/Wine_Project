@@ -19,9 +19,7 @@ public class Order {
 
 
 
-    public Order(Client client, ShoppingCart shoppingCart, double totalPrice) {
-        this.client = client;
-        this.totalPrice = totalPrice;
+    public Order(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
 

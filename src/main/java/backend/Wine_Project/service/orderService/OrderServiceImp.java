@@ -39,14 +39,14 @@ public class OrderServiceImp implements OrderService {
     @Override
     public Long create(OrderCreateDto order) {
 
-        Client client = clientService.getById(order.clientId());
+
         ShoppingCart shoppingCart = shoppingCartService.getById(order.shoppingCartId());
 
         if (shoppingCart.isOrdered()) {
             throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
         }
 
-        Order newOrder = new Order(client, shoppingCart, shoppingCart.getTotalAmount());
+        Order newOrder = new Order(shoppingCart);
 
         shoppingCartService.closeShoppingCart(shoppingCart);
 
