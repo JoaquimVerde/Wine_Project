@@ -30,9 +30,9 @@ public class ClientController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> addNewClient(@Valid @RequestBody ClientCreateDto client) {
+    public ResponseEntity<Long> addNewClient(@Valid @RequestBody ClientCreateDto client) {
 
-        return new ResponseEntity<>(clientServiceImp.create(client).toString(), HttpStatus.CREATED);
+        return new ResponseEntity<>(clientServiceImp.create(client), HttpStatus.CREATED);
     }
 
     @PostMapping("/addClients")
