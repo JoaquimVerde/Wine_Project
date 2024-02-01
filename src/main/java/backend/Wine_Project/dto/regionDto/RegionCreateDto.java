@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record RegionCreateDto(
         @NotNull
-                @NotBlank(message = "Insert a valid region name")
+        @NotBlank(message = "Insert a valid region name")
         String name
 ) {
 }

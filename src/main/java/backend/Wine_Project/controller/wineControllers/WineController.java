@@ -39,9 +39,9 @@ public class WineController {
             @ApiResponse(responseCode = "409", description = "Conflict - The wine already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> createWines(@RequestBody WineCreateDto wineCreateDto){
-        wineService.create(wineCreateDto);
-        return new ResponseEntity<>("Wine created successfully", HttpStatus.CREATED);
+    public ResponseEntity<WineCreateDto> createWines(@RequestBody WineCreateDto wineCreateDto){
+
+        return new ResponseEntity<>(wineService.create(wineCreateDto), HttpStatus.CREATED);
     }
     @Operation(summary = "Get wines with given parameters", description = "Get wines by wine name, year and wine type id")
     @ApiResponses(value = {

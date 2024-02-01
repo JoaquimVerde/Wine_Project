@@ -17,7 +17,7 @@ public interface WineService {
 
     List<WineReadDto> getAll(int pageNumber, int pageSize);
 
-    Long create(WineCreateDto wine);
+    WineCreateDto create(WineCreateDto wine);
 
     Wine getById(Long id);
 

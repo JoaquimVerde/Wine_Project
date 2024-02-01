@@ -53,21 +53,6 @@ public class WineTypeServiceImp implements WineTypeService{
 
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void update(Long id, WineTypeCreateDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public WineTypeCreateDto get(Long id) {
-        return null;
-    }
-
-    @Override
     public WineType getById(Long id) {
         Optional<WineType> optionalWineType = wineTypeRepository.findById(id);
         if (optionalWineType.isEmpty()) {

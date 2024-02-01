@@ -21,7 +21,8 @@ public class WineConverter {
                 RegionConverter.fromRegionToRegionDto(wine.getRegion()),
                 wine.getPrice(),
                 wine.getAlcohol(),
-                wine.getYear()
+                wine.getYear(),
+                wine.getRatingAvg()
         );
     }
     public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> wineList) {
