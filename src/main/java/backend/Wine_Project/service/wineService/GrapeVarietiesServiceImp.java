@@ -33,7 +33,7 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
     public Long create(GrapeVarietiesDto modelCreateDto) {
         Optional<GrapeVarieties> grapeVarietiesOptional = grapeVarietiesRepository.findGrapeVarietiesByName(modelCreateDto.name());
         if(grapeVarietiesOptional.isPresent())
-            throw new GrapeVarietyAlreadyExistsException("Grape variety already exists, please use one in the database");
+            throw new GrapeVarietyAlreadyExistsException(Messages.GRAPE_VARIETY_ALREADY_EXISTS.getMessage());
         GrapeVarieties grapeVarieties = new GrapeVarieties(modelCreateDto.name());
         grapeVarietiesRepository.save(grapeVarieties);
         return grapeVarieties.getId();
