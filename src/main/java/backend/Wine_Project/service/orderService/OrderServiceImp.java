@@ -89,17 +89,19 @@ public class OrderServiceImp implements OrderService {
     @Override
     public String printInvoice(ShoppingCart shoppingCart) {
 
+        String header = "------ Order number: " + shoppingCart.getId() +" ------\n\n\n";
+
         String invoiceText = "";
 
         for (Item item : shoppingCart.getItems()) {
-            invoiceText = invoiceText.concat( ("Wine: "+item.getWine().getName() + "\t" + " - unit. price: " + item.getWine().getPrice()
-                    + " - quantity: " + item.getQuantity() + "\t" + "\n" + "Total price: " + item.getTotalPrice() + "\n\n"));
+            invoiceText = invoiceText.concat( ("-- Wine: "+item.getWine().getName() + "\n" + " \tunit. price: " + item.getWine().getPrice()
+                    + "\n" +"\tquantity: " + item.getQuantity() + "  __________________________________________________Total price: " + item.getTotalPrice() + "\n\n"));
         }
 
-        String finalText = "Order number: " + shoppingCart.getId() + "\n" + "Client: " + shoppingCart.getClient().getName() + "\n" + "Nif: " + shoppingCart.getClient().getNif()
-                + "\n" + "Total Amount: " + shoppingCart.getTotalAmount();
+        String finalText = "Client: " + shoppingCart.getClient().getName() + "\n" + "Nif: " + shoppingCart.getClient().getNif()
+                + "  _____________________________________________Total Amount: " + shoppingCart.getTotalAmount();
 
-        return invoiceText + finalText;
+        return header + invoiceText +"\n\n\n"+ finalText;
     }
 
 }
