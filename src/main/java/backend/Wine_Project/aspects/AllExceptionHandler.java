@@ -52,6 +52,12 @@ public class AllExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = {AlreadyHaveShoppingCartToOrderException.class})
+    public ResponseEntity<String> handleBadRequestShoppingCart(Exception exception){
+        logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 
 
 }
