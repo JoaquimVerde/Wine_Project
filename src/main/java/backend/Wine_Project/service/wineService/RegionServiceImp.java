@@ -17,11 +17,14 @@ import java.util.Set;
 
 @Service
 public class RegionServiceImp implements RegionService{
+
     public final RegionRepository regionRepository;
 
     public RegionServiceImp(RegionRepository regionRepository) {
         this.regionRepository = regionRepository;
     }
+
+
 
     @Override
     public List<RegionCreateDto> getAll() {
@@ -51,20 +54,6 @@ public class RegionServiceImp implements RegionService{
         return regions;
     }
 
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void update(Long id, RegionCreateDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public RegionCreateDto get(Long id) {
-        return null;
-    }
 
     @Override
     public Region getById(Long id) {

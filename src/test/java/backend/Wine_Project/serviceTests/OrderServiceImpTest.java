@@ -1,30 +1,20 @@
 package backend.Wine_Project.serviceTests;
 
-import backend.Wine_Project.converter.OrderConverter;
-import backend.Wine_Project.exceptions.OrderAlreadyExistsException;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
-import backend.Wine_Project.dto.orderDto.OrderCreateDto;
-import backend.Wine_Project.dto.orderDto.OrderGetDto;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.OrderRepository;
-import backend.Wine_Project.service.InvoiceGeneratorService;
-import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.orderService.OrderServiceImp;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
-import backend.Wine_Project.service.wineService.WineServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -41,14 +31,11 @@ public class OrderServiceImpTest {
     private OrderRepository orderRepositoryMock;
     @MockBean
     private ShoppingCartServiceImp shoppingCartServiceMock;
-    @MockBean
-    private InvoiceGeneratorService invoiceGeneratorServiceMock;
-    @MockBean
-    private ClientService clientServiceMock;
+
 
     @BeforeEach
     public void setUp() {
-        orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock, clientServiceMock, invoiceGeneratorServiceMock);
+        orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock);
     }
 
 

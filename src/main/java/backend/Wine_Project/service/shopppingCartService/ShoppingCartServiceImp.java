@@ -10,10 +10,8 @@ import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.ShoppingCartRepository;
-import backend.Wine_Project.service.InvoiceGeneratorService;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.itemService.ItemService;
-import backend.Wine_Project.service.orderService.OrderServiceImp;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
@@ -27,16 +25,15 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     private final WineService wineService;
     private final ClientService clientService;
     private final ItemService itemService;
-    private final InvoiceGeneratorService invoiceGeneratorService;
-    private OrderServiceImp orderService;
 
 
-    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService, InvoiceGeneratorService invoiceGeneratorService) {
+
+
+    public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.wineService = wineService;
         this.clientService = clientService;
         this.itemService = itemService;
-        this.invoiceGeneratorService = invoiceGeneratorService;
     }
 
 

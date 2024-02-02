@@ -8,8 +8,6 @@ import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
-import backend.Wine_Project.service.InvoiceGeneratorService;
-import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import com.itextpdf.text.*;
@@ -28,16 +26,15 @@ public class OrderServiceImp implements OrderService {
     private final OrderRepository orderRepository;
     private final ShoppingCartServiceImp shoppingCartService;
 
-    private final ClientService clientService;
 
-    private final InvoiceGeneratorService invoiceGeneratorService;
+
+
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService, ClientService clientService, InvoiceGeneratorService invoiceGeneratorService) {
+    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService) {
         this.orderRepository = orderRepository;
         this.shoppingCartService = shoppingCartService;
-        this.clientService = clientService;
-        this.invoiceGeneratorService = invoiceGeneratorService;
+
 
     }
 

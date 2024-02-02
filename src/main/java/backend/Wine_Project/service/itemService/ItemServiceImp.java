@@ -28,6 +28,8 @@ public class ItemServiceImp implements ItemService{
         this.wineService = wineService;
     }
 
+
+
     @Override
     public List<ItemGetDto> getAll() {
         List<Item> items = this.itemRepository.findAll();
@@ -49,20 +51,7 @@ public class ItemServiceImp implements ItemService{
         return itemToAdd.getId();
     }
 
-    @Override
-    public void delete(Long id) {
 
-    }
-
-    @Override
-    public void update(Long id, ItemGetDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public ItemGetDto get(Long id) {
-        return null;
-    }
 
     @Override
     public Item getById(Long id){
@@ -72,4 +61,6 @@ public class ItemServiceImp implements ItemService{
         }
         return optionalItem.get();
     }
+
+
 }
