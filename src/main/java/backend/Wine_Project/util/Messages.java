@@ -36,7 +36,9 @@ public enum Messages {
     ERROR_GENERATING_INVOICE("Error generating invoice!"),
 
     YEAR_CANNOT_BE_FUTURE("Year cannot be future."),
-    GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database");
+    GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database"),
+
+    ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order.");
 
 
 

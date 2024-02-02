@@ -12,7 +12,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Client client;
     @ManyToMany
     private Set<Item> items;

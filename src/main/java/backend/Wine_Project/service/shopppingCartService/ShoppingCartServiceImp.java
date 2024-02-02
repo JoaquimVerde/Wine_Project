@@ -5,10 +5,7 @@ import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
-import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
-import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
-import backend.Wine_Project.exceptions.ShoppingCartCannotBeUpdatedException;
-import backend.Wine_Project.exceptions.ShoppingCartNotFoundException;
+import backend.Wine_Project.exceptions.*;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
@@ -56,6 +53,10 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     public Long create(ShoppingCartCreateDto cart) {
 
         Client client = clientService.getById(cart.clientId());
+        Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findByClientAndOrdered(client, false);
+        if(optionalShoppingCart.isPresent()){
+            throw new AlreadyHaveShoppingCartToOrderException(Messages.ALREADY_HAVE_SHOPPING_CART_TO_ORDER.getMessage());
+        }
         Set<Item> items = new HashSet<>();
         for (Long itemId: cart.itemsId()) {
             items.add(itemService.getById(itemId));
