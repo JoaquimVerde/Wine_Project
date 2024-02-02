@@ -24,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -72,6 +74,8 @@ public class OrderServiceImp implements OrderService {
         }
 
         Order newOrder = new Order(shoppingCart);
+        orderRepository.save(newOrder);
+
 
         try {
             newOrder.setPdfContent(generatePDFBytes(printInvoice(shoppingCart)));
@@ -84,7 +88,6 @@ public class OrderServiceImp implements OrderService {
 
         orderRepository.save(newOrder);
         return newOrder.getId();
-
 
     }
 
@@ -129,6 +132,21 @@ public class OrderServiceImp implements OrderService {
         }
 
     }
+
+    /*public String printInvoice(ShoppingCart shoppingCart) {
+        String invoiceText = "";
+        for (Item item : shoppingCart.getItems()) {
+            invoiceText.concat("Wine: "+item.getWine().getName() + " - unit. price: " + item.getWine().getPrice()
+                    + " - quantity: " + item.getQuantity() + "\n" + "Total price: " + item.getTotalPrice() + "\n\n");
+        }
+        String finalText = "Order number: " + shoppingCart.getId() + "\n" + "Client: " + shoppingCart.getClient().getName() + "\n" + "Nif: " + shoppingCart.getClient().getNif()
+                + "\n" + "Total Amount: " + shoppingCart.getTotalAmount();
+
+        return invoiceText+finalText;
+    }*/
+
+
+
 
 
     private byte[] generatePDFBytes(String invoiceContent) throws IOException {

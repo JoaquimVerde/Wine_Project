@@ -41,7 +41,7 @@ public class ItemServiceImp implements ItemService{
     @Override
     public Long create(ItemCreateDto item) {
         Wine wine = wineService.getById(item.wineId());
-        Optional<Item> itemOptional = this.itemRepository.findById(item.wineId());
+        Optional<Item> itemOptional = this.itemRepository.findByWineAndQuantity(wine, item.quantity());
         if (itemOptional.isPresent())
             throw new ItemAlreadyExistsException(Messages.ITEM_ALREADY_EXISTS.getMessage());
         Item itemToAdd = new Item(wine, item.quantity());
