@@ -3,40 +3,24 @@ package backend.Wine_Project.service.orderService;
 import backend.Wine_Project.converter.OrderConverter;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
-
-import backend.Wine_Project.exceptions.PDFGeneratorException;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.InvoiceGeneratorService;
-
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import java.util.Set;
 
 
 @Service
@@ -75,14 +59,18 @@ public class OrderServiceImp implements OrderService {
 
         Order newOrder = new Order(shoppingCart);
         orderRepository.save(newOrder);
+        generatePdfInvoice(shoppingCart);
 
 
+/*
         try {
             newOrder.setPdfContent(generatePDFBytes(printInvoice(shoppingCart)));
             savePDFToFile("src/main/java/backend/Wine_Project/invoices/invoice_"+ newOrder.getId() + ".pdf", generatePDFBytes(printInvoice(shoppingCart)));
         } catch (IOException e) {
             throw new PDFGeneratorException(Messages.PDF_GENERATION_ERROR.getMessage());
         }
+
+ */
 
         shoppingCartService.closeShoppingCart(shoppingCart);
 
@@ -91,6 +79,28 @@ public class OrderServiceImp implements OrderService {
 
     }
 
+    public void generatePdfInvoice(ShoppingCart shoppingCart) {
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("iTextHelloWorld3.pdf"));
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Chunk chunk = new Chunk(splitContentIntoLines(printInvoice(shoppingCart), 1000).toString(),font);
+
+        try {
+            document.add(chunk);
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        }
+        document.close();
+    }
+/*
     public String printInvoice(ShoppingCart shoppingCart) {
         Set<Item> itemsShoppingCart = shoppingCart.getItems();
         Iterator<Item> it = itemsShoppingCart.iterator();
@@ -133,22 +143,53 @@ public class OrderServiceImp implements OrderService {
 
     }
 
-    /*public String printInvoice(ShoppingCart shoppingCart) {
+ */
+
+
+
+    public String printInvoice(ShoppingCart shoppingCart) {
+
         String invoiceText = "";
+
         for (Item item : shoppingCart.getItems()) {
-            invoiceText.concat("Wine: "+item.getWine().getName() + " - unit. price: " + item.getWine().getPrice()
-                    + " - quantity: " + item.getQuantity() + "\n" + "Total price: " + item.getTotalPrice() + "\n\n");
+            invoiceText.concat( ("Wine: "+item.getWine().getName() + "\t" + " - unit. price: " + item.getWine().getPrice()
+                    + " - quantity: " + item.getQuantity() + "\t" + "\n" + "Total price: " + item.getTotalPrice() + "\n\n"));
         }
+
         String finalText = "Order number: " + shoppingCart.getId() + "\n" + "Client: " + shoppingCart.getClient().getName() + "\n" + "Nif: " + shoppingCart.getClient().getNif()
                 + "\n" + "Total Amount: " + shoppingCart.getTotalAmount();
 
-        return invoiceText+finalText;
-    }*/
+        return invoiceText + finalText;
+    }
+
+    public List<String> splitContentIntoLines(String content, float width) {
+
+        List<String> lines = new ArrayList<>();
+        StringBuilder currentLine = new StringBuilder();
+       // Font font = FontFactory.getFont(FontFactory.HELVETICA) ;
+       // float fontSize = 12;
+        float fontWidth = 12; // font.getSize(content.) * fontSize / 1000; //getStringWidth(content) * fontSize / 1000;
+        for (String word : content.split("\\s+")) {
+            float wordWidth = fontWidth * word.length(); //font.getStringWidth(word) * fontSize / 1000;
+            if (fontWidth + wordWidth > width) {
+                lines.add(currentLine.toString().trim());
+                currentLine = new StringBuilder();
+                fontWidth = 0;
+            }
+            currentLine.append(word).append(" ");
+            fontWidth += wordWidth;
+        }
+        lines.add(currentLine.toString().trim());
+        return lines;
+    }
 
 
 
 
 
+
+
+/*
     private byte[] generatePDFBytes(String invoiceContent) throws IOException {
         String sanitizedContent = invoiceContent.replaceAll("[^\\x20-\\x7E]", "").replace("\n", " ").replace("\r", ""); // Replace newline characters
 
@@ -172,8 +213,9 @@ public class OrderServiceImp implements OrderService {
 
         return byteArrayOutputStream.toByteArray();
     }
+*/
 
-
+    /*
     private void savePDFToFile(String filePath, byte[] pdfBytes) throws IOException {
         PDDocument document = new PDDocument();
         PDPage page = new PDPage();
@@ -194,6 +236,8 @@ public class OrderServiceImp implements OrderService {
         document.close();
 
     }
+
+     */
 
     @Override
     public void delete(Long id) {
