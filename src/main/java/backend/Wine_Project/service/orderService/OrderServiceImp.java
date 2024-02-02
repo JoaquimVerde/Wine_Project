@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,18 +58,10 @@ public class OrderServiceImp implements OrderService {
 
         Order newOrder = new Order(shoppingCart);
         orderRepository.save(newOrder);
-        generatePdfInvoice(shoppingCart);
 
-
-/*
-        try {
-            newOrder.setPdfContent(generatePDFBytes(printInvoice(shoppingCart)));
-            savePDFToFile("src/main/java/backend/Wine_Project/invoices/invoice_"+ newOrder.getId() + ".pdf", generatePDFBytes(printInvoice(shoppingCart)));
-        } catch (IOException e) {
-            throw new PDFGeneratorException(Messages.PDF_GENERATION_ERROR.getMessage());
-        }
-
- */
+        String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+newOrder.getId()+".pdf";
+        newOrder.setInvoicePath(path);
+        generatePdfInvoice(newOrder);
 
         shoppingCartService.closeShoppingCart(shoppingCart);
 
@@ -78,11 +69,11 @@ public class OrderServiceImp implements OrderService {
         return newOrder.getId();
 
     }
-
-    public void generatePdfInvoice(ShoppingCart shoppingCart) {
+    @Override
+    public void generatePdfInvoice(Order order) {
         Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("iTextHelloWorld3.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(order.getInvoicePath()));
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -90,69 +81,21 @@ public class OrderServiceImp implements OrderService {
         }
 
         document.open();
-        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-        Chunk chunk = new Chunk(splitContentIntoLines(printInvoice(shoppingCart), 1000).toString(),font);
 
         try {
-            document.add(chunk);
+            document.add(new Paragraph(printInvoice(order.getShoppingCart())));
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         }
         document.close();
     }
-/*
-    public String printInvoice(ShoppingCart shoppingCart) {
-        Set<Item> itemsShoppingCart = shoppingCart.getItems();
-        Iterator<Item> it = itemsShoppingCart.iterator();
-
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            Document document = new Document();
-
-            PdfWriter.getInstance(document, byteArrayOutputStream);
-            document.open();
-
-            while (it.hasNext()) {
-                Item nextItem = it.next();
-                document.add(new Paragraph(
-                        nextItem.getWine().getName() + "\t" +
-                                nextItem.getQuantity() + "\t" +
-                                nextItem.getTotalPrice()
-                ));
-            }
-
-            // Add an empty line before the total
-            document.add(Chunk.NEWLINE);
-
-            // Adding total using a PdfPTable to ensure proper formatting
-            PdfPTable table = new PdfPTable(3);
-            table.setWidthPercentage(100);
-            table.addCell("Total:");
-            table.addCell(""); // Empty cell
-            table.addCell(String.valueOf(shoppingCartService.setTotalAmount(shoppingCart.getItems(), shoppingCart)));
-            document.add(table);
-
-            document.close();
-
-            // Assuming you have a method to save the PDF bytes to your database
-            // You can adapt this based on your data access layer
-
-            return byteArrayOutputStream.toString(StandardCharsets.UTF_8);
-        } catch (IOException | DocumentException e) {
-            throw new RuntimeException("Error generating PDF for shopping cart", e);
-        }
-
-    }
-
- */
-
-
-
+    @Override
     public String printInvoice(ShoppingCart shoppingCart) {
 
         String invoiceText = "";
 
         for (Item item : shoppingCart.getItems()) {
-            invoiceText.concat( ("Wine: "+item.getWine().getName() + "\t" + " - unit. price: " + item.getWine().getPrice()
+            invoiceText = invoiceText.concat( ("Wine: "+item.getWine().getName() + "\t" + " - unit. price: " + item.getWine().getPrice()
                     + " - quantity: " + item.getQuantity() + "\t" + "\n" + "Total price: " + item.getTotalPrice() + "\n\n"));
         }
 
@@ -160,98 +103,6 @@ public class OrderServiceImp implements OrderService {
                 + "\n" + "Total Amount: " + shoppingCart.getTotalAmount();
 
         return invoiceText + finalText;
-    }
-
-    public List<String> splitContentIntoLines(String content, float width) {
-
-        List<String> lines = new ArrayList<>();
-        StringBuilder currentLine = new StringBuilder();
-       // Font font = FontFactory.getFont(FontFactory.HELVETICA) ;
-       // float fontSize = 12;
-        float fontWidth = 12; // font.getSize(content.) * fontSize / 1000; //getStringWidth(content) * fontSize / 1000;
-        for (String word : content.split("\\s+")) {
-            float wordWidth = fontWidth * word.length(); //font.getStringWidth(word) * fontSize / 1000;
-            if (fontWidth + wordWidth > width) {
-                lines.add(currentLine.toString().trim());
-                currentLine = new StringBuilder();
-                fontWidth = 0;
-            }
-            currentLine.append(word).append(" ");
-            fontWidth += wordWidth;
-        }
-        lines.add(currentLine.toString().trim());
-        return lines;
-    }
-
-
-
-
-
-
-
-/*
-    private byte[] generatePDFBytes(String invoiceContent) throws IOException {
-        String sanitizedContent = invoiceContent.replaceAll("[^\\x20-\\x7E]", "").replace("\n", " ").replace("\r", ""); // Replace newline characters
-
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
-
-        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-            contentStream.setFont(PDType1Font.HELVETICA, 12);
-            contentStream.beginText();
-            contentStream.newLineAtOffset(100, 700);
-            contentStream.showText(sanitizedContent);
-            contentStream.endText();
-        }
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        document.save(byteArrayOutputStream);
-       // document.save(filePath);
-        //savePDFToFile(filePath, byteArrayOutputStream.toString());// Save the document to the specified file path
-        document.close();
-
-        return byteArrayOutputStream.toByteArray();
-    }
-*/
-
-    /*
-    private void savePDFToFile(String filePath, byte[] pdfBytes) throws IOException {
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
-        String sanitizedContent = new String(pdfBytes, StandardCharsets.UTF_8);
-        String sanitizedContent2 = sanitizedContent.replaceAll("[^\\x20-\\x7E]", "").replace("\n", " ").replace("\r", "");
-
-
-        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-            contentStream.setFont(PDType1Font.COURIER_BOLD , 12);
-            contentStream.beginText();
-            contentStream.newLineAtOffset(100, 700);
-            contentStream.showText(sanitizedContent2);
-            contentStream.endText();
-        }
-
-        document.save(filePath); // Save the document to the specified file path
-        document.close();
-
-    }
-
-     */
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void update(Long id, OrderGetDto modelUpdateDto) {
-
-    }
-
-    @Override
-    public OrderGetDto get(Long id) {
-        return null;
     }
 
 }

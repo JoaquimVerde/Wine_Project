@@ -13,9 +13,9 @@ public class Order {
     private double totalPrice;
     @OneToOne
     private ShoppingCart shoppingCart;
-    @Lob
-    @Column(length = 1048576)
-    private byte[] pdfContent;
+
+    @Column
+    private String invoicePath;
 
     public Order() {
     }
@@ -27,46 +27,44 @@ public class Order {
         this.client = shoppingCart.getClient();
     }
 
-
-        public Long getId () {
-            return id;
-        }
-
-        public void setId (Long id){
-            this.id = id;
-        }
-
-        public double getTotalPrice () {
-            return totalPrice;
-        }
-
-        public void setTotalPrice ( double totalPrice){
-            this.totalPrice = totalPrice;
-        }
-
-        public Client getClient () {
-            return client;
-        }
-
-        public void setClient (Client client){
-            this.client = client;
-        }
-
-        public ShoppingCart getShoppingCart () {
-            return shoppingCart;
-        }
-
-        public void setShoppingCart (ShoppingCart shoppingCart){
-            this.shoppingCart = shoppingCart;
-        }
-
-
-        public byte[] getPdfContent () {
-            return pdfContent;
-        }
-
-        public void setPdfContent ( byte[] pdfContent){
-            this.pdfContent = pdfContent;
-        }
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public String getInvoicePath() {
+        return invoicePath;
+    }
+
+    public void setInvoicePath(String invoicePath) {
+        this.invoicePath = invoicePath;
+    }
+}
 
