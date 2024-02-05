@@ -23,7 +23,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -51,7 +50,6 @@ class WineTypeControllerTest {
         wineTypeRepository.deleteAll();
         wineTypeRepository.resetAutoIncrement();
     }
-
     @Test
     @DisplayName("Test get all wine types when no wine types in the database")
     void testGetAllWineTypesWhenNoWineTypesInDatabase() throws Exception {
