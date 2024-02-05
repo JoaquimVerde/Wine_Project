@@ -4,6 +4,7 @@ import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineUpdateDto;
+import backend.Wine_Project.exceptions.CannotDeleteOrderedWineException;
 import backend.Wine_Project.exceptions.alreadyExists.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.notFound.WineIdNotFoundException;
 import backend.Wine_Project.exceptions.notFound.WineNotFoundException;
@@ -13,6 +14,8 @@ import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineRepository;
+import backend.Wine_Project.service.ratingService.RatingServiceImp;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +34,8 @@ private final WineRepository wineRepository;
 private final GrapeVarietiesService grapeVarietiesService;
 private final RegionService regionService;
 private final WineTypeService wineTypeService;
+
+
 
 @Autowired
 public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
@@ -95,13 +100,6 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
 
 
-
-
-
-
-
-
-
     @Override
     public Wine getById(Long id) {
         Optional<Wine> optionalWine = wineRepository.findById(id);
@@ -160,15 +158,14 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
-        if (wineTypeId != null) {
 
-            List<Wine> wines = wineRepository.findByWineTypeId(wineTypeId);
-            if(wines.isEmpty()){
-                throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
-            }
-            return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+
+        List<Wine> wines = wineRepository.findByWineTypeId(wineTypeId);
+        if(wines.isEmpty()){
+            throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
         }
-        return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wineRepository.findAll()));
+        return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
+
     }
 
 
@@ -178,6 +175,10 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         if (!wineRepository.existsById(wineId)) {
             throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + wineId);
         }
+        if(getById(wineId).isItem() || getById(wineId).isRated()){
+            throw new CannotDeleteOrderedWineException(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage() + wineId);
+        }
+
         wineRepository.deleteById(wineId);
         return wineId;
     }
