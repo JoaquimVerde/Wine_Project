@@ -42,6 +42,9 @@ public class ItemServiceImp implements ItemService{
 
     @Override
     public Long create(ItemCreateDto item) {
+        if (item.wineId() == null) {
+            throw new IllegalArgumentException("Wine id must not be null");
+        }
         Wine wine = wineService.getById(item.wineId());
         Optional<Item> itemOptional = this.itemRepository.findByWineAndQuantity(wine, item.quantity());
         if (itemOptional.isPresent())
@@ -55,6 +58,9 @@ public class ItemServiceImp implements ItemService{
 
     @Override
     public Item getById(Long id){
+        if (id == null) {
+            throw new IllegalArgumentException("Id must not be null");
+        }
         Optional<Item> optionalItem = itemRepository.findById(id);
         if (optionalItem.isEmpty()) {
             throw new ItemIdNotFoundException(Messages.ITEM_ID_NOT_FOUND.getMessage() + id);
