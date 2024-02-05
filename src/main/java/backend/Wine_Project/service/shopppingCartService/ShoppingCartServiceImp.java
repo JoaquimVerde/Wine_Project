@@ -11,6 +11,7 @@ import backend.Wine_Project.exceptions.notFound.ShoppingCartNotFoundException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
+import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.ShoppingCartRepository;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.itemService.ItemService;

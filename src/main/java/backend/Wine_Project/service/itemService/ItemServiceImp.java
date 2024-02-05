@@ -48,6 +48,8 @@ public class ItemServiceImp implements ItemService{
             throw new ItemAlreadyExistsException(Messages.ITEM_ALREADY_EXISTS.getMessage());
         Item itemToAdd = new Item(wine, item.quantity());
         itemRepository.save(itemToAdd);
+        wine.setItem(true);
+        wineService.saveWine(wine);
         return itemToAdd.getId();
     }
 

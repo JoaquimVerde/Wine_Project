@@ -30,16 +30,6 @@ public class WineConverter {
     }
 
 
-    /*public static Wine fromWineCreateDtoToWine(WineCreateDto wine) {
-        return new Wine(
-                wine.name(),
-                wine.wineType(),
-                wine.region(),
-                wine.price(),
-                wine.alcohol(),
-                wine.year());
-    }*/
-
     public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
         return new WineReadRatingDto(
                 wine.getName(),
