@@ -6,6 +6,8 @@ import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
 import backend.Wine_Project.exceptions.*;
+import backend.Wine_Project.exceptions.alreadyExists.AlreadyHaveShoppingCartToOrderException;
+import backend.Wine_Project.exceptions.notFound.ShoppingCartNotFoundException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;

@@ -1,4 +1,4 @@
-package backend.Wine_Project.exceptions;
+package backend.Wine_Project.exceptions.alreadyExists;
 
 public class GrapeVarietyAlreadyExistsException extends RuntimeException{
 

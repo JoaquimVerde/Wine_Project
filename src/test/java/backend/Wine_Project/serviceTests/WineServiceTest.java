@@ -1,10 +1,7 @@
 package backend.Wine_Project.serviceTests;
 
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
-import backend.Wine_Project.exceptions.GrapeVarietyIdNotFoundException;
-import backend.Wine_Project.exceptions.RegionIdNotFoundException;
 import backend.Wine_Project.exceptions.YearCannotBeFutureException;
-import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.WineRepository;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import backend.Wine_Project.service.wineService.RegionService;
@@ -16,14 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 public class WineServiceTest {

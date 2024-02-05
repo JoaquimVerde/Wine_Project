@@ -1,4 +1,4 @@
-package backend.Wine_Project.exceptions;
+package backend.Wine_Project.exceptions.notFound;
 
 public class ClientIdNotFoundException extends RuntimeException{
 
