@@ -35,7 +35,7 @@ public class RegionServiceImp implements RegionService{
     public Long create(RegionCreateDto modelCreateDto) {
         Optional<Region> regionOptional = regionRepository.findByName(modelCreateDto.name());
         if(regionOptional.isPresent())
-            throw new RegionAlreadyExistsException("Region already exist, please use the region of database");
+            throw new RegionAlreadyExistsException(Messages.REGION_ALREADY_EXISTS.getMessage());
         Region region = new Region(modelCreateDto.name());
         regionRepository.save(region);
 

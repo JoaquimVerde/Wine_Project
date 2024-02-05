@@ -33,7 +33,7 @@ public class AllExceptionHandler {
     }
     @ExceptionHandler(value = {ShoppingCartAlreadyBeenOrderedException.class, RatingAlreadyExistsException.class, EmailAlreadyExistsException.class,
             GrapeVarietyAlreadyExistsException.class, ItemAlreadyExistsException.class, OrderAlreadyExistsException.class, RegionAlreadyExistsException.class,
-            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class})
+            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class,NifAlreadyExistsException.class})
     public ResponseEntity<String> handleObjectAlreadyExists(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
