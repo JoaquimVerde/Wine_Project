@@ -49,6 +49,7 @@ class WineTypeControllerTest {
     @BeforeEach
     void ini() {
         wineTypeRepository.deleteAll();
+        wineTypeRepository.resetAutoIncrement();
     }
 
     @Test
@@ -71,7 +72,7 @@ class WineTypeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("Wine type created successfully"));
+                .andExpect(content().string(Messages.WINE_TYPE_CREATED.getMessage()));
 
         List<WineType> wineTypes = wineTypeRepository.findAll();
         assertThat(wineTypes).hasSize(1);

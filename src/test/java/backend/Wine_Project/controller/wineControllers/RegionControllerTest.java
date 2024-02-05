@@ -52,6 +52,7 @@ class RegionControllerTest {
     @BeforeEach
     void ini() {
         regionRepository.deleteAll();
+        regionRepository.resetAutoIncrement();
     }
 
     @Test
@@ -74,7 +75,7 @@ class RegionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("Region added successfully"));
+                .andExpect(content().string(Messages.REGION_CREATED.getMessage()));
 
         List<Region> regions = regionRepository.findAll();
         assertThat(regions).hasSize(1);

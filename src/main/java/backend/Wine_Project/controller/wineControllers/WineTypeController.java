@@ -4,6 +4,7 @@ import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.service.wineService.WineTypeService;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
+import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,7 +40,7 @@ public class WineTypeController{
     @PostMapping("/")
     public ResponseEntity<String> createWineType(@Valid @RequestBody WineTypeCreateDto wineTypeCreateDto){
         wineTypeService.create(wineTypeCreateDto);
-        return new ResponseEntity<>("Wine type created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(Messages.WINE_TYPE_CREATED.getMessage(), HttpStatus.CREATED);
     }
     @Operation(summary = "Get a wines by wine type id", description = "Returns a wines as per the wine type id")
     @ApiResponses(value = {

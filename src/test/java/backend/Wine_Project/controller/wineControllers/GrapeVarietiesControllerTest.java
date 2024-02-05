@@ -68,7 +68,7 @@ class GrapeVarietiesControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("New grape variety added successfully"));
+                .andExpect(content().string(Messages.GRAPE_VARIETY_CREATED.getMessage()));
 
         // Then
         List<GrapeVarieties> grapeVarietiesList = grapeVarietiesRepository.findAll();
