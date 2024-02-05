@@ -3,6 +3,7 @@ package backend.Wine_Project.service.clientService;
 import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.clientDto.ClientReadDto;
 import backend.Wine_Project.converter.ClientConverter;
+import backend.Wine_Project.exceptions.alreadyExists.NifAlreadyExistsException;
 import backend.Wine_Project.exceptions.notFound.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.alreadyExists.EmailAlreadyExistsException;
 import backend.Wine_Project.model.Client;
@@ -34,8 +35,11 @@ public class ClientServiceImp implements ClientService {
     @Override
     public Long create(ClientCreateDto client) {
         Optional<Client> clientOptional = this.clientRepository.findClientByEmail(client.email());
+        Optional<Client> clientOptional2 = this.clientRepository.findClientByNif(client.nif());
         if (clientOptional.isPresent())
             throw new EmailAlreadyExistsException(Messages.CLIENT_EMAIL_ALREADY_EXISTS.getMessage());
+        if(clientOptional2.isPresent())
+            throw new NifAlreadyExistsException(Messages.CLIENT_NIF_ALREADY_EXISTS.getMessage());
         Client newClient = ClientConverter.fromClientCreateDtoToModel(client);
         clientRepository.save(newClient);
         return newClient.getId();

@@ -3,6 +3,7 @@ package backend.Wine_Project.controller.wineControllers;
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
+import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,7 +40,7 @@ public class GrapeVarietiesController {
     @PostMapping("/")
     public ResponseEntity<String> addNewGrapeVariety(@Valid @RequestBody GrapeVarietiesDto grapeVarietiesDto){
         grapeVarietiesService.create(grapeVarietiesDto);
-        return new ResponseEntity<>("New grape variety added successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(Messages.GRAPE_VARIETY_CREATED.getMessage(), HttpStatus.CREATED);
     }
     @Operation(summary = "Create a multiple grape varieties", description = "Create multiple grape varieties with given parameters")
     @ApiResponses(value = {
