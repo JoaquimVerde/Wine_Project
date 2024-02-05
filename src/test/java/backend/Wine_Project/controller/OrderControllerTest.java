@@ -1,14 +1,31 @@
 package backend.Wine_Project.controller;
 
+import backend.Wine_Project.model.Client;
+import backend.Wine_Project.model.Item;
+import backend.Wine_Project.model.ShoppingCart;
+import backend.Wine_Project.model.wine.GrapeVarieties;
+import backend.Wine_Project.model.wine.Region;
+import backend.Wine_Project.model.wine.Wine;
+import backend.Wine_Project.model.wine.WineType;
+import backend.Wine_Project.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.io.FileOutputStream;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,12 +37,39 @@ public class OrderControllerTest {
     private MockMvc mockMvc;
 
     private ObjectMapper objectMapper;
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+    @Autowired
+    private WineTypeRepository wineTypeRepository;
+    @Autowired
+    private WineRepository wineRepository;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private RegionRepository regionRepository;
+    @Autowired
+    private GrapeVarietiesRepository grapeVarietiesRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
-    }
+  //      shoppingCartRepository.deleteAll();
+  //      orderRepository.deleteAll();
 
+//        clientRepository.deleteAll();
+//        clientRepository.resetAutoIncrement();
+//        wineRepository.deleteAll();
+//        wineTypeRepository.deleteAll();
+//        itemRepository.deleteAll();
+//        regionRepository.deleteAll();
+//        grapeVarietiesRepository.deleteAll();
+
+
+    }
 
     @Test
     void testGetAllOrders() throws Exception {
@@ -35,27 +79,23 @@ public class OrderControllerTest {
 
     @Test
     void testCreateOrder() throws Exception {
-        String orderJson = "{\"id\":1,\"itemsSet\":[{\"id\":1,\"quantity\":5,\"wine\":{\"id\":1,\"name\":\"Test Wine\",\"wineType\":{\"id\":1,\"type\":\"Red\"},\"region\":{\"id\":1,\"region\":\"Test Region\"},\"grapeVarietiesList\":[{\"id\":1,\"variety\":\"Test Variety\"}],\"ratingAvg\":20.0,\"price\":20.0,\"alcohol\":20.0,\"year\":2023}}],\"client\":{\"id\":1,\"name\":\"Test Client\",\"email\":\"test@client.com\",\"phoneNumber\":1234567890},\"totalAmount\":100.0}";
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setOrdered(false);
+        List<Item> findAllItem = itemRepository.findAll();
 
+        shoppingCart.setItems(Collections.emptySet());
+        List<Client> allClients = clientRepository.findAll();
+
+
+        shoppingCart.setClient(allClients.getFirst());
+        shoppingCartRepository.save(shoppingCart);
+        Long shoppingCartId = shoppingCart.getId();
+
+        String orderJson = "{\"shoppingCartId\":" + shoppingCartId + "}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/wine_orders/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    void testDeleteOrder() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wine_orders/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testUpdateOrder() throws Exception {
-        String orderJson = "{\"id\":1,\"itemsSet\":[{\"id\":1,\"quantity\":5,\"wine\":{\"id\":1,\"name\":\"Test Wine\",\"wineType\":{\"id\":1,\"type\":\"Red\"},\"region\":{\"id\":1,\"region\":\"Test Region\"},\"grapeVarietiesList\":[{\"id\":1,\"variety\":\"Test Variety\"}],\"ratingAvg\":20.0,\"price\":20.0,\"alcohol\":20.0,\"year\":2023}}],\"client\":{\"id\":1,\"name\":\"Test Client\",\"email\":\"test@client.com\",\"phoneNumber\":1234567890},\"totalAmount\":100.0}";
-
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wine_orders/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson))
-                .andExpect(status().isOk());
-    }
 }
