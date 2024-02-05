@@ -50,6 +50,7 @@ class WineTypeControllerTest {
         wineTypeRepository.deleteAll();
         wineTypeRepository.resetAutoIncrement();
     }
+
     @Test
     @DisplayName("Test get all wine types when no wine types in the database")
     void testGetAllWineTypesWhenNoWineTypesInDatabase() throws Exception {
@@ -143,5 +144,18 @@ class WineTypeControllerTest {
 
         List<WineType> wineTypeList = wineTypeRepository.findAll();
         assertThat(wineTypeList).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("Test create an empty wineType")
+    void testCreateEmptyWineType() throws Exception {
+        // Given a JSON request with empty name
+        String jsonRequest = "{\"name\": \"\"}";
+
+        // When trying to create a wine type with empty name
+        mockMvc.perform(post("/api/v1/wineTypes/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest());
     }
 }

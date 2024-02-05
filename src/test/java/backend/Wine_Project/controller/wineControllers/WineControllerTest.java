@@ -17,10 +17,7 @@ import backend.Wine_Project.service.wineService.WineServiceImp;
 import backend.Wine_Project.util.Messages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,6 +66,18 @@ public class WineControllerTest {
 
     @BeforeEach
     public void init() {
+        wineRepository.deleteAll();
+        wineRepository.resetAutoIncrement();
+        wineTypeRepository.deleteAll();
+        wineTypeRepository.resetAutoIncrement();
+        regionRepository.deleteAll();
+        regionRepository.resetAutoIncrement();
+        grapeVarietiesRepository.deleteAll();
+        grapeVarietiesRepository.resetAutoIncrement();
+    }
+
+    @AfterEach
+    public void end() {
         wineRepository.deleteAll();
         wineRepository.resetAutoIncrement();
         wineTypeRepository.deleteAll();
