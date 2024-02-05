@@ -7,6 +7,7 @@ import backend.Wine_Project.service.wineService.RegionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class RegionController {
             @ApiResponse(responseCode = "409", description = "Conflict - The region already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> addNewRegion(@RequestBody RegionCreateDto regionCreateDto){
+    public ResponseEntity<String> addNewRegion(@Valid @RequestBody RegionCreateDto regionCreateDto){
         regionService.create(regionCreateDto);
         return new ResponseEntity<>("Region added successfully",HttpStatus.CREATED);
     }
@@ -53,7 +54,7 @@ public class RegionController {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the regions already existed")})
     @PostMapping("/addRegions")
-    public ResponseEntity<List<RegionCreateDto>> addNewRegions(@RequestBody List<RegionCreateDto> regions) {
+    public ResponseEntity<List<RegionCreateDto>> addNewRegions(@Valid@RequestBody List<RegionCreateDto> regions) {
         return new ResponseEntity<>(regionService.createRegions(regions), HttpStatus.CREATED);
     }
 

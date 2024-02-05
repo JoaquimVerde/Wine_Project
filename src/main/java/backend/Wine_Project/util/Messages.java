@@ -31,6 +31,8 @@ public enum Messages {
 
 
     RATING_ALREADY_EXISTS("Rating already exists"),
+    REGION_ALREADY_EXISTS("Region already exist, please use one region of database"),
+
 
 
     ERROR_GENERATING_INVOICE("Error generating invoice!"),
