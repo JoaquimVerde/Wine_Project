@@ -40,8 +40,6 @@ class RegionControllerTest {
 
     @Autowired
     private RegionRepository regionRepository;
-    @Autowired
-    private RegionService regionService;
 
     private static ObjectMapper objectMapper;
 

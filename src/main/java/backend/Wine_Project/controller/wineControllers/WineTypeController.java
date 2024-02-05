@@ -7,6 +7,7 @@ import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class WineTypeController{
             @ApiResponse(responseCode = "409", description = "Conflict - The grape variety already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> createWineType(@RequestBody WineTypeCreateDto wineTypeCreateDto){
+    public ResponseEntity<String> createWineType(@Valid @RequestBody WineTypeCreateDto wineTypeCreateDto){
         wineTypeService.create(wineTypeCreateDto);
         return new ResponseEntity<>("Wine type created successfully", HttpStatus.CREATED);
     }
@@ -54,7 +55,7 @@ public class WineTypeController{
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the wine type already existed")})
     @PostMapping("/addWineTypes")
-    public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@RequestBody List<WineTypeCreateDto> wineTypes) {
+    public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@Valid@RequestBody List<WineTypeCreateDto> wineTypes) {
         return new ResponseEntity<>(wineTypeService.createWineTypes(wineTypes), HttpStatus.CREATED);
     }
 

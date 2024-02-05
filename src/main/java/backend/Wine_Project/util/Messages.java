@@ -32,6 +32,7 @@ public enum Messages {
 
     RATING_ALREADY_EXISTS("Rating already exists"),
     REGION_ALREADY_EXISTS("Region already exist, please use one region of database"),
+    WINE_TYPE_ALREADY_EXISTS("Wine type already exists!"),
 
 
 
