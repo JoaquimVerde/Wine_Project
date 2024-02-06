@@ -71,7 +71,7 @@ public class RatingServiceImp implements RatingService {
         client.getRatedWines().add(wine);
         clientService.saveClient(client);
 
-        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 100 characters, based on the following information: "+
+        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 30 words, based on the following information: "+
                 "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear());
 
         try {
