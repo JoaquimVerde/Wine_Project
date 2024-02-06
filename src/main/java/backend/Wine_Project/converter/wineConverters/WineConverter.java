@@ -4,7 +4,13 @@ import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineReadRatingDto;
+import backend.Wine_Project.model.wine.GrapeVarieties;
+import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
+import backend.Wine_Project.model.wine.WineType;
+import backend.Wine_Project.service.wineService.GrapeVarietiesService;
+import backend.Wine_Project.service.wineService.RegionService;
+import backend.Wine_Project.service.wineService.WineTypeService;
 
 import java.util.List;
 import java.util.Set;
@@ -28,7 +34,6 @@ public class WineConverter {
     public static List<WineReadDto> fromListOfWinesToListOfWinesReadDto(List<Wine> wineList) {
         return wineList.stream().map(WineConverter::fromWineToWineReadDto).toList();
     }
-
 
     public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
         return new WineReadRatingDto(
