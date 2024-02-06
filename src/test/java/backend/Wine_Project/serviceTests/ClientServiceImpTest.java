@@ -1,6 +1,7 @@
 package backend.Wine_Project.serviceTests;
 
 import backend.Wine_Project.dto.clientDto.ClientCreateDto;
+import backend.Wine_Project.dto.clientDto.ClientReadDto;
 import backend.Wine_Project.exceptions.notFound.ClientIdNotFoundException;
 import backend.Wine_Project.exceptions.alreadyExists.EmailAlreadyExistsException;
 import backend.Wine_Project.model.Client;
@@ -13,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,9 +37,19 @@ public class ClientServiceImpTest {
     @Test
     public void getAllClientsReturnsExpectedClients() {
         Client client1 = new Client();
-        Client client2 = new Client();
-        when(clientRepository.findAll()).thenReturn(Arrays.asList(client1, client2));
+        client1.setName("pipoca");
+        client1.setEmail("asd@asd.com");
+        client1.setNif(123123511);
+        client1.setRatedWines(Collections.emptySet());
 
+        Client client2 = new Client();
+        client2.setName("batata");
+        client2.setEmail("asd1@asd1.com");
+        client2.setNif(323122512);
+        client2.setRatedWines(Collections.emptySet());
+        when(clientRepository.findAll()).thenReturn(Arrays.asList(client1, client2));
+        List<ClientReadDto> findAllClients = clientService.getAll();
+        assertEquals(2, findAllClients.size());
     }
 
     @Test
