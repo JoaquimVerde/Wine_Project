@@ -146,19 +146,6 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
         return item.getId();
     }
 
-    public double setTotalAmount(Set<Item> itemsInShoppingCart, ShoppingCart shoppingCart) {
-
-        Set<Item> itemsShoppingCart = shoppingCart.getItems();
-        Iterator<Item> it = itemsShoppingCart.iterator();
-        double totalAmount = shoppingCart.getTotalAmount();
-        while(it.hasNext()) {
-            Item nextItem = it.next();
-            nextItem.getTotalPrice();
-            totalAmount += nextItem.getTotalPrice();
-        }
-
-        return totalAmount;
-    }
 
     public void closeShoppingCart(ShoppingCart shoppingCart) {
         Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(shoppingCart.getId());
