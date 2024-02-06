@@ -28,8 +28,6 @@ public class ShoppingCart {
         for (Item item: items) {
             this.totalAmount += item.getTotalPrice();
         }
-        items = new HashSet<>();
-        ordered = false;
     }
 
     public Long getId() {

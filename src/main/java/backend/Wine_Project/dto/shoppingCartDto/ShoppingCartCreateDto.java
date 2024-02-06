@@ -8,10 +8,10 @@ import java.util.Set;
 
 public record ShoppingCartCreateDto(
         @NotNull
-                @Min(value = 1)
+        @Min(value = 1)
         Long clientId,
         @NotNull
-                @Size(min = 1)
+        @Size(min = 1)
         Set<Long> itemsId
 
 ) {
