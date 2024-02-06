@@ -45,7 +45,8 @@ public enum Messages {
     YEAR_CANNOT_BE_FUTURE("Year cannot be future."),
     GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database"),
 
-    ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order.");
+    ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order."),
+    WINE_WAS_ORDERED_OR_RATED("That wine was ordered or rated and cannot be deleted. Wine Id: ");
 
 
 

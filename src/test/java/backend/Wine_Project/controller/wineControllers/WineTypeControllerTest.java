@@ -23,7 +23,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -145,5 +144,18 @@ class WineTypeControllerTest {
 
         List<WineType> wineTypeList = wineTypeRepository.findAll();
         assertThat(wineTypeList).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("Test create an empty wineType")
+    void testCreateEmptyWineType() throws Exception {
+        // Given a JSON request with empty name
+        String jsonRequest = "{\"name\": \"\"}";
+
+        // When trying to create a wine type with empty name
+        mockMvc.perform(post("/api/v1/wineTypes/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest());
     }
 }

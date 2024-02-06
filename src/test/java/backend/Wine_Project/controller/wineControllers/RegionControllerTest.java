@@ -150,4 +150,17 @@ class RegionControllerTest {
         List<Region> regionEntities = regionRepository.findAll();
         assertThat(regionEntities).hasSize(2);
     }
+
+    @Test
+    @DisplayName("Test create a region with empty name")
+    void testCreateRegionWithEmptyName() throws Exception {
+        // Given a JSON request with empty name
+        String jsonRequest = "{\"name\": \"\"}";
+
+        // When trying to create a region with empty name
+        mockMvc.perform(post("/api/v1/regions/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest());
+    }
 }

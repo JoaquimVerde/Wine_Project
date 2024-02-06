@@ -3,6 +3,9 @@ package backend.Wine_Project.serviceTests;
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.exceptions.YearCannotBeFutureException;
 import backend.Wine_Project.repository.WineRepository;
+import backend.Wine_Project.service.ratingService.RatingServiceImp;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartService;
+import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import backend.Wine_Project.service.wineService.RegionService;
 import backend.Wine_Project.service.wineService.WineServiceImp;
@@ -31,6 +34,7 @@ public class WineServiceTest {
     private RegionService regionServiceMock;
     @MockBean
     private WineTypeService wineTypeServiceMock;
+
 
     @BeforeEach
     public void setUp() {

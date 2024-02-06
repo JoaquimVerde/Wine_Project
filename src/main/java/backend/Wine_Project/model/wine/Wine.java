@@ -30,6 +30,9 @@ public class Wine {
     private double alcohol;
     private int year;
 
+    private boolean isRated;
+    private boolean isItem;
+
     public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year, Set<GrapeVarieties> grapeVarietiesList ) {
         this.name = name;
         this.wineType = winetype;
@@ -127,4 +130,19 @@ public class Wine {
         this.year = year;
     }
 
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
+    }
+
+    public boolean isItem() {
+        return isItem;
+    }
+
+    public void setItem(boolean item) {
+        isItem = item;
+    }
 }

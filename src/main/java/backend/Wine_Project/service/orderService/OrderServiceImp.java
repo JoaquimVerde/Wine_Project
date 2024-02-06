@@ -60,6 +60,7 @@ public class OrderServiceImp implements OrderService {
         newOrder.setInvoicePath(path);
         generatePdfInvoice(newOrder);
 
+
         shoppingCartService.closeShoppingCart(shoppingCart);
 
         orderRepository.save(newOrder);
