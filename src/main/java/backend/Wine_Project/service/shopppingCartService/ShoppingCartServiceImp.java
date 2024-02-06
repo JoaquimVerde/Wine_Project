@@ -72,12 +72,12 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     @Override
     public void delete(Long id) {
 
-        ShoppingCart shCart = shoppingCartRepository.findById(id).get();
+        Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(id);
 
-        if (!shoppingCartRepository.findById(id).isPresent()) {
+        if (shCartOptional.isEmpty()) {
             throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
         }
-        if (shoppingCartRepository.findById(id).isPresent() && shCart.isOrdered()) {
+        if (shCartOptional.get().isOrdered()) {
             throw new ShoppingCartCannotBeDeletedException(Messages.SHOPPING_CART_CANNOT_BE_DELETE.getMessage());
         }
 

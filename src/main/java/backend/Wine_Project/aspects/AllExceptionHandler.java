@@ -26,15 +26,16 @@ public class AllExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(AllExceptionHandler.class);
 
     @ExceptionHandler(value = {WineNotFoundException.class, ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class,
-            RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class, ItemIdNotFoundException.class})
+            RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class, ItemIdNotFoundException.class,
+            ShoppingCartNotFoundException.class})
     public ResponseEntity<String> handleIdNotFound(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body((exception.getMessage()));
     }
     @ExceptionHandler(value = {ShoppingCartAlreadyBeenOrderedException.class, RatingAlreadyExistsException.class, EmailAlreadyExistsException.class,
             GrapeVarietyAlreadyExistsException.class, ItemAlreadyExistsException.class, OrderAlreadyExistsException.class, RegionAlreadyExistsException.class,
-            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class, CannotDeleteOrderedWineException.class, NifAlreadyExistsException.class})
-
+            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class, CannotDeleteOrderedWineException.class, NifAlreadyExistsException.class,
+            ShoppingCartCannotBeUpdatedException.class, ShoppingCartCannotBeDeletedException.class})
     public ResponseEntity<String> handleObjectAlreadyExists(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);

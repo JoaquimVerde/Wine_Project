@@ -144,5 +144,50 @@ public class ShoppingCartControllerTest {
                 .andExpect(content().string(Messages.ITEM_ID_NOT_FOUND.getMessage() + 1));
     }
 
+    @Test
+    @DisplayName("Test update shopping cart that was already ordered throws exception")
+    void testUpdateShoppingCartThatWasOrderedThrowException() throws Exception {
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setOrdered(true);
+        shoppingCartRepositoryMock.save(shoppingCart);
+
+        String shoppingCartUpdateJson = "{\"itemsId\": [1]}";
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/shoppingCarts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(shoppingCartUpdateJson))
+                .andExpect(status().isConflict())
+                .andExpect(content().string(Messages.SHOPPING_CART_CANNOT_BE_UPDATED.getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test update shopping cart that does not exist throws Exception")
+    void testUpdateShoppingCartThatDoesNotExistThrowsException() throws Exception {
+
+
+        String shoppingCartJson = "{\"itemsId\": [1]}";
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/shoppingCarts/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(shoppingCartJson))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.SHOPPING_CART_NOT_FOUND.getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test delete shopping cart that was ordered throws Exception")
+    void testDeleteShoppingCartThatWasOrderedThrowsException() throws Exception {
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setOrdered(true);
+        shoppingCartRepositoryMock.save(shoppingCart);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/shoppingCarts/1"))
+                .andExpect(status().isConflict())
+                .andExpect(content().string(Messages.SHOPPING_CART_CANNOT_BE_DELETE.getMessage()));
+
+    }
+
 
 }
