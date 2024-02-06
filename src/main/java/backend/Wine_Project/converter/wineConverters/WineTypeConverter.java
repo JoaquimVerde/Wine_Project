@@ -9,9 +9,7 @@ public class WineTypeConverter {
     public static WineTypeCreateDto fromWineTypeToWineTypeDto(WineType wineType){
         return new WineTypeCreateDto(wineType.getName());
     }
-    /*public static WineType fromWineTypeDtoToWineType(WineTypeCreateDto wineTypeCreateDto){
-        return new WineType(wineTypeCreateDto.name(), wineTypeCreateDto.wine());
-    }*/
+
     public static List<WineTypeCreateDto> fromWineTypeListToWineTypeDtoList(List<WineType> wineTypeList){
         return wineTypeList.stream()
                 .map(WineTypeConverter::fromWineTypeToWineTypeDto)

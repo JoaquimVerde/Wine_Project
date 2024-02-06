@@ -1,6 +1,8 @@
 package backend.Wine_Project.aspects;
 
 import backend.Wine_Project.exceptions.*;
+import backend.Wine_Project.exceptions.alreadyExists.*;
+import backend.Wine_Project.exceptions.notFound.*;
 import backend.Wine_Project.util.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,8 @@ public class AllExceptionHandler {
     }
     @ExceptionHandler(value = {ShoppingCartAlreadyBeenOrderedException.class, RatingAlreadyExistsException.class, EmailAlreadyExistsException.class,
             GrapeVarietyAlreadyExistsException.class, ItemAlreadyExistsException.class, OrderAlreadyExistsException.class, RegionAlreadyExistsException.class,
-            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class})
+            WineAlreadyExistsException.class, WineTypeAlreadyExistsException.class, CannotDeleteOrderedWineException.class, NifAlreadyExistsException.class})
+
     public ResponseEntity<String> handleObjectAlreadyExists(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
@@ -49,14 +52,8 @@ public class AllExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(value = {YearCannotBeFutureException.class})
+    @ExceptionHandler(value = {YearCannotBeFutureException.class, AlreadyHaveShoppingCartToOrderException.class})
     public ResponseEntity<String> handleBadRequest(Exception exception){
-        logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(value = {AlreadyHaveShoppingCartToOrderException.class})
-    public ResponseEntity<String> handleBadRequestShoppingCart(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }

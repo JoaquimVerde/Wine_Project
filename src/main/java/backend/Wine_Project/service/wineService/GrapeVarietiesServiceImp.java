@@ -1,9 +1,9 @@
 package backend.Wine_Project.service.wineService;
 
 import backend.Wine_Project.converter.wineConverters.GrapeVarietiesConverter;
-import backend.Wine_Project.exceptions.GrapeVarietyAlreadyExistsException;
+import backend.Wine_Project.exceptions.alreadyExists.GrapeVarietyAlreadyExistsException;
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
-import backend.Wine_Project.exceptions.GrapeVarietyIdNotFoundException;
+import backend.Wine_Project.exceptions.notFound.GrapeVarietyIdNotFoundException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.repository.GrapeVarietiesRepository;
 import backend.Wine_Project.util.Messages;
@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class GrapeVarietiesServiceImp implements GrapeVarietiesService{

@@ -4,9 +4,11 @@ import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.service.wineService.WineTypeService;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
+import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +38,9 @@ public class WineTypeController{
             @ApiResponse(responseCode = "409", description = "Conflict - The grape variety already existed")
     })
     @PostMapping("/")
-    public ResponseEntity<String> createWineType(@RequestBody WineTypeCreateDto wineTypeCreateDto){
+    public ResponseEntity<String> createWineType(@Valid @RequestBody WineTypeCreateDto wineTypeCreateDto){
         wineTypeService.create(wineTypeCreateDto);
-        return new ResponseEntity<>("Wine type created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(Messages.WINE_TYPE_CREATED.getMessage(), HttpStatus.CREATED);
     }
     @Operation(summary = "Get a wines by wine type id", description = "Returns a wines as per the wine type id")
     @ApiResponses(value = {
@@ -54,7 +56,7 @@ public class WineTypeController{
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the wine type already existed")})
     @PostMapping("/addWineTypes")
-    public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@RequestBody List<WineTypeCreateDto> wineTypes) {
+    public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@Valid@RequestBody List<WineTypeCreateDto> wineTypes) {
         return new ResponseEntity<>(wineTypeService.createWineTypes(wineTypes), HttpStatus.CREATED);
     }
 

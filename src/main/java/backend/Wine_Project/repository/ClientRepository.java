@@ -17,4 +17,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Transactional
     @Query(value = "ALTER TABLE client AUTO_INCREMENT = 1", nativeQuery = true)
     void resetAutoIncrement();
+
+    Optional<Client> findClientByNif(int nif);
 }

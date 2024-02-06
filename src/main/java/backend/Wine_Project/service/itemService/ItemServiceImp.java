@@ -3,8 +3,8 @@ package backend.Wine_Project.service.itemService;
 import backend.Wine_Project.converter.ItemConverter;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.itemDto.ItemGetDto;
-import backend.Wine_Project.exceptions.ItemAlreadyExistsException;
-import backend.Wine_Project.exceptions.ItemIdNotFoundException;
+import backend.Wine_Project.exceptions.alreadyExists.ItemAlreadyExistsException;
+import backend.Wine_Project.exceptions.notFound.ItemIdNotFoundException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.ItemRepository;
@@ -51,6 +51,8 @@ public class ItemServiceImp implements ItemService{
             throw new ItemAlreadyExistsException(Messages.ITEM_ALREADY_EXISTS.getMessage());
         Item itemToAdd = new Item(wine, item.quantity());
         itemRepository.save(itemToAdd);
+        wine.setItem(true);
+        wineService.saveWine(wine);
         return itemToAdd.getId();
     }
 

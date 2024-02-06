@@ -3,8 +3,8 @@ package backend.Wine_Project.service.wineService;
 import backend.Wine_Project.converter.wineConverters.WineConverter;
 import backend.Wine_Project.converter.wineConverters.WineTypeConverter;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
-import backend.Wine_Project.exceptions.WineTypeAlreadyExistsException;
-import backend.Wine_Project.exceptions.WineTypeIdNotFoundException;
+import backend.Wine_Project.exceptions.alreadyExists.WineTypeAlreadyExistsException;
+import backend.Wine_Project.exceptions.notFound.WineTypeIdNotFoundException;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineTypeRepository;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
@@ -34,7 +34,7 @@ public class WineTypeServiceImp implements WineTypeService{
     public Long create(WineTypeCreateDto wineTypeCreateDto) {
         Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeCreateDto.name());
         if(wineTypeOptional.isPresent())
-            throw new WineTypeAlreadyExistsException("Wine type already exists!");
+            throw new WineTypeAlreadyExistsException(Messages.WINE_TYPE_ALREADY_EXISTS.getMessage());
         WineType wineType = new WineType(wineTypeCreateDto.name());
         wineTypeRepository.save(wineType);
         return wineType.getId();
@@ -44,7 +44,7 @@ public class WineTypeServiceImp implements WineTypeService{
         for (WineTypeCreateDto wineType: wineTypes) {
             Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineType.name());
             if(wineTypeOptional.isPresent())
-                throw new WineTypeAlreadyExistsException("Wine type already exists!");
+                throw new WineTypeAlreadyExistsException(Messages.WINE_TYPE_ALREADY_EXISTS.getMessage());
             WineType newWineType = new WineType(wineType.name());
             wineTypeRepository.save(newWineType);
         }

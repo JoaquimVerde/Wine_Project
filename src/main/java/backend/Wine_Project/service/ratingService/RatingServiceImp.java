@@ -2,7 +2,7 @@ package backend.Wine_Project.service.ratingService;
 
 import backend.Wine_Project.converter.RatingConverter;
 import backend.Wine_Project.dto.ratingDto.RatingCreateDto;
-import backend.Wine_Project.exceptions.RatingAlreadyExistsException;
+import backend.Wine_Project.exceptions.alreadyExists.RatingAlreadyExistsException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Rating;
 import backend.Wine_Project.dto.ratingDto.RatingReadDto;
@@ -12,7 +12,6 @@ import backend.Wine_Project.service.LMStudioService;
 import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.util.Messages;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +66,7 @@ public class RatingServiceImp implements RatingService {
 
         double ratingAvg = ratingRepository.getAverageRatingByWine(wine);
         wine.setRatingAvg(ratingAvg);
+        wine.setRated(true);
         wineService.saveWine(wine);
         client.getRatedWines().add(wine);
         clientService.saveClient(client);

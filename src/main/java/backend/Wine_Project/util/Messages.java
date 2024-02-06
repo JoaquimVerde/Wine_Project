@@ -31,6 +31,13 @@ public enum Messages {
 
 
     RATING_ALREADY_EXISTS("Rating already exists"),
+    REGION_ALREADY_EXISTS("Region already exist, please use one region of database"),
+    WINE_TYPE_ALREADY_EXISTS("Wine type already exists!"),
+    GRAPE_VARIETY_CREATED("New grape variety added successfully"),
+    WINE_TYPE_CREATED("New wine type added successfully"),
+    REGION_CREATED("New region added successfully"),
+    CLIENT_NIF_ALREADY_EXISTS("Client nif already exists"),
+
 
 
     ERROR_GENERATING_INVOICE("Error generating invoice!"),
@@ -38,7 +45,8 @@ public enum Messages {
     YEAR_CANNOT_BE_FUTURE("Year cannot be future."),
     GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database"),
 
-    ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order.");
+    ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order."),
+    WINE_WAS_ORDERED_OR_RATED("That wine was ordered or rated and cannot be deleted. Wine Id: ");
 
 
 

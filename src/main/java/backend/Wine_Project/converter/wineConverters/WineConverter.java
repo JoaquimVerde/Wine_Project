@@ -35,21 +35,6 @@ public class WineConverter {
         return wineList.stream().map(WineConverter::fromWineToWineReadDto).toList();
     }
 
-
-//    public static Wine fromWineCreateDtoToWine(WineCreateDto wineDto, WineTypeService wineTypeService, RegionService regionService, GrapeVarietiesService grapeVarietiesService) {
-//        Wine wine = new Wine();
-//        wine.setName(wineDto.name());
-//        wine.setWineType(wineTypeService.getById(wineDto.wineTypeId()));
-//        wine.setRegion(regionService.getById(wineDto.regionId()));
-//        wine.setPrice(wineDto.price());
-//        wine.setAlcohol(wineDto.alcohol());
-//        wine.setYear(wineDto.year());
-//        wine.setGrapeVarietiesList(wineDto.grapeVarietiesId().stream()
-//                .map(id -> grapeVarietiesService.getById(id))
-//                .collect(Collectors.toSet()));
-//        return wine;
-//    }
-
     public static WineReadRatingDto fromWineToWineReadRatingDto(Wine wine) {
         return new WineReadRatingDto(
                 wine.getName(),
