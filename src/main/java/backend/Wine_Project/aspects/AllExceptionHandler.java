@@ -26,7 +26,8 @@ public class AllExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(AllExceptionHandler.class);
 
     @ExceptionHandler(value = {WineNotFoundException.class, ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class,
-            RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class, ItemIdNotFoundException.class,
+
+            RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class, PdfNotFoundException.class,ItemIdNotFoundException.class,
             ShoppingCartNotFoundException.class})
     public ResponseEntity<String> handleIdNotFound(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);

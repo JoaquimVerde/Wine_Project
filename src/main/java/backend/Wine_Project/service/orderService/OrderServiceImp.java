@@ -3,7 +3,9 @@ package backend.Wine_Project.service.orderService;
 import backend.Wine_Project.converter.OrderConverter;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.exceptions.PDFGeneratorException;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.exceptions.notFound.PdfNotFoundException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
@@ -60,7 +62,11 @@ public class OrderServiceImp implements OrderService {
 
         String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+newOrder.getId()+".pdf";
         newOrder.setInvoicePath(path);
-        generatePdfInvoice(newOrder);
+        try {
+            generatePdfInvoice(newOrder);
+        } catch (PdfNotFoundException e) {
+            throw new PdfNotFoundException(e.getMessage());
+        }
 
         emailService.sendEmailWithAttachment(newOrder.getClient().getEmail(), path, "invoice_"+newOrder.getId()+".pdf",newOrder.getClient().getName());
 
@@ -72,14 +78,12 @@ public class OrderServiceImp implements OrderService {
 
     }
     @Override
-    public void generatePdfInvoice(Order order) {
+    public void generatePdfInvoice(Order order)  {
         Document document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream(order.getInvoicePath()));
-        } catch (DocumentException e) {
-            throw new RuntimeException(e);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (DocumentException | FileNotFoundException e) {
+            throw new PdfNotFoundException(e.getMessage());
         }
 
         document.open();
