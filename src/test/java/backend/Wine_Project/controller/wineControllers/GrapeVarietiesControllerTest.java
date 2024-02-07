@@ -139,4 +139,17 @@ class GrapeVarietiesControllerTest {
                 .andExpect(jsonPath("$.[1].name").value("Grape4"));
     }
 
+    @Test
+    @DisplayName("Test create a grape variety with letter punctuation")
+    void testCreateGrapeVarietyWithELetterPunctuation() throws Exception {
+        // Given a JSON request with empty character punctuation
+        String jsonRequest = "{\"name\": \"Castelão\"}";
+
+        // When trying to create a region with character punctuation
+        mockMvc.perform(post("/api/v1/grapeVarieties/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isCreated());
+    }
+
 }

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringExclude;
 public record GrapeVarietiesDto(
         @NotBlank(message = "Insert a valid grape variety name")
         @NotNull
-        @Pattern(regexp = "^[a-zA-Z0-9\\s]+$", message = "insert a valid name")
+        @Pattern(regexp = "^[\\w\\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]+$", message = "insert a valid name")
         String name
 
 ) {
