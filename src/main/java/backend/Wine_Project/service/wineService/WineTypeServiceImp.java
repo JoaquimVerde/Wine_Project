@@ -69,4 +69,21 @@ public class WineTypeServiceImp implements WineTypeService{
         }
         return WineConverter.fromSetOfWinesToSetOfWinesReadDto(wineTypeRepository.findWinesByType(wineTypeId));
     }
+
+    @Override
+    public void updateWineType(Long id, WineTypeCreateDto wine){
+
+        Optional<WineType> wineTypeOptional = wineTypeRepository.findById(id);
+        if (wineTypeOptional.isEmpty()) {
+            throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage());
+        }
+
+        WineType wineTypeToUpdate = wineTypeOptional.get();
+
+        if (wine.name() != null && wine.name().length() > 0 && !wine.name().equals(wineTypeToUpdate.getName())) {
+            wineTypeToUpdate.setName(wine.name());
+        }
+        wineTypeRepository.save(wineTypeToUpdate);
+
+    }
 }
