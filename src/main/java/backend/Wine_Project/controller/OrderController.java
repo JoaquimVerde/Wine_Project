@@ -3,6 +3,8 @@ package backend.Wine_Project.controller;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
 import backend.Wine_Project.service.orderService.OrderServiceImp;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,14 @@ public class OrderController {
     public OrderController(OrderServiceImp orderService) {
         this.orderService = orderService;
     }
-
+    @Operation(summary = "Get all orders", description = "Returns all orders")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved all orders")
     @GetMapping("/")
     public ResponseEntity<List<OrderGetDto>> getOrders() {
         return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
     }
-
+    @Operation(summary = "Create new order", description = "Create a new order with given parameters")
+    @ApiResponse(responseCode = "201", description = "Successfully created")
     @PostMapping("/")
     public ResponseEntity<Long> addNewOrder(@RequestBody OrderCreateDto order) {
         return new ResponseEntity<>(orderService.create(order), HttpStatus.CREATED);
