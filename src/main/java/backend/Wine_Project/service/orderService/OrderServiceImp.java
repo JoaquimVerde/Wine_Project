@@ -144,5 +144,4 @@ public class OrderServiceImp implements OrderService {
         return " ".repeat(leftPadding) + text; // Add left padding
     }
 
-
 }
