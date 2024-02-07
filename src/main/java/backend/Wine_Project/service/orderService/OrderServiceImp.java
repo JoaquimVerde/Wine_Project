@@ -113,30 +113,27 @@ public class OrderServiceImp implements OrderService {
         String clientData = "Client: " + shoppingCart.getClient().getName() + "\n" +
                 "NIF: " + shoppingCart.getClient().getNif() + "\n\n";
 
-        // Product header
-        String headerProducts = String.format("%-40s", "Product");
-        String headerQuantity = String.format("%-20s", "Quantity");
-        String headerUnitPrice = String.format("%-20s", "Unit Price");
-        String headerTotalPrice = String.format("%-20s", "Total Price\n");
+        //Product Header
+        String newHeader = "Product" + " ".repeat(45-7) + "| " + " Quantity" + " ".repeat(10) + "| " + "Unit. Price " + " ".repeat(14) + "| " + "Total Price\n";
 
-        String headerLimit =  "-------------------------------------\n\n";
 
-        String totalHeader = headerProducts + headerQuantity + headerUnitPrice + headerTotalPrice;
+        String headerLimit = "-".repeat(newHeader.length()) + "\n";
+
+
         // Build invoice text
         StringBuilder invoiceText = new StringBuilder();
         for (Item item : shoppingCart.getItems()) {
-            String productName = String.format("%-40s", item.getWine().getName());
-            String quantity = String.format("%-20s", item.getQuantity());
-            String unitPrice = String.format("%-20s", String.format("%.2f", item.getWine().getPrice()));
-            String totalPrice = String.format("%-20s", String.format("%.2f", item.getTotalPrice()));
+            String productName = item.getWine().getName() + " ".repeat(45 - item.getWine().getName().length()) + "|";
+            String quantity = item.getQuantity() + " ".repeat(8) + "|";
+            String unitPrice = item.getWine().getPrice() + " ". repeat(12) + "|";
+            String totalPrice = item.getTotalPrice() + " ".repeat(7);
             String line = productName + quantity + unitPrice + totalPrice + "\n";
             invoiceText.append(line);
         }
-
         // Total amount
         String totalAmount = "\nTotal Amount: " + shoppingCart.getTotalAmount();
 
-        return invoiceHead + invoiceNum + invoiceDate + invoiceHead2 + clientData + totalHeader + headerLimit + invoiceText.toString() + totalAmount;
+        return invoiceHead + invoiceNum + invoiceDate + invoiceHead2 + clientData + newHeader + headerLimit + invoiceText.toString() + totalAmount;
 
     }
 
