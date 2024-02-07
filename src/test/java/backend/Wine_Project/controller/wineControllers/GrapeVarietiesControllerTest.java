@@ -25,8 +25,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -145,10 +144,56 @@ class GrapeVarietiesControllerTest {
         // Given a JSON request with empty character punctuation
         String jsonRequest = "{\"name\": \"Castelão\"}";
 
-        // When trying to create a region with character punctuation
+        // When trying to create a grapeVariety with character punctuation
         mockMvc.perform(post("/api/v1/grapeVarieties/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    @DisplayName("Test update a grape variety status code 200")
+    void testUpdateGrapeVariety() throws Exception {
+
+        GrapeVarieties grapeVarieties = new GrapeVarieties();
+        grapeVarietiesRepository.save(grapeVarieties);
+        String jsonUpdateRequest = "{\"name\": \"Castelão\"}";
+
+        mockMvc.perform(patch("/api/v1/grapeVarieties/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Grape Variety successfully updated"));
+    }
+
+    @Test
+    @DisplayName("Test update a grape variety that does not exist")
+    void testUpdateGrapeVarietyThatDoesNotExist() throws Exception {
+
+        String jsonUpdateRequest = "{\"name\": \"Castelão\"}";
+
+        // When trying to update a grape Variety that does not exist
+        mockMvc.perform(patch("/api/v1/grapeVarieties/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.GRAPE_VARIETY_ID_NOT_FOUND.getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test update a grape variety with empty throws 400")
+    void testUpdateGrapeVarietyWithEmpty() throws Exception {
+
+        GrapeVarieties grapeVarieties = new GrapeVarieties("Alcoa");
+        grapeVarietiesRepository.save(grapeVarieties);
+        String jsonUpdateRequest = "{\"name\": \"\"}";
+
+        mockMvc.perform(patch("/api/v1/grapeVarieties/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("{\"name\":\"Insert a valid grape variety name\"}"));
+    }
+
+
 }
