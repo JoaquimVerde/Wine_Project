@@ -163,4 +163,17 @@ class RegionControllerTest {
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Test create a region with letter punctuation")
+    void testCreateRegionWithELetterPunctuation() throws Exception {
+        // Given a JSON request with character punctuation
+        String jsonRequest = "{\"name\": \"Península\"}";
+
+        // When trying to create a region with character punctuation
+        mockMvc.perform(post("/api/v1/regions/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isCreated());
+    }
 }

@@ -10,6 +10,7 @@ import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
+import backend.Wine_Project.service.EmailService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import com.itextpdf.text.*;
@@ -28,16 +29,17 @@ public class OrderServiceImp implements OrderService {
     private final OrderRepository orderRepository;
     private final ShoppingCartServiceImp shoppingCartService;
 
+    private final EmailService emailService;
+
 
 
 
 
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService) {
+    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.shoppingCartService = shoppingCartService;
-
-
+        this.emailService = emailService;
     }
 
     @Override
@@ -65,6 +67,8 @@ public class OrderServiceImp implements OrderService {
         } catch (PdfNotFoundException e) {
             throw new PdfNotFoundException(e.getMessage());
         }
+
+        emailService.sendEmailWithAttachment(newOrder.getClient().getEmail(), path, "invoice_"+newOrder.getId()+".pdf",newOrder.getClient().getName());
 
 
         shoppingCartService.closeShoppingCart(shoppingCart);

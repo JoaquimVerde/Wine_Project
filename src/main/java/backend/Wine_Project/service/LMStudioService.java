@@ -25,7 +25,7 @@ public class LMStudioService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
 
-        String requestBody = "{\"prompt\": \"" + textToProcess + "\",\"temp\":0.1,\"n_predict\":300}";
+        String requestBody = "{\"prompt\": \"" + textToProcess + "\",\"temp\":0.1,\"n_predict\":200, \"max_tokens\":150}";
 
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);

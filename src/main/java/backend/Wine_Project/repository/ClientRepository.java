@@ -13,10 +13,12 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
 
     Optional<Client> findClientByEmail(String email);
+    Optional<Client> findClientByNif(int nif);
+
+
     @Modifying
     @Transactional
     @Query(value = "ALTER TABLE client AUTO_INCREMENT = 1", nativeQuery = true)
     void resetAutoIncrement();
 
-    Optional<Client> findClientByNif(int nif);
 }

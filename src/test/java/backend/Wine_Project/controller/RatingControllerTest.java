@@ -51,7 +51,7 @@ class RatingControllerTest {
     @DisplayName("Test create a rating and returns a status code 201")
     void testCreateRatingAndReturnsStatus201() throws Exception {
         //Given
-        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rating\": 5}";
+        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rate\": 5}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/ratings/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJason))
@@ -61,7 +61,7 @@ class RatingControllerTest {
     @DisplayName("Test create a rating with invalid client id and returns a status code 404")
     void testCreateRatingWithInvalidClientIdAndReturnsStatus404() throws Exception {
         //Given
-        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rating\": 5}";
+        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rate\": 5}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/ratings/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJason))
@@ -72,7 +72,7 @@ class RatingControllerTest {
     @DisplayName("Test create a rating with invalid wine id and returns a status code 404")
     void testCreateRatingWithInvalidWineIdAndReturnsStatus404() throws Exception {
         //Given
-        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rating\": 6}";
+        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rate\": 5}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/ratings/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJason))
@@ -83,7 +83,7 @@ class RatingControllerTest {
     @DisplayName("Test create a rating with invalid rating and returns a status code 400")
     void testCreateRatingWithInvalidRatingAndReturnsStatus400() throws Exception {
         //Given
-        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rating\": 6.0}";
+        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rate\": 6}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/ratings/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJason))
@@ -93,7 +93,7 @@ class RatingControllerTest {
     @DisplayName("Test create a rating with invalid rating and returns a status code 400")
     void testCreateRatingWithInvalidRatingAndReturnsStatus400_2() throws Exception {
         //Given
-        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rating\": -1}";
+        String ratingJason = "{\"clientId\": 1, \"wineId\": 1, \"rate\": -1}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/ratings/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(ratingJason))
