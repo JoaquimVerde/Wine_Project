@@ -147,20 +147,13 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
 
     public void closeShoppingCart(ShoppingCart shoppingCart) {
-        Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(shoppingCart.getId());
 
-        if (!shCartOptional.isPresent()) {
-            throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
-        }
-
-        if (shCartOptional.get().isOrdered()) {
+        if (shoppingCart.isOrdered()) {
             throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
         }
 
-        ShoppingCart shCartToClose = shCartOptional.get();
-
-        shCartToClose.setOrdered(true);
-        shoppingCartRepository.save(shCartToClose);
+        shoppingCart.setOrdered(true);
+        shoppingCartRepository.save(shoppingCart);
 
     }
 
