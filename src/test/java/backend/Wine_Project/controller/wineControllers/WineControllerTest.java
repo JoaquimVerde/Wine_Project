@@ -322,7 +322,7 @@ public class WineControllerTest {
     }
 
     @Test
-    @DisplayName("Test delete wine that was rated throws exception")
+    @DisplayName("Test delete wine that was rated throws exception and 409")
     void testDeleteWineThatWasRated() throws Exception {
 
         //Given wine in DB that was already rated
@@ -344,7 +344,7 @@ public class WineControllerTest {
     }
 
     @Test
-    @DisplayName("Test delete wine that was ordered throws exception")
+    @DisplayName("Test delete wine that was ordered throws exception and 409")
     void testDeleteWineThatWasOrdered() throws Exception {
 
         //Given wine in DB that was already ordered
