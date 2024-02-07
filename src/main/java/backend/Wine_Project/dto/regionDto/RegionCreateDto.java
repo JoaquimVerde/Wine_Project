@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
 public record RegionCreateDto(
         @NotNull
         @NotBlank(message = "Insert a valid region name")
-        @Pattern(regexp = "^[\\w\\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]+$", message = "insert a valid Region name")
+        @Pattern(regexp = "^[\\w\\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]+$", message = "Insert a valid region name")
         String name
 ) {
 }
