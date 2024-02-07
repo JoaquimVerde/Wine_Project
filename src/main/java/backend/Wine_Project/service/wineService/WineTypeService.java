@@ -18,4 +18,5 @@ public interface WineTypeService {
 
     Set<WineReadDto> getWinesByType(Long wineTypeId);
 
+    void updateWineType(Long id, WineTypeCreateDto wine);
 }

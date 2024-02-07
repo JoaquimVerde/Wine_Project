@@ -17,4 +17,5 @@ public interface GrapeVarietiesService {
     GrapeVarieties getById(Long id);
 
 
+    void updateGrapeVariety(Long id, GrapeVarietiesDto grape);
 }
