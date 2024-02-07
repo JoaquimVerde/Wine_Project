@@ -16,7 +16,7 @@ public enum Messages {
     WINE_TYPE_ID_NOT_FOUND("Wine Type Id Not Found! "),
 
 
-    ITEM_ALREADY_EXISTS("This item is already in shopping cart. May be you want to update the quantity! "),
+    ITEM_ALREADY_EXISTS("This item is already exists in database with id: "),
     ITEM_ID_NOT_FOUND("Item Id Not Found! "),
     SHOPPING_CART_NOT_FOUND("Shopping cart Id not found!"),
     SHOPPING_CART_CANNOT_BE_DELETE("This Shopping cart cannot be deleted. It's already been ordered!"),
@@ -46,7 +46,8 @@ public enum Messages {
     GRAPE_VARIETY_ALREADY_EXISTS("Grape variety already exists, please use one in the database"),
 
     ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order."),
-    WINE_WAS_ORDERED_OR_RATED("That wine was ordered or rated and cannot be deleted. Wine Id: ");
+    WINE_WAS_ORDERED_OR_RATED("That wine was ordered or rated and cannot be deleted. Wine Id: "),
+    WINE_ID_MUST_NOT_BE_LESS_THAN_1("Wine id must not be less than 1");
 
 
 

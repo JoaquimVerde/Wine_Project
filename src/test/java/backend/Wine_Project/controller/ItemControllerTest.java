@@ -1,11 +1,13 @@
 package backend.Wine_Project.controller;
 
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
+import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.ItemRepository;
 import backend.Wine_Project.repository.WineRepository;
 import backend.Wine_Project.repository.WineTypeRepository;
+import backend.Wine_Project.util.Messages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,11 +43,11 @@ class ItemControllerTest {
     @BeforeEach
     void setUp() throws Exception {
         objectMapper = new ObjectMapper();
-
-      itemRepository.deleteAll();
+        itemRepository.deleteAll();
+        itemRepository.resetAutoIncrement();
         wineRepository.deleteAll();
-        wineTypeRepository.deleteAll();
         wineRepository.resetAutoIncrement();
+        wineTypeRepository.deleteAll();
         wineTypeRepository.resetAutoIncrement();
 
     }
@@ -111,4 +113,53 @@ class ItemControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)));
     }
+
+    @Test
+    @DisplayName("Test create an item already exists throws exception")
+    void testCreateItemAlreadyExistsThrowsException() throws Exception {
+
+        Wine wine = new Wine();
+
+        Item item = new Item(wine, 2);
+        itemRepository.save(item);
+
+        String itemCreateJson = "{\"wineId\": 1, \"quantity\": 2}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/items//")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(itemCreateJson))
+                .andExpect(status().isConflict())
+                .andExpect(content().string(Messages.ITEM_ALREADY_EXISTS.getMessage() + 1));
+
+    }
+
+    @Test
+    @DisplayName("Test create an item with wine id less than 1 throws status code 400")
+    void testCreateItemWithWineIdLessThan1() throws Exception {
+
+        String itemCreateJson = "{\"wineId\": -1, \"quantity\": 2}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/items/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(itemCreateJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(Messages.WINE_ID_MUST_NOT_BE_LESS_THAN_1.getMessage()));
+
+    }
+
+    @Test
+    @DisplayName("Test create an item with wine id empty throws status code 400")
+    void testCreateItemWithWineIdEmpty() throws Exception {
+
+        String itemCreateJson = "{\"wineId\": , \"quantity\": 2}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/items/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(itemCreateJson))
+                .andExpect(status().isBadRequest());
+    }
+
+
+
+
 }

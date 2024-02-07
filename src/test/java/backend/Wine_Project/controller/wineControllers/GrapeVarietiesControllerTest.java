@@ -141,7 +141,7 @@ class GrapeVarietiesControllerTest {
 
     @Test
     @DisplayName("Test create a grape variety with letter punctuation")
-    void testCreateGrapeVarietyWithELetterPunctuation() throws Exception {
+    void testCreateGrapeVarietyWithLetterPunctuation() throws Exception {
         // Given a JSON request with empty character punctuation
         String jsonRequest = "{\"name\": \"Castelão\"}";
 
@@ -151,5 +151,4 @@ class GrapeVarietiesControllerTest {
                         .content(jsonRequest))
                 .andExpect(status().isCreated());
     }
-
 }
