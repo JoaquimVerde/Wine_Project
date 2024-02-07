@@ -17,7 +17,7 @@ public class EmailService {
                 email.setSmtpPort(587); // or your SMTP port
                 email.setAuthenticator(new DefaultAuthenticator("joaquim.verde@gmail.com", "bwqa sxyu bkcp lqca"));
                 email.setStartTLSRequired(true); // If using TLS
-                email.setFrom("joaquim.verde@gmail.com");
+                email.setFrom("Wine_Project@gmail.com");
                 email.addTo(recipientEmail);
                 email.setSubject("Order Invoice: "+ fileName);
                 email.setMsg("Dear "+costumerName+",\n\n\n I hope this email finds you well.\n\n Sending your order invoice in the attachment.\n\n\n" +
