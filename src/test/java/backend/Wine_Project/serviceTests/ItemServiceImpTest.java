@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -82,7 +83,7 @@ class ItemServiceImpTest {
         // Verify interactions
         verify(wineService, times(1)).getById(wineId);
         verify(itemRepository, times(1)).findByWineAndQuantity(wine, 1);
-        //verify(itemRepository, times(1)).save(itemToSave);
+        verify(itemRepository, times(1)).save(ArgumentMatchers.any(Item.class));
 
         // Assertions
        assertThat(itemId).isEqualTo(itemToSave.getId());
