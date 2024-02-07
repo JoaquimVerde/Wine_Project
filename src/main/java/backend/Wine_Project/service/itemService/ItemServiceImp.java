@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ItemServiceImp implements ItemService{
+public class ItemServiceImp implements ItemService {
 
     private final ItemRepository itemRepository;
     private final WineService wineService;
@@ -29,7 +29,6 @@ public class ItemServiceImp implements ItemService{
     }
 
 
-
     @Override
     public List<ItemGetDto> getAll() {
         List<Item> items = this.itemRepository.findAll();
@@ -37,7 +36,6 @@ public class ItemServiceImp implements ItemService{
                 .map(ItemConverter::fromModelToItemGetDto)
                 .toList();
     }
-
 
 
     @Override
@@ -57,9 +55,8 @@ public class ItemServiceImp implements ItemService{
     }
 
 
-
     @Override
-    public Item getById(Long id){
+    public Item getById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id must not be null");
         }

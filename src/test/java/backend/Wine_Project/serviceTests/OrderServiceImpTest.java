@@ -23,6 +23,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(SpringExtension.class)
 public class OrderServiceImpTest {
 
@@ -49,14 +50,14 @@ public class OrderServiceImpTest {
         GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
         Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
         grapeVarietiesSet.add(grapeVarieties);
-        Wine wine = new Wine("Papa Figos", wineType,region,7.99,12,2020,grapeVarietiesSet);
-        Item item1 = new Item(wine,3);
-        Client client = new Client("Joaquim","jverde@email.com",112343233);
+        Wine wine = new Wine("Papa Figos", wineType, region, 7.99, 12, 2020, grapeVarietiesSet);
+        Item item1 = new Item(wine, 3);
+        Client client = new Client("Joaquim", "jverde@email.com", 112343233);
 
         Set<Item> items = new HashSet<>();
         items.add(item1);
 
-        Item item2 = new Item(wine,4);
+        Item item2 = new Item(wine, 4);
         Set<Item> items2 = new HashSet<>();
         items2.add(item2);
 
@@ -81,9 +82,9 @@ public class OrderServiceImpTest {
         GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
         Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
         grapeVarietiesSet.add(grapeVarieties);
-        Wine wine = new Wine("Papa Figos", wineType,region,7.99,12,2020,grapeVarietiesSet);
-        Item item1 = new Item(wine,3);
-        Client client = new Client("Joaquim","jverde@email.com",112343233);
+        Wine wine = new Wine("Papa Figos", wineType, region, 7.99, 12, 2020, grapeVarietiesSet);
+        Item item1 = new Item(wine, 3);
+        Client client = new Client("Joaquim", "jverde@email.com", 112343233);
 
         Set<Item> items = new HashSet<>();
         items.add(item1);
@@ -99,8 +100,8 @@ public class OrderServiceImpTest {
 
     @Test
     public void createOrderThrowsExceptionWhenOrderExists() {
-        Order order = new Order(new ShoppingCart(new Client(),new HashSet<Item>()));
+        Order order = new Order(new ShoppingCart(new Client(), new HashSet<Item>()));
         orderRepositoryMock.save(order);
-      when(orderRepositoryMock.findById(1L)).thenReturn(Optional.of(order));
-   }
+        when(orderRepositoryMock.findById(1L)).thenReturn(Optional.of(order));
+    }
 }
