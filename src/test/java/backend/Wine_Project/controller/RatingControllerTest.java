@@ -70,7 +70,7 @@ class RatingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ratingJason))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage() + 1));
+                .andExpect(content().string(Messages.CLIENT_ID_NOT_FOUND.getMessage() + 1));
     }
 
     @Test
@@ -82,7 +82,7 @@ class RatingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ratingJason))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage() + 1));
+                .andExpect(content().string(Messages.CLIENT_ID_NOT_FOUND.getMessage() + 1));
     }
 
     @Test
