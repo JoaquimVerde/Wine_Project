@@ -258,4 +258,44 @@ class OrderControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Test update order to false returns 200 and does not send email")
+    void testUpdateOrderToFalseReturns200AndDoesNotSendEmail() throws Exception {
+
+        Set<Item> items = new HashSet<>();
+        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        clientRepository.save(client);
+        ShoppingCart shoppingCart = new ShoppingCart(client, items);
+        shoppingCartRepository.save(shoppingCart);
+        Order order = new Order(shoppingCart);
+        orderRepository.save(order);
+
+        String orderUpdateJson = "{\"isPaid\":\"false\"}";
+
+        mockMvc.perform(patch("/api/v1/wine_orders/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderUpdateJson))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test update order with invalid JSon returns 400")
+    void testUpdateOrderWithInvalidJson() throws Exception {
+
+        Set<Item> items = new HashSet<>();
+        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        clientRepository.save(client);
+        ShoppingCart shoppingCart = new ShoppingCart(client, items);
+        shoppingCartRepository.save(shoppingCart);
+        Order order = new Order(shoppingCart);
+        orderRepository.save(order);
+
+        String orderUpdateJson = "{\"isPaid\":\"fal\"}";
+
+        mockMvc.perform(patch("/api/v1/wine_orders/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderUpdateJson))
+                .andExpect(status().isBadRequest());
+    }
+
 }

@@ -149,15 +149,20 @@ public class OrderServiceImp implements OrderService {
         Order orderToUpdate = orderOptional.get();
 
         orderToUpdate.setPaid(order.isPaid());
-        String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+orderToUpdate.getId()+".pdf";
-        orderToUpdate.setInvoicePath(path);
-        try {
-            generatePdfInvoice(orderToUpdate);
-        } catch (PdfNotFoundException e) {
-            throw new PdfNotFoundException(e.getMessage());
-        }
+        orderRepository.save(orderToUpdate);
+        if(orderToUpdate.isPaid()){
 
-        emailService.sendEmailWithAttachment(orderToUpdate.getClient().getEmail(), path, "invoice_"+orderToUpdate.getId()+".pdf",orderToUpdate.getClient().getName());
+            String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+orderToUpdate.getId()+".pdf";
+            orderToUpdate.setInvoicePath(path);
+            try {
+                generatePdfInvoice(orderToUpdate);
+            } catch (PdfNotFoundException e) {
+                throw new PdfNotFoundException(e.getMessage());
+            }
+
+            emailService.sendEmailWithAttachment(orderToUpdate.getClient().getEmail(),
+                    path, "invoice_"+orderToUpdate.getId()+".pdf",orderToUpdate.getClient().getName());
+        }
 
         orderRepository.save(orderToUpdate);
     }
