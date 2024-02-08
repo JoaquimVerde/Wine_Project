@@ -6,6 +6,7 @@ import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.RegionService;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -36,6 +37,7 @@ public class RegionController {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - The region already existed")
     })
+    @Parameter(name = "region", description = "RegionCreateDto object to be created", example = "name: Douro")
     @PostMapping("/")
     public ResponseEntity<String> addNewRegion(@Valid @RequestBody RegionCreateDto regionCreateDto){
         regionService.create(regionCreateDto);
@@ -46,6 +48,7 @@ public class RegionController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieve"),
             @ApiResponse(responseCode = "404", description = "Not found - The region was not found"),
     })
+    @Parameter(name = "regionId", description = "Region id to retrieve wines", example = "1")
     @GetMapping(path = "{regionId}")
     public ResponseEntity<Set<WineReadDto>> getWinesByRegionId(@PathVariable("regionId") Long regionId) {
         return new ResponseEntity<>(regionService.getWinesByRegion(regionId), HttpStatus.OK);
@@ -54,6 +57,7 @@ public class RegionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the regions already existed")})
+    @Parameter(name = "regions", description = "List of RegionCreateDto objects to be created", example = "[name: Douro, name: Alentejo]")
     @PostMapping("/addRegions")
     public ResponseEntity<List<RegionCreateDto>> addNewRegions(@Valid@RequestBody List<RegionCreateDto> regions) {
         return new ResponseEntity<>(regionService.createRegions(regions), HttpStatus.CREATED);
@@ -64,6 +68,7 @@ public class RegionController {
             @ApiResponse(responseCode = "200", description = "Successfully updated"),
             @ApiResponse(responseCode = "404", description = "Not Found - The region id doesn't exist")
     })
+    @Parameter(name = "regionID", description = "Region id to be updated",example = "1")
     @PatchMapping(path = "{regionID}")
     public ResponseEntity<String> updateRegion(@PathVariable("regionID") Long id, @Valid @RequestBody RegionCreateDto region) {
         regionService.updateRegion(id, region);

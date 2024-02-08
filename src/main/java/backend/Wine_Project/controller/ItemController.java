@@ -4,6 +4,7 @@ import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.itemDto.ItemGetDto;
 import backend.Wine_Project.service.itemService.ItemServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,14 @@ public class ItemController {
     }
     @Operation(summary = "Get all items", description = "Returns all items")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all items")
+    @Parameter(name = "pageNumber", description = "Page number to retrieve", example = "1")
     @GetMapping("/")
     public ResponseEntity<List<ItemGetDto>> getItems() {
         return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
     }
     @Operation(summary = "Create new order", description = "Create a new order with given parameters")
     @ApiResponse(responseCode = "201", description = "Successfully created")
+    @Parameter(name = "item", description = "ItemCreateDto object to be created", example = "name: Wine, quantity: 2, price: 20.0")
     @PostMapping("/")
     public ResponseEntity<Long> addNewOrder(@RequestBody ItemCreateDto item) {
         return new ResponseEntity<>(itemService.create(item), HttpStatus.CREATED);
