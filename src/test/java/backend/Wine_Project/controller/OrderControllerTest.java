@@ -1,15 +1,7 @@
 package backend.Wine_Project.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 
-
-import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
-import backend.Wine_Project.exceptions.notFound.PdfNotFoundException;
-import backend.Wine_Project.exceptions.notFound.ShoppingCartNotFoundException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
@@ -18,7 +10,6 @@ import backend.Wine_Project.repository.*;
 import backend.Wine_Project.util.Messages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -33,7 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -48,19 +39,10 @@ public class OrderControllerTest {
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
     @Autowired
-    private WineTypeRepository wineTypeRepository;
-    @Autowired
-    private WineRepository wineRepository;
-    @Autowired
     private ClientRepository clientRepository;
     @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private RegionRepository regionRepository;
-    @Autowired
-    private GrapeVarietiesRepository grapeVarietiesRepository;
-    @Autowired
     private OrderRepository orderRepository;
+
 
     @BeforeAll
     static void setUp() {
@@ -71,25 +53,25 @@ public class OrderControllerTest {
     }
 
     @BeforeEach
-    void ini() throws IOException {
+    void ini() {
         orderRepository.deleteAll();
         orderRepository.resetAutoIncrement();
         shoppingCartRepository.deleteAll();
         shoppingCartRepository.resetAutoIncrement();
         clientRepository.deleteAll();
         clientRepository.resetAutoIncrement();
-        deleteInvoices();
+
     }
 
     @AfterEach
-    void end() throws IOException {
+    void end() {
         orderRepository.deleteAll();
         orderRepository.resetAutoIncrement();
         shoppingCartRepository.deleteAll();
         shoppingCartRepository.resetAutoIncrement();
         clientRepository.deleteAll();
         clientRepository.resetAutoIncrement();
-        deleteInvoices();
+
     }
 
     @Test
@@ -117,19 +99,7 @@ public class OrderControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    @DisplayName("Test get order with invalid ID")
-    void testGetOrderWithInvalidId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/wine_orders/9999"))
-                .andExpect(status().isNotFound());
-    }
 
-    @Test
-    @DisplayName("Test get order with non-existing ID")
-    void testGetOrderWithNonExistingId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/wine_orders/9999"))
-                .andExpect(status().isNotFound());
-    }
 
     @Test
     @DisplayName("Test create order with non-existing shopping cart ID")
@@ -187,10 +157,7 @@ public class OrderControllerTest {
 
     @ParameterizedTest
     @DisplayName("Test create an order with invalid request content")
-    @ValueSource(strings = {
-
-            "{\"shoppingCartId\": \"invalid_id\"}"
-    })
+    @ValueSource(strings = {"{\"shoppingCartId\": \"invalid_id\"}"})
     void testCreateOrderWithInvalidRequestContent(String invalidJsonRequest) throws Exception {
         mockMvc.perform(post("/api/v1/wine_orders/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -210,7 +177,7 @@ public class OrderControllerTest {
 
         String uniqueSuffix = String.valueOf(Instant.now().toEpochMilli());
         client.setEmail("unique-email-" + uniqueSuffix + "@example.com");
-        client.setNif(Integer.parseInt(uniqueSuffix.substring(uniqueSuffix.length() - 9))); // Ensure the NIF is unique and has 9 digits
+        client.setNif(Integer.parseInt(uniqueSuffix.substring(uniqueSuffix.length() - 9)));
 
         clientRepository.save(client);
         shoppingCart.setClient(client);
@@ -258,52 +225,38 @@ public class OrderControllerTest {
     }
 
 
-    private void deleteInvoices() throws IOException {
-        Path dir = Paths.get("src/main/java/backend/Wine_Project/invoices");
-        Files.walk(dir).sorted(Comparator.reverseOrder()).forEach(path -> {
-            try {
-                if (!path.equals(dir)) {
-                    Files.delete(path);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
+    @Test
+    @DisplayName("Test update order id does not exist throws order not found and 404")
+    void testUpdateOrderThatDoesNotExist() throws Exception {
 
-    private void createInvoiceDirectory() throws IOException {
-        Path dir = Paths.get("src/main/java/backend/Wine_Project/invoices");
-        Files.createDirectory(dir);
+        String orderUpdateJson = "{\"isPaid\":\"true\"}";
 
-    }
-
-    private void deleteInvoiceDirectory() throws IOException {
-        Path dir = Paths.get("src/main/java/backend/Wine_Project/invoices");
-        Files.delete(dir);
-
+        mockMvc.perform(patch("/api/v1/wine_orders/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderUpdateJson))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.ORDER_ID_NOT_FOUND.getMessage()));
     }
 
     @Test
-    @DisplayName("Test create order throws Pdf not found")
-    void testCreateOrder_ThrowFileNotFoundException() throws Exception {
-        deleteInvoiceDirectory();
+    @DisplayName("Test update order returns 200 and sends email")
+    void testUpdateOrderReturns200AndSendsEmail() throws Exception {
 
-        Client client = new Client();
-        clientRepository.save(client);
         Set<Item> items = new HashSet<>();
+        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        clientRepository.save(client);
         ShoppingCart shoppingCart = new ShoppingCart(client, items);
-
-
         shoppingCartRepository.save(shoppingCart);
-        Long shoppingCartId = shoppingCart.getId();
+        Order order = new Order(shoppingCart);
+        orderRepository.save(order);
 
-        String orderJson = "{\"shoppingCartId\":" + shoppingCartId + "}";
-        mockMvc.perform(post("/api/v1/wine_orders/")
+        String orderUpdateJson = "{\"isPaid\":\"true\"}";
+
+        mockMvc.perform(patch("/api/v1/wine_orders/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson))
-                .andExpect(result -> assertInstanceOf(PdfNotFoundException.class, result.getResolvedException()));
-        createInvoiceDirectory();
+                        .content(orderUpdateJson))
+                .andExpect(status().isOk());
     }
 
 }

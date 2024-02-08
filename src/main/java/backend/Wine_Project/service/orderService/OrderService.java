@@ -2,6 +2,7 @@ package backend.Wine_Project.service.orderService;
 
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.dto.orderDto.OrderUpdateDto;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 
@@ -16,4 +17,6 @@ public interface OrderService {
     void generatePdfInvoice(Order order);
 
     String printInvoice(ShoppingCart shoppingCart);
+
+    void updateOrder(Long id, OrderUpdateDto order);
 }

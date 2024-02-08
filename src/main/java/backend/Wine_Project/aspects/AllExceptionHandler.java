@@ -28,7 +28,7 @@ public class AllExceptionHandler {
     @ExceptionHandler(value = {WineNotFoundException.class, ClientIdNotFoundException.class, GrapeVarietyIdNotFoundException.class,
 
             RegionIdNotFoundException.class, WineIdNotFoundException.class, WineTypeIdNotFoundException.class, PdfNotFoundException.class,ItemIdNotFoundException.class,
-            ShoppingCartNotFoundException.class})
+            ShoppingCartNotFoundException.class, OrderIdNotFoundException.class})
     public ResponseEntity<String> handleIdNotFound(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body((exception.getMessage()));

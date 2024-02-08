@@ -17,6 +17,8 @@ public class Order {
     @Column
     private String invoicePath;
 
+    private boolean isPaid;
+
     public Order() {
     }
 
@@ -65,6 +67,14 @@ public class Order {
 
     public void setInvoicePath(String invoicePath) {
         this.invoicePath = invoicePath;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 }
 
