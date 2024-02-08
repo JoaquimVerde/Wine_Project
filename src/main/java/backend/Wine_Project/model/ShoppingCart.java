@@ -1,5 +1,6 @@
 package backend.Wine_Project.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -12,11 +13,15 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "Client",type = "Client",example = "João")
     @ManyToOne
     private Client client;
+    @Schema(description = "Items",type = "Set",example = "[Quinta do Crasto]")
     @ManyToMany
     private Set<Item> items;
+    @Schema(description = "Total amount",type = "double",example = "100.0")
     double totalAmount;
+    @Schema(description = "Ordered",type = "boolean",example = "false")
     private boolean ordered;
 
     public ShoppingCart() {

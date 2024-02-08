@@ -1,6 +1,7 @@
 package backend.Wine_Project.model;
 
 import backend.Wine_Project.model.wine.Wine;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,9 +10,12 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "Wine",type = "Wine",example = "Quinta do Crasto")
     @OneToOne(cascade = CascadeType.ALL)
     private Wine wine;
+    @Schema(description = "Quantity",type = "int",example = "2")
     private int quantity;
+    @Schema(description = "Total price",type = "double",example = "20.0")
     private double totalPrice;
 
     public Item() {

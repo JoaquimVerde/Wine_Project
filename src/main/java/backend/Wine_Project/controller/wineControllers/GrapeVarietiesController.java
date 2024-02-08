@@ -6,6 +6,8 @@ import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -38,6 +40,7 @@ public class GrapeVarietiesController {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - The grape variety already existed")
     })
+    @Parameters(value = {@Parameter(name = "Touriga Nacional", description = "The grape variety name", required = true, example = "Touriga Nacional")})
     @PostMapping("/")
     public ResponseEntity<String> addNewGrapeVariety(@Valid @RequestBody GrapeVarietiesDto grapeVarietiesDto){
         grapeVarietiesService.create(grapeVarietiesDto);

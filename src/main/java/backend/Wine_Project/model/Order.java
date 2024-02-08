@@ -1,19 +1,24 @@
 package backend.Wine_Project.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "wine_order")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "Client",type = "Client",example = "João")
     @ManyToOne
     private Client client;
+    @Schema(description = "Total price",type = "double",example = "100")
     private double totalPrice;
+    @Schema(description = "Shopping cart",type = "ShoppingCart",example = "ShoppingCart")
     @OneToOne
     private ShoppingCart shoppingCart;
-
+    @Schema(description = "Invoice path",type = "string",example = "C:/Users/João/Downloads/invoice.pdf")
     @Column
     private String invoicePath;
 
