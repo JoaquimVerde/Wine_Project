@@ -1,5 +1,6 @@
 package backend.Wine_Project.serviceTests;
 
+import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
@@ -25,8 +26,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
-public class OrderServiceImpTest {
+class OrderServiceImpTest {
 
 
     private OrderServiceImp orderServiceImp;
@@ -44,7 +46,7 @@ public class OrderServiceImpTest {
     }
 
     @Test
-    public void getAllOrdersReturnsExpectedOrders() {
+    void getAllOrdersReturnsExpectedOrders() {
         Region region = new Region("Alentejo");
         WineType wineType = new WineType("Branco");
         GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
@@ -76,7 +78,7 @@ public class OrderServiceImpTest {
     }
 
     @Test
-    public void insertSameItemInOrdersThrowsException() {
+    void insertSameItemInOrdersThrowsException() {
         Region region = new Region("Alentejo");
         WineType wineType = new WineType("Branco");
         GrapeVarieties grapeVarieties = new GrapeVarieties("Touriga");
@@ -98,10 +100,18 @@ public class OrderServiceImpTest {
 
     }
 
+
     @Test
-    public void createOrderThrowsExceptionWhenOrderExists() {
-        Order order = new Order(new ShoppingCart(new Client(), new HashSet<Item>()));
-        orderRepositoryMock.save(order);
+    void createOrderThrowsExceptionWhenOrderExists() {
+        Client client = new Client();
+        client.setEmail("test@test.com");
+        ShoppingCart shoppingCart = new ShoppingCart(client, new HashSet<>());
+        shoppingCart.setOrdered(true);
+        Order order = new Order(shoppingCart);
+        order.setId(1L);
         when(orderRepositoryMock.findById(1L)).thenReturn(Optional.of(order));
+        when(shoppingCartServiceMock.getById(anyLong())).thenReturn(shoppingCart);
+
+        assertThrows(ShoppingCartAlreadyBeenOrderedException.class, () -> orderServiceImp.create(new OrderCreateDto(1L)));
     }
 }

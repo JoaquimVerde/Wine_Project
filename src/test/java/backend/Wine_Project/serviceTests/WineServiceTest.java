@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
-public class WineServiceTest {
+class WineServiceTest {
 
     private WineServiceImp wineServiceImp;
     @MockBean
@@ -38,7 +38,7 @@ public class WineServiceTest {
 
     @BeforeEach
     public void setUp() {
-        wineServiceImp = new WineServiceImp(wineRepositoryMock,grapeVarietiesServiceMock,regionServiceMock,wineTypeServiceMock);
+        wineServiceImp = new WineServiceImp(wineRepositoryMock, grapeVarietiesServiceMock, regionServiceMock, wineTypeServiceMock);
     }
 
     @Test
@@ -53,7 +53,6 @@ public class WineServiceTest {
         assertThrows(YearCannotBeFutureException.class, () -> wineServiceImp.create(wineCreateDto));
         assertEquals("Year cannot be future.", assertThrows(YearCannotBeFutureException.class, () -> wineServiceImp.create(wineCreateDto)).getMessage());
     }
-
 
 
 }

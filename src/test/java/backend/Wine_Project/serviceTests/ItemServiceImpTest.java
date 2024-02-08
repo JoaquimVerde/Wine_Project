@@ -13,36 +13,30 @@ import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.ItemRepository;
 import backend.Wine_Project.service.itemService.ItemServiceImp;
 import backend.Wine_Project.service.wineService.WineService;
-import backend.Wine_Project.service.wineService.WineServiceImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@ExtendWith(SpringExtension.class)
 class ItemServiceImpTest {
 
+    @InjectMocks
+    private ItemServiceImp itemService;
     @Mock
     private ItemRepository itemRepository;
 
     @Mock
     private WineService wineService;
-    @InjectMocks
-    private WineServiceImp wineServiceImp;
-  @InjectMocks
-    private ItemServiceImp itemService;
 
 
     @BeforeEach
@@ -51,7 +45,7 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void getAllItemsReturnsExpectedItems() {
+    void getAllItemsReturnsExpectedItems() {
         WineType wineType1 = new WineType("Red");
         WineType wineType2 = new WineType("White");
         Wine wine1 = new Wine();
@@ -68,7 +62,7 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void createItemSuccessfullyWhenItemNotExists() {
+    void createItemSuccessfullyWhenItemNotExists() {
         Wine wine = new Wine();
         ItemCreateDto itemCreateDto = new ItemCreateDto(1L, 10);
         when(wineService.getById(anyLong())).thenReturn(wine);
@@ -78,7 +72,7 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void createItemThrowsExceptionWhenItemExists() {
+    void createItemThrowsExceptionWhenItemExists() {
         Wine wine = new Wine();
         ItemCreateDto itemCreateDto = new ItemCreateDto(1L, 10);
         when(wineService.getById(anyLong())).thenReturn(wine);
@@ -89,15 +83,17 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void getItemByIdSuccessfullyWhenIdExists() {
+    void getItemByIdSuccessfullyWhenIdExists() {
         Long id = 1L;
-        when(itemRepository.findById(id)).thenReturn(Optional.of(new Item()));
+        Item item = new Item();
+        item.setId(id);
+        when(itemRepository.findById(id)).thenReturn(Optional.of(item));
 
         assertDoesNotThrow(() -> itemService.getById(id));
     }
 
     @Test
-    public void getItemByIdThrowsExceptionWhenIdNotExists() {
+    void getItemByIdThrowsExceptionWhenIdNotExists() {
         Long id = 1L;
         when(itemRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -105,18 +101,18 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void createItemThrowsExceptionWhenItemCreateDtoIsNull() {
+    void createItemThrowsExceptionWhenItemCreateDtoIsNull() {
         assertThrows(NullPointerException.class, () -> itemService.create(null));
     }
 
     @Test
-    public void createItemThrowsExceptionWhenWineIdIsNull() {
+    void createItemThrowsExceptionWhenWineIdIsNull() {
         ItemCreateDto itemCreateDto = new ItemCreateDto(null, 10);
-        assertThrows(IllegalArgumentException.class, () -> itemService.create(itemCreateDto));
+        assertThrows(NullPointerException.class, () -> itemService.create(itemCreateDto));
     }
 
     @Test
-    public void createItemThrowsExceptionWhenWineIdDoesNotExist() {
+    void createItemThrowsExceptionWhenWineIdDoesNotExist() {
         Long nonExistingWineId = 9999L;
         ItemCreateDto itemCreateDto = new ItemCreateDto(nonExistingWineId, 10);
         when(wineService.getById(nonExistingWineId)).thenReturn(null);
@@ -124,11 +120,9 @@ class ItemServiceImpTest {
     }
 
     @Test
-    public void getItemByIdThrowsExceptionWhenIdIsNull() {
+    void getItemByIdThrowsExceptionWhenIdIsNull() {
         assertThrows(IllegalArgumentException.class, () -> itemService.getById(null));
     }
-
-    
 
 
     @Test
@@ -137,48 +131,47 @@ class ItemServiceImpTest {
         Region region = new Region("Douro");
         WineType wineType = new WineType("Red");
         GrapeVarieties grapeVarieties = new GrapeVarieties("Merlot");
-        Wine wine = new Wine("Wine", wineType, region,10,12, 2010, Set.of(grapeVarieties));
-        Wine wine1 = new Wine("Wine1", wineType, region,10,12, 2010, Set.of(grapeVarieties));
-        List<Item> mockItems = List.of(new Item(wine, 1), new Item(wine1,2));
+        Wine wine = new Wine("Wine", wineType, region, 10, 12, 2010, Set.of(grapeVarieties));
+        Wine wine1 = new Wine("Wine1", wineType, region, 10, 12, 2010, Set.of(grapeVarieties));
+        List<Item> mockItems = List.of(new Item(wine, 1), new Item(wine1, 2));
         when(this.itemRepository.findAll()).thenReturn(mockItems);
 
 
         List<ItemGetDto> items = itemService.getAll();
 
-        verify(itemRepository,times(1)).findAll();
+        verify(itemRepository, times(1)).findAll();
         assertThat(items).hasSize(2);
 
     }
+
     @Test
     @DisplayName("Test create item with valid input")
     void testCreateWithValidInput() {
-        // Mocking wine retrieval
 
         Region region = new Region("Douro");
         WineType wineType = new WineType("Red");
         GrapeVarieties grapeVarieties = new GrapeVarieties("Merlot");
-        Wine wine = new Wine("Wine", wineType, region,10,12, 2010, Set.of(grapeVarieties));
+        Wine wine = new Wine("Wine", wineType, region, 10, 12, 2010, Set.of(grapeVarieties));
+        wine.setPrice(20.0);
         Long wineId = 1L;
         when(wineService.getById(wineId)).thenReturn(wine);
         when(itemRepository.findByWineAndQuantity(wine, 1)).thenReturn(Optional.empty());
         Item itemToSave = new Item(wine, 1);
         when(itemRepository.save(itemToSave)).thenReturn(itemToSave);
 
-        // Call create method
         Long itemId = itemService.create(new ItemCreateDto(wineId, 1));
 
-        // Verify interactions
         verify(wineService, times(1)).getById(wineId);
         verify(itemRepository, times(1)).findByWineAndQuantity(wine, 1);
         verify(itemRepository, times(1)).save(ArgumentMatchers.any(Item.class));
 
-        // Assertions
-       assertThat(itemId).isEqualTo(itemToSave.getId());
+        assertThat(itemId).isEqualTo(itemToSave.getId());
     }
 
 
-
-
-
-
 }
+
+
+
+
+

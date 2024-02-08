@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class OrderControllerTest {
+class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -88,7 +88,7 @@ public class OrderControllerTest {
         Set<Item> items = new HashSet<>();
         Client client = new Client();
         clientRepository.save(client);
-        ShoppingCart shoppingCart = new ShoppingCart(client,items);
+        ShoppingCart shoppingCart = new ShoppingCart(client, items);
         shoppingCartRepository.save(shoppingCart);
 
 
@@ -193,7 +193,6 @@ public class OrderControllerTest {
     }
 
 
-
     @Test
     @DisplayName("test get all orders when 2 orders in database")
     void testGetAllOrdersWhen2OrdersInDatabase() throws Exception {
@@ -202,7 +201,7 @@ public class OrderControllerTest {
         Set<Item> items = new HashSet<>();
         Client client = new Client("joasddas", "asdasd@email.com", 113746533);
         clientRepository.save(client);
-        ShoppingCart shoppingCart = new ShoppingCart(client,items);
+        ShoppingCart shoppingCart = new ShoppingCart(client, items);
         shoppingCartRepository.save(shoppingCart);
         Order order = new Order(shoppingCart);
         orderRepository.save(order);
@@ -210,7 +209,7 @@ public class OrderControllerTest {
         Set<Item> items2 = new HashSet<>();
         Client client2 = new Client();
         clientRepository.save(client2);
-        ShoppingCart shoppingCart2 = new ShoppingCart(client2,items2);
+        ShoppingCart shoppingCart2 = new ShoppingCart(client2, items2);
         shoppingCartRepository.save(shoppingCart2);
         Order order2 = new Order(shoppingCart2);
         orderRepository.save(order2);
