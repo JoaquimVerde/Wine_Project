@@ -57,5 +57,7 @@ public class Item {
         return itemString;
     }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

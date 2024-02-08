@@ -2,6 +2,7 @@ package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
+import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.service.wineService.WineTypeService;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.util.Messages;
@@ -58,6 +59,17 @@ public class WineTypeController{
     @PostMapping("/addWineTypes")
     public ResponseEntity<List<WineTypeCreateDto>> addNewWineTypes(@Valid@RequestBody List<WineTypeCreateDto> wineTypes) {
         return new ResponseEntity<>(wineTypeService.createWineTypes(wineTypes), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update wineType by wineType id", description = "Update a wineType certain parameters by wineType id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Not Found - The wineType id doesn't exist")
+    })
+    @PatchMapping(path = "{wineTypeID}")
+    public ResponseEntity<String> updateWineType(@PathVariable("wineTypeID") Long id, @Valid @RequestBody WineTypeCreateDto wine) {
+        wineTypeService.updateWineType(id, wine);
+        return new ResponseEntity<>("WineType successfully updated", HttpStatus.OK);
     }
 
 

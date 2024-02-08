@@ -5,13 +5,14 @@ import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartCreateDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartGetDto;
 import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
-import backend.Wine_Project.exceptions.*;
+import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.exceptions.ShoppingCartCannotBeDeletedException;
+import backend.Wine_Project.exceptions.ShoppingCartCannotBeUpdatedException;
 import backend.Wine_Project.exceptions.alreadyExists.AlreadyHaveShoppingCartToOrderException;
 import backend.Wine_Project.exceptions.notFound.ShoppingCartNotFoundException;
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.ShoppingCart;
-import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.repository.ShoppingCartRepository;
 import backend.Wine_Project.service.clientService.ClientService;
 import backend.Wine_Project.service.itemService.ItemService;
@@ -19,7 +20,10 @@ import backend.Wine_Project.service.wineService.WineService;
 import backend.Wine_Project.util.Messages;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ShoppingCartServiceImp implements ShoppingCartService {
@@ -29,17 +33,12 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     private final ClientService clientService;
     private final ItemService itemService;
 
-
-
-
     public ShoppingCartServiceImp(ShoppingCartRepository shoppingCartRepository, WineService wineService, ClientService clientService, ItemService itemService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.wineService = wineService;
         this.clientService = clientService;
         this.itemService = itemService;
     }
-
-
 
     @Override
     public List<ShoppingCartGetDto> getAll() {
@@ -148,20 +147,13 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
 
     public void closeShoppingCart(ShoppingCart shoppingCart) {
-        Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(shoppingCart.getId());
 
-        if (!shCartOptional.isPresent()) {
-            throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
-        }
-
-        if (shCartOptional.get().isOrdered()) {
+        if (shoppingCart.isOrdered()) {
             throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
         }
 
-        ShoppingCart shCartToClose = shCartOptional.get();
-
-        shCartToClose.setOrdered(true);
-        shoppingCartRepository.save(shCartToClose);
+        shoppingCart.setOrdered(true);
+        shoppingCartRepository.save(shoppingCart);
 
     }
 

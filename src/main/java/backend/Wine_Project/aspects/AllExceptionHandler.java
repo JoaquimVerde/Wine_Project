@@ -41,7 +41,7 @@ public class AllExceptionHandler {
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> validationsHandlerNotValid(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
@@ -54,7 +54,7 @@ public class AllExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler(value = {YearCannotBeFutureException.class, AlreadyHaveShoppingCartToOrderException.class})
+    @ExceptionHandler(value = {YearCannotBeFutureException.class, AlreadyHaveShoppingCartToOrderException.class, IllegalArgumentException.class})
     public ResponseEntity<String> handleBadRequest(Exception exception){
         logger.error(Messages.KNOWN_EXCEPTION.getMessage() + exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
