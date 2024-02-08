@@ -16,8 +16,9 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
+public class GrapeVarietiesServiceImp implements GrapeVarietiesService {
     private final GrapeVarietiesRepository grapeVarietiesRepository;
+
     @Autowired
     public GrapeVarietiesServiceImp(GrapeVarietiesRepository grapeVarietiesRepository) {
         this.grapeVarietiesRepository = grapeVarietiesRepository;
@@ -31,18 +32,19 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
     @Override
     public Long create(GrapeVarietiesDto modelCreateDto) {
         Optional<GrapeVarieties> grapeVarietiesOptional = grapeVarietiesRepository.findGrapeVarietiesByName(modelCreateDto.name());
-        if(grapeVarietiesOptional.isPresent())
+        if (grapeVarietiesOptional.isPresent())
             throw new GrapeVarietyAlreadyExistsException(Messages.GRAPE_VARIETY_ALREADY_EXISTS.getMessage());
         GrapeVarieties grapeVarieties = new GrapeVarieties(modelCreateDto.name());
         grapeVarietiesRepository.save(grapeVarieties);
         return grapeVarieties.getId();
     }
-    @Override
-    public List<GrapeVarietiesDto> createGrapeVarieties(List<GrapeVarietiesDto> grapeVarieties){
 
-        for (GrapeVarietiesDto grapeVariety: grapeVarieties) {
+    @Override
+    public List<GrapeVarietiesDto> createGrapeVarieties(List<GrapeVarietiesDto> grapeVarieties) {
+
+        for (GrapeVarietiesDto grapeVariety : grapeVarieties) {
             Optional<GrapeVarieties> grapeVarietiesOptional = grapeVarietiesRepository.findGrapeVarietiesByName(grapeVariety.name());
-            if(grapeVarietiesOptional.isPresent())
+            if (grapeVarietiesOptional.isPresent())
                 throw new GrapeVarietyAlreadyExistsException("Grape variety already exists, please use one in the database");
             GrapeVarieties newGrapeVariety = new GrapeVarieties(grapeVariety.name());
             grapeVarietiesRepository.save(newGrapeVariety);
@@ -59,6 +61,23 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService{
         }
 
         return optionalGrapeVarieties.get();
+    }
+
+    @Override
+    public void updateGrapeVariety(Long id, GrapeVarietiesDto grape) {
+
+        Optional<GrapeVarieties> grapeVarietyOptional = grapeVarietiesRepository.findById(id);
+        if (grapeVarietyOptional.isEmpty()) {
+            throw new GrapeVarietyIdNotFoundException(Messages.GRAPE_VARIETY_ID_NOT_FOUND.getMessage());
+        }
+
+        GrapeVarieties grapeVarietyToUpdate = grapeVarietyOptional.get();
+
+        if (grape.name() != null && grape.name().length() > 0 && !grape.name().equals(grapeVarietyToUpdate.getName())) {
+            grapeVarietyToUpdate.setName(grape.name());
+        }
+        grapeVarietiesRepository.save(grapeVarietyToUpdate);
+
     }
 
 }

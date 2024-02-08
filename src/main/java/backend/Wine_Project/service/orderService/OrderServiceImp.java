@@ -3,7 +3,9 @@ package backend.Wine_Project.service.orderService;
 import backend.Wine_Project.converter.OrderConverter;
 import backend.Wine_Project.dto.orderDto.OrderCreateDto;
 import backend.Wine_Project.dto.orderDto.OrderGetDto;
+import backend.Wine_Project.dto.orderDto.OrderUpdateDto;
 import backend.Wine_Project.exceptions.ShoppingCartAlreadyBeenOrderedException;
+import backend.Wine_Project.exceptions.notFound.OrderIdNotFoundException;
 import backend.Wine_Project.exceptions.notFound.PdfNotFoundException;
 import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
@@ -24,6 +26,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -59,21 +62,9 @@ public class OrderServiceImp implements OrderService {
         Order newOrder = new Order(shoppingCart);
         orderRepository.save(newOrder);
 
-        String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+newOrder.getId()+".pdf";
-        newOrder.setInvoicePath(path);
-        try {
-            generatePdfInvoice(newOrder);
-        } catch (PdfNotFoundException e) {
-            throw new PdfNotFoundException(e.getMessage());
-        }
-
-        emailService.sendEmailWithAttachment(newOrder.getClient().getEmail(), path, "invoice_"+newOrder.getId()+".pdf",newOrder.getClient().getName());
-
-
         shoppingCartService.closeShoppingCart(shoppingCart);
 
         orderRepository.save(newOrder);
-
 
         return newOrder.getId();
 
@@ -154,6 +145,35 @@ public class OrderServiceImp implements OrderService {
         int pageWidth = 120; // Assuming a standard page width
         int leftPadding = (pageWidth - lineLength) / 2;
         return " ".repeat(leftPadding) + text; // Add left padding
+    }
+
+    @Override
+    public void updateOrder(Long id, OrderUpdateDto order){
+
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderIdNotFoundException(Messages.ORDER_ID_NOT_FOUND.getMessage());
+        }
+
+        Order orderToUpdate = orderOptional.get();
+
+        orderToUpdate.setPaid(order.isPaid());
+        orderRepository.save(orderToUpdate);
+        if(orderToUpdate.isPaid()){
+
+            String path = "src/main/java/backend/Wine_Project/invoices/invoice_"+orderToUpdate.getId()+".pdf";
+            orderToUpdate.setInvoicePath(path);
+            try {
+                generatePdfInvoice(orderToUpdate);
+            } catch (PdfNotFoundException e) {
+                throw new PdfNotFoundException(e.getMessage());
+            }
+
+            emailService.sendEmailWithAttachment(orderToUpdate.getClient().getEmail(),
+                    path, "invoice_"+orderToUpdate.getId()+".pdf",orderToUpdate.getClient().getName());
+        }
+
+        orderRepository.save(orderToUpdate);
     }
 
 }

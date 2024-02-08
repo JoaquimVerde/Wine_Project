@@ -1,10 +1,8 @@
 package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
-import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.repository.RegionRepository;
-import backend.Wine_Project.service.wineService.RegionService;
 import backend.Wine_Project.util.Messages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -18,16 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -175,5 +170,49 @@ class RegionControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("Test update a region status code 200")
+    void testUpdateRegion() throws Exception {
+
+        Region region = new Region();
+        regionRepository.save(region);
+        String jsonUpdateRequest = "{\"name\": \"Península de Setúbal\"}";
+
+        mockMvc.perform(patch("/api/v1/regions/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Region successfully updated"));
+    }
+
+    @Test
+    @DisplayName("Test update a region that does not exist")
+    void testUpdateRegionThatDoesNotExist() throws Exception {
+
+        String jsonUpdateRequest = "{\"name\": \"Setúbal\"}";
+
+        // When trying to update a grape Variety that does not exist
+        mockMvc.perform(patch("/api/v1/regions/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.REGION_ID_NOT_FOUND.getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test update a region with empty throws 400")
+    void testUpdateRegionWithEmpty() throws Exception {
+
+        Region region = new Region("Península");
+        regionRepository.save(region);
+        String jsonUpdateRequest = "{\"name\": \"\"}";
+
+        mockMvc.perform(patch("/api/v1/regions/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("{\"name\":\"Insert a valid region name\"}"));
     }
 }

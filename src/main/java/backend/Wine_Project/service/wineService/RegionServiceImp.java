@@ -47,7 +47,7 @@ public class RegionServiceImp implements RegionService{
         for (RegionCreateDto region: regions) {
             Optional<Region> regionOptional = regionRepository.findByName(region.name());
             if(regionOptional.isPresent())
-                throw new RegionAlreadyExistsException("Region already exist, please use the region of database");
+                throw new RegionAlreadyExistsException(Messages.REGION_ALREADY_EXISTS.getMessage());
             Region newRegion = new Region(region.name());
             regionRepository.save(newRegion);
         }
@@ -71,5 +71,21 @@ public class RegionServiceImp implements RegionService{
             throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage() + regionId);
         }
         return WineConverter.fromSetOfWinesToSetOfWinesReadDto(regionRepository.findWinesByRegion(regionId));
+    }
+
+    @Override
+    public void updateRegion(Long id, RegionCreateDto region){
+
+        Optional<Region> regionOptional = regionRepository.findById(id);
+        if (regionOptional.isEmpty()) {
+            throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage());
+        }
+
+        Region regionToUpdate = regionOptional.get();
+
+        if (region.name() != null && region.name().length() > 0 && !region.name().equals(regionToUpdate.getName())) {
+            regionToUpdate.setName(region.name());
+        }
+        regionRepository.save(regionToUpdate);
     }
 }

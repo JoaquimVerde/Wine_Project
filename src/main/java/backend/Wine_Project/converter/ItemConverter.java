@@ -24,7 +24,7 @@ public class ItemConverter {
         );
     }
 
-    public static Set<ItemGetDto> fromModelListToItemGetDtoList(Set<Item> items){
+    public static Set<ItemGetDto> fromModelListToItemGetDtoList(Set<Item> items) {
         return items.stream().map(ItemConverter::fromModelToItemGetDto).collect(Collectors.toSet());
     }
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class WineTypeServiceImp implements WineTypeService{
+public class WineTypeServiceImp implements WineTypeService {
     private final WineTypeRepository wineTypeRepository;
 
     public WineTypeServiceImp(WineTypeRepository wineTypeRepository) {
@@ -33,17 +33,18 @@ public class WineTypeServiceImp implements WineTypeService{
     @Override
     public Long create(WineTypeCreateDto wineTypeCreateDto) {
         Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineTypeCreateDto.name());
-        if(wineTypeOptional.isPresent())
+        if (wineTypeOptional.isPresent())
             throw new WineTypeAlreadyExistsException(Messages.WINE_TYPE_ALREADY_EXISTS.getMessage());
         WineType wineType = new WineType(wineTypeCreateDto.name());
         wineTypeRepository.save(wineType);
         return wineType.getId();
     }
+
     @Override
-    public List<WineTypeCreateDto> createWineTypes(List<WineTypeCreateDto> wineTypes){
-        for (WineTypeCreateDto wineType: wineTypes) {
+    public List<WineTypeCreateDto> createWineTypes(List<WineTypeCreateDto> wineTypes) {
+        for (WineTypeCreateDto wineType : wineTypes) {
             Optional<WineType> wineTypeOptional = wineTypeRepository.findByName(wineType.name());
-            if(wineTypeOptional.isPresent())
+            if (wineTypeOptional.isPresent())
                 throw new WineTypeAlreadyExistsException(Messages.WINE_TYPE_ALREADY_EXISTS.getMessage());
             WineType newWineType = new WineType(wineType.name());
             wineTypeRepository.save(newWineType);
@@ -68,5 +69,22 @@ public class WineTypeServiceImp implements WineTypeService{
             throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage() + wineTypeId);
         }
         return WineConverter.fromSetOfWinesToSetOfWinesReadDto(wineTypeRepository.findWinesByType(wineTypeId));
+    }
+
+    @Override
+    public void updateWineType(Long id, WineTypeCreateDto wine) {
+
+        Optional<WineType> wineTypeOptional = wineTypeRepository.findById(id);
+        if (wineTypeOptional.isEmpty()) {
+            throw new WineTypeIdNotFoundException(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage());
+        }
+
+        WineType wineTypeToUpdate = wineTypeOptional.get();
+
+        if (wine.name() != null && wine.name().length() > 0 && !wine.name().equals(wineTypeToUpdate.getName())) {
+            wineTypeToUpdate.setName(wine.name());
+        }
+        wineTypeRepository.save(wineTypeToUpdate);
+
     }
 }

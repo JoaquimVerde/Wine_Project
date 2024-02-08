@@ -1,12 +1,7 @@
 package backend.Wine_Project.dto.wineDto;
 
-import backend.Wine_Project.model.wine.GrapeVarieties;
-import backend.Wine_Project.model.wine.Region;
-import backend.Wine_Project.model.wine.WineType;
-import jakarta.validation.constraints.*;
 
-import java.time.Year;
-import java.util.List;
+import jakarta.validation.constraints.*;
 import java.util.Set;
 
 public record WineCreateDto(

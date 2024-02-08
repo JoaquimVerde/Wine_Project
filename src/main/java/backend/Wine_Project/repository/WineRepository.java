@@ -1,6 +1,5 @@
 package backend.Wine_Project.repository;
 
-import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import jakarta.transaction.Transactional;
@@ -11,24 +10,21 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface WineRepository extends JpaRepository<Wine, Long> {
     Optional<Wine> findByNameAndWineTypeAndYear(String name, WineType wineType, int year);
 
 
-
     List<Wine> findByNameAndYear(String name, int year);
-    
+
 
     List<Wine> findByName(String name);
 
     List<Wine> findByYear(int year);
-    
+
 
     List<Wine> findByWineType(WineType wineType1);
 

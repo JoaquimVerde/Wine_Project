@@ -23,8 +23,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -157,5 +157,50 @@ class WineTypeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Test update a wineType status code 200")
+    void testUpdateWineType() throws Exception {
+
+        WineType wineType = new WineType();
+        wineTypeRepository.save(wineType);
+        String jsonUpdateRequest = "{\"name\": \"Branco\"}";
+
+        mockMvc.perform(patch("/api/v1/wineTypes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isOk())
+                .andExpect(content().string("WineType successfully updated"));
+    }
+
+    @Test
+    @DisplayName("Test update a WineType that does not exist")
+    void testUpdateWineTypeThatDoesNotExist() throws Exception {
+
+        String jsonUpdateRequest = "{\"name\": \"Branco\"}";
+
+        // When trying to update a grape Variety that does not exist
+        mockMvc.perform(patch("/api/v1/wineTypes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.WINE_TYPE_ID_NOT_FOUND.getMessage()));
+    }
+
+    @Test
+    @DisplayName("Test update a WineType with empty throws 400")
+    void testUpdateWineTypeWithEmpty() throws Exception {
+
+        WineType wineType = new WineType("Branco");
+        wineTypeRepository.save(wineType);
+
+        String jsonUpdateRequest = "{\"name\": \"\"}";
+
+        mockMvc.perform(patch("/api/v1/wineTypes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdateRequest))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("{\"name\":\"Insert a valid wineType name\"}"));
     }
 }

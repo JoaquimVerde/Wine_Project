@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -33,8 +34,6 @@ public class RatingServiceImp implements RatingService {
     private final LMStudioService lmStudioService;
 
 
-
-
     @Autowired
     public RatingServiceImp(RatingRepository ratingRepository, ClientService clientService, WineService wineService, LMStudioService lmStudioService) {
         this.ratingRepository = ratingRepository;
@@ -42,8 +41,6 @@ public class RatingServiceImp implements RatingService {
         this.wineService = wineService;
         this.lmStudioService = lmStudioService;
     }
-
-
 
 
     @Override
@@ -58,7 +55,7 @@ public class RatingServiceImp implements RatingService {
         Client client = clientService.getById(rating.clientId());
         Wine wine = wineService.getById(rating.wineId());
         Optional<Rating> optionalRating = ratingRepository.findByClientAndWine(client, wine);
-        if(optionalRating.isPresent())
+        if (optionalRating.isPresent())
             throw new RatingAlreadyExistsException(Messages.RATING_ALREADY_EXISTS.getMessage());
 
         Rating ratingToAdd = new Rating(client, wine, rating.rate());
@@ -71,8 +68,8 @@ public class RatingServiceImp implements RatingService {
         client.getRatedWines().add(wine);
         clientService.saveClient(client);
 
-        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 30 words, based on the following information: "+
-                "name: "+wine.getName() +", color: "+ wine.getWineType().getName() +", year: "+ wine.getYear());
+        String review = lmStudioService.callLocalLMStudio("Make me a small wine review, maximum of 30 words, based on the following information: " +
+                "name: " + wine.getName() + ", color: " + wine.getWineType().getName() + ", year: " + wine.getYear());
 
         try {
             JSONObject jsonObject = new JSONObject(review);
@@ -88,7 +85,6 @@ public class RatingServiceImp implements RatingService {
 
         return ratingToAdd.getId();
     }
-
 
 
 }

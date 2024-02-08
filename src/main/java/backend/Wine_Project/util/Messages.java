@@ -48,7 +48,9 @@ public enum Messages {
 
     ALREADY_HAVE_SHOPPING_CART_TO_ORDER("Client already have shopping cart to order."),
     WINE_WAS_ORDERED_OR_RATED("That wine was ordered or rated and cannot be deleted. Wine Id: "),
-    WINE_ID_MUST_NOT_BE_LESS_THAN_1("Wine id must not be less than 1");
+    WINE_ID_MUST_NOT_BE_LESS_THAN_1("Wine id must not be less than 1"),
+
+    ORDER_ID_NOT_FOUND("Order ID not found!");
 
 
 

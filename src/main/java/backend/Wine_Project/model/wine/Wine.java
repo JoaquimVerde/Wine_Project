@@ -1,8 +1,10 @@
 package backend.Wine_Project.model.wine;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+
 import java.util.Set;
 
 
@@ -13,26 +15,35 @@ public class Wine implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "Wine name", type = "string", example = "Quinta do Crasto")
     private String name;
+    @Schema(description = "Wine type", type = "WineType", example = "Red")
     @ManyToOne
     private WineType wineType;
+    @Schema(description = "Region", type = "Region", example = "Douro")
     @ManyToOne
     private Region region;
+    @Schema(description = "Grape varieties", type = "Set", example = "[Touriga Nacional, Tinta Roriz]")
     @ManyToMany
     @JoinTable(
             name = "wine_grapeVariety",
             joinColumns = @JoinColumn(name = "wine_id"),
             inverseJoinColumns = @JoinColumn(name = "grapeVariety_id"))
     private Set<GrapeVarieties> grapeVarietiesList;
+    @Schema(description = "Rating average", type = "double", example = "4.5")
     private double ratingAvg;
+    @Schema(description = "Price", type = "double", example = "20.0")
     private double price;
+    @Schema(description = "Alcohol", type = "double", example = "13.5")
     private double alcohol;
+    @Schema(description = "Year", type = "int", example = "2015")
     private int year;
-
+    @Schema(description = "Is rated", type = "boolean", example = "true")
     private boolean isRated;
+    @Schema(description = "Is item", type = "boolean", example = "true")
     private boolean isItem;
 
-    public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year, Set<GrapeVarieties> grapeVarietiesList ) {
+    public Wine(String name, WineType winetype, Region region, double price, double alcohol, int year, Set<GrapeVarieties> grapeVarietiesList) {
         this.name = name;
         this.wineType = winetype;
         this.region = region;

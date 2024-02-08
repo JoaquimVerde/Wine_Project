@@ -53,11 +53,11 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
         Client client = clientService.getById(cart.clientId());
         Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findByClientAndOrdered(client, false);
-        if(optionalShoppingCart.isPresent()){
+        if (optionalShoppingCart.isPresent()) {
             throw new AlreadyHaveShoppingCartToOrderException(Messages.ALREADY_HAVE_SHOPPING_CART_TO_ORDER.getMessage());
         }
         Set<Item> items = new HashSet<>();
-        for (Long itemId: cart.itemsId()) {
+        for (Long itemId : cart.itemsId()) {
             items.add(itemService.getById(itemId));
         }
 
@@ -88,17 +88,17 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
         Optional<ShoppingCart> shoppingCartOptional = shoppingCartRepository.findById(id);
 
-        if(!shoppingCartOptional.isPresent()) {
+        if (!shoppingCartOptional.isPresent()) {
             throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
         }
 
         ShoppingCart shoppingCartToUpdate = shoppingCartOptional.get();
 
-        if(shoppingCartToUpdate.isOrdered()) {
+        if (shoppingCartToUpdate.isOrdered()) {
             throw new ShoppingCartCannotBeUpdatedException(Messages.SHOPPING_CART_CANNOT_BE_UPDATED.getMessage());
         }
 
-        if(!shoppingCartToUpdate.getItems().stream().map(Item::getId).equals(cartUpdateDto.itemsId())) {
+        if (!shoppingCartToUpdate.getItems().stream().map(Item::getId).equals(cartUpdateDto.itemsId())) {
 
             Set<Item> itemsToUpdate = new HashSet<>();
 
@@ -109,7 +109,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
 
             shoppingCartToUpdate.setTotalAmount(0);
 
-            for (Item item: shoppingCartToUpdate.getItems()) {
+            for (Item item : shoppingCartToUpdate.getItems()) {
 
                 shoppingCartToUpdate.setTotalAmount(shoppingCartToUpdate.getTotalAmount() + item.getTotalPrice());
             }
@@ -132,42 +132,20 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
     }
 
 
-    public Long removeItemFromCart(Item item, ShoppingCart shoppingCart) {
-
-        Set<Item> itemsShoppingCart = shoppingCart.getItems();
-
-        for (Item item2 : itemsShoppingCart) {
-            if (item2.getWine().equals(item.getWine())) {
-                itemsShoppingCart.remove(item);
-                break;
-            }
-        }
-        return item.getId();
-    }
-
-
     public void closeShoppingCart(ShoppingCart shoppingCart) {
-        Optional<ShoppingCart> shCartOptional = shoppingCartRepository.findById(shoppingCart.getId());
 
-        if (!shCartOptional.isPresent()) {
-            throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());
-        }
-
-        if (shCartOptional.get().isOrdered()) {
+        if (shoppingCart.isOrdered()) {
             throw new ShoppingCartAlreadyBeenOrderedException(Messages.SHOPPING_CART_ALREADY_ORDERED.getMessage());
         }
 
-        ShoppingCart shCartToClose = shCartOptional.get();
-
-        shCartToClose.setOrdered(true);
-        shoppingCartRepository.save(shCartToClose);
+        shoppingCart.setOrdered(true);
+        shoppingCartRepository.save(shoppingCart);
 
     }
 
 
-
     @Override
-    public ShoppingCart getById(Long id){
+    public ShoppingCart getById(Long id) {
         Optional<ShoppingCart> optionalShoppingCart = shoppingCartRepository.findById(id);
         if (optionalShoppingCart.isEmpty()) {
             throw new ShoppingCartNotFoundException(Messages.SHOPPING_CART_NOT_FOUND.getMessage());

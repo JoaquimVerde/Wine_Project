@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 import java.util.Set;
 
-public interface RegionRepository extends JpaRepository<Region,Long> {
+public interface RegionRepository extends JpaRepository<Region, Long> {
 
     Optional<Region> findByName(String name);
 
