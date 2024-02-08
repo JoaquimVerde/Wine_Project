@@ -1,16 +1,8 @@
 
-888       888 d8b                        8888888b.                   d8b                   888
-888   o   888 Y8P                        888   Y88b                  Y8P                   888
-888  d8b  888                            888    888                                        888
-888 d888b 888 888 88888b.   .d88b.       888   d88P 888d888 .d88b.  8888  .d88b.   .d8888b 888888
-888d88888b888 888 888 "88b d8P  Y8b      8888888P"  888P"  d88""88b "888 d8P  Y8b d88P"    888
-88888P Y88888 888 888  888 88888888      888        888    888  888  888 88888888 888      888
-8888P   Y8888 888 888  888 Y8b.          888        888    Y88..88P  888 Y8b.     Y88b.    Y88b.
-888P     Y888 888 888  888  "Y8888       888        888     "Y88P"   888  "Y8888   "Y8888P  "Y888
-                                                                     888
-                                                                    d88P
-                                                                  888P"
+![logo_wine.jpg](src%2Fmain%2Fjava%2Fbackend%2FWine_Project%2Flogo%2Flogo_wine.jpg)
 
+
+WINE PROJECT
 
 Welcome to Wine Project! This app is your gateway to the world of wines, offering a comprehensive database,
 powerful search features, and convenient purchasing options.
@@ -29,11 +21,3 @@ We're constantly working to improve Wine Project and would love to hear your fee
 If you have any suggestions, encounter any issues, or just want to share your thoughts, please don't hesitate to reach out to us.
 
 Happy wine tasting!
-
-
-
-
-
-
-                     
-                                                                               
