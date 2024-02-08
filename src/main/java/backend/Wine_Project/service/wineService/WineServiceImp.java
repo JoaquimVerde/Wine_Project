@@ -101,7 +101,7 @@ public class WineServiceImp implements WineService {
     }
 
 
-    @Cacheable(value = "wineCache", key = "#wineCacheId")
+    //@Cacheable(value = "wineCache")
     @Override
     public Wine getById(Long id) {
         Optional<Wine> optionalWine = wineRepository.findById(id);

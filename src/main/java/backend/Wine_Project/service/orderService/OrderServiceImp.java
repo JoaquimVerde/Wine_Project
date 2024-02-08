@@ -23,11 +23,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -99,11 +102,12 @@ public class OrderServiceImp implements OrderService {
 
         Date todayDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Time todayTime = new Time(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute(), LocalDateTime.now().getSecond());
 
         // Header
         String invoiceHead = centerAlignText("****************************************************\n");
         String invoiceNum = centerAlignText("\t\t\t\tInvoice " + shoppingCart.getId() + "\n");
-        String invoiceDate = centerAlignText("\t\t\t\tDate: " + dateFormat.format(todayDate) + "\n");
+        String invoiceDate = centerAlignText("\t\t\t\tDate: " + dateFormat.format(todayDate) + " --- "+todayTime+"\n");
         String invoiceHead2 = centerAlignText("****************************************************\n\n");
 
         // Client data
@@ -123,22 +127,22 @@ public class OrderServiceImp implements OrderService {
 
         for (Item item : shoppingCart.getItems()) {
             maxProductNameWidth = Math.max(maxProductNameWidth, item.getWine().getName().length());
-            maxQuantityWidth = Math.max(maxQuantityWidth, String.valueOf(item.getQuantity()).length());
-            maxUnitPriceWidth = Math.max(maxUnitPriceWidth, String.valueOf(item.getWine().getPrice()).length());
+            //maxQuantityWidth = Math.max(maxQuantityWidth, String.valueOf(item.getQuantity()).length());
+            //maxUnitPriceWidth = Math.max(maxUnitPriceWidth, String.valueOf(item.getWine().getPrice()).length());
         }
 
-// Build invoice text
+
         StringBuilder invoiceText = new StringBuilder();
         for (Item item : shoppingCart.getItems()) {
-            String productName = String.format("%-" + (maxProductNameWidth + 2), item.getWine().getName());
-            String quantity = String.format("%-" + (maxQuantityWidth + 2), item.getQuantity());
-            String unitPrice = String.format("%-" + (maxUnitPriceWidth + 2), item.getWine().getPrice());
+            String productName = item.getWine().getName() + " ".repeat(45-item.getWine().getName().length());
+            String quantity = item.getQuantity() + " ".repeat(15);
+            String unitPrice = item.getWine().getPrice() + " ".repeat(15);
             String totalPrice = "" + item.getTotalPrice();
             String line = productName + quantity + unitPrice + totalPrice + "\n";
             invoiceText.append(line);
         }
 
-        // Total amount
+
         String totalAmount = "\nTotal Amount: " + shoppingCart.getTotalAmount()+"\n".repeat(5);
 
         String lastQuote = lmStudioService.callLocalLMStudioForQuote("Give me a small inspirational farewell quote.");
