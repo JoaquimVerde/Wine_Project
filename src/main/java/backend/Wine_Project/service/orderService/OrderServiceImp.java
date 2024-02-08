@@ -12,12 +12,16 @@ import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.EmailService;
+import backend.Wine_Project.service.LMStudioService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +40,14 @@ public class OrderServiceImp implements OrderService {
     private final ShoppingCartServiceImp shoppingCartService;
     private final EmailService emailService;
 
+    private final LMStudioService lmStudioService;
+
     @Autowired
-    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService, EmailService emailService) {
+    public OrderServiceImp(OrderRepository orderRepository, ShoppingCartServiceImp shoppingCartService, EmailService emailService, LMStudioService lmStudioService) {
         this.orderRepository = orderRepository;
         this.shoppingCartService = shoppingCartService;
         this.emailService = emailService;
-
+        this.lmStudioService = lmStudioService;
     }
 
     @Override
@@ -100,7 +106,6 @@ public class OrderServiceImp implements OrderService {
         String invoiceDate = centerAlignText("\t\t\t\tDate: " + dateFormat.format(todayDate) + "\n");
         String invoiceHead2 = centerAlignText("****************************************************\n\n");
 
-
         // Client data
         String clientData = "Client: " + shoppingCart.getClient().getName() + "\n" +
                 "NIF: " + shoppingCart.getClient().getNif() + "\n\n";
@@ -134,9 +139,21 @@ public class OrderServiceImp implements OrderService {
         }
 
         // Total amount
-        String totalAmount = "\nTotal Amount: " + shoppingCart.getTotalAmount();
+        String totalAmount = "\nTotal Amount: " + shoppingCart.getTotalAmount()+"\n".repeat(5);
 
-        return invoiceHead + invoiceNum + invoiceDate + invoiceHead2 + clientData + newHeader + headerLimit + invoiceText.toString() + totalAmount;
+        String lastQuote = lmStudioService.callLocalLMStudioForQuote("Give me a small inspirational farewell quote.");
+
+        try {
+            JSONObject jsonObject = new JSONObject(lastQuote);
+            JSONArray choicesArray = jsonObject.getJSONArray("choices");
+            JSONObject firstChoice = choicesArray.getJSONObject(0);
+            lastQuote = firstChoice.getString("text");
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return invoiceHead + invoiceNum + invoiceDate + invoiceHead2 + clientData + newHeader + headerLimit + invoiceText.toString() + totalAmount + lastQuote;
 
     }
 

@@ -35,6 +35,22 @@ public class LMStudioService {
         return restTemplate.exchange(lmStudioUrl, HttpMethod.POST, requestEntity, String.class).getBody();
     }
 
+    public String callLocalLMStudioForQuote(String textToProcess) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        String requestBody = "{\"prompt\": \"" + textToProcess + "\",\"temp\":0.1,\"n_predict\":200, \"max_tokens\":80}";
+
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+
+        String lmStudioUrl = "http://localhost:8081/v1/completions";
+        return restTemplate.exchange(lmStudioUrl, HttpMethod.POST, requestEntity, String.class).getBody();
+    }
+
 
 
 }

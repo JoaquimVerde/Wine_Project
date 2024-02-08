@@ -12,6 +12,7 @@ import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.OrderRepository;
 import backend.Wine_Project.service.EmailService;
+import backend.Wine_Project.service.LMStudioService;
 import backend.Wine_Project.service.orderService.OrderServiceImp;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,11 +39,13 @@ class OrderServiceImpTest {
     private ShoppingCartServiceImp shoppingCartServiceMock;
     @MockBean
     private EmailService emailService;
+    @MockBean
+    private LMStudioService lmStudioService;
 
 
     @BeforeEach
     public void setUp() {
-        orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock, emailService);
+        orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock, emailService, lmStudioService);
     }
 
     @Test
