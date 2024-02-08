@@ -38,10 +38,11 @@ class GrapeVarietiesControllerTest {
     private static ObjectMapper objectMapper;
 
     @BeforeAll
-    public static void setUp(){
+    public static void setUp() {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
     }
+
     @BeforeEach
     void ini() {
         grapeVarietiesRepository.deleteAll();
@@ -54,11 +55,12 @@ class GrapeVarietiesControllerTest {
         mockMvc.perform(get("/api/v1/grapeVarieties/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$",hasSize(0)));
+                .andExpect(jsonPath("$", hasSize(0)));
     }
+
     @Test
     @DisplayName("Test create a grape variety and return status code 201")
-    void testCreateGrapeVarietyAndReturnStatus201()throws Exception{
+    void testCreateGrapeVarietyAndReturnStatus201() throws Exception {
         GrapeVarietiesDto grapeVarietyDto = new GrapeVarietiesDto("Toriga Nacional");
         String jsonRequest = objectMapper.writeValueAsString(grapeVarietyDto);
 
@@ -74,6 +76,7 @@ class GrapeVarietiesControllerTest {
         assertThat(grapeVarietiesList).hasSize(1);
         assertThat(grapeVarietiesList.getFirst().getName()).isEqualTo("Toriga Nacional");
     }
+
     @Test
     @DisplayName("Test get all grape varieties when some grape varieties are present in the database")
     void testGetAllGrapeVarietiesWhenGrapeVarietiesPresent() throws Exception {
@@ -90,6 +93,7 @@ class GrapeVarietiesControllerTest {
                 .andExpect(jsonPath("$.[0].name").value("Grape1"))
                 .andExpect(jsonPath("$.[1].name").value("Grape2"));
     }
+
     @Test
     @DisplayName("Test create a grape variety with invalid request content")
     void testCreateGrapeVarietyWithInvalidRequestContent() throws Exception {
@@ -102,6 +106,7 @@ class GrapeVarietiesControllerTest {
                         .content(invalidJsonRequest))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     @DisplayName("Test create a grape variety that already exists in the database")
     void testCreateGrapeVarietyAlreadyExists() throws Exception {
@@ -117,6 +122,7 @@ class GrapeVarietiesControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(content().string(Messages.GRAPE_VARIETY_ALREADY_EXISTS.getMessage()));
     }
+
     @Test
     @DisplayName("Test create multiple grape varieties")
     void testCreateMultipleGrapeVarieties() throws Exception {

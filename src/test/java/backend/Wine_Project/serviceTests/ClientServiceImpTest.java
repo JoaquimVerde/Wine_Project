@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ClientServiceImpTest {
+class ClientServiceImpTest {
 
     @InjectMocks
     private ClientServiceImp clientService;
@@ -35,7 +35,7 @@ public class ClientServiceImpTest {
     }
 
     @Test
-    public void getAllClientsReturnsExpectedClients() {
+    void getAllClientsReturnsExpectedClients() {
         Client client1 = new Client();
         client1.setName("pipoca");
         client1.setEmail("asd@asd.com");
@@ -53,7 +53,7 @@ public class ClientServiceImpTest {
     }
 
     @Test
-    public void createClientSuccessfullyWhenEmailNotExists() {
+    void createClientSuccessfullyWhenEmailNotExists() {
         ClientCreateDto clientCreateDto = new ClientCreateDto("test@test.com", "John Doe", 30);
         when(clientRepository.findClientByEmail(clientCreateDto.email())).thenReturn(Optional.empty());
 
@@ -61,7 +61,7 @@ public class ClientServiceImpTest {
     }
 
     @Test
-    public void createClientThrowsExceptionWhenEmailExists() {
+    void createClientThrowsExceptionWhenEmailExists() {
         ClientCreateDto clientCreateDto = new ClientCreateDto("test@test.com", "John Doe", 30);
         when(clientRepository.findClientByEmail(clientCreateDto.email())).thenReturn(Optional.of(new Client()));
 
@@ -69,7 +69,7 @@ public class ClientServiceImpTest {
     }
 
     @Test
-    public void getClientByIdSuccessfullyWhenIdExists() {
+    void getClientByIdSuccessfullyWhenIdExists() {
         Long id = 1L;
         when(clientRepository.findById(id)).thenReturn(Optional.of(new Client()));
 
@@ -77,7 +77,7 @@ public class ClientServiceImpTest {
     }
 
     @Test
-    public void getClientByIdThrowsExceptionWhenIdNotExists() {
+    void getClientByIdThrowsExceptionWhenIdNotExists() {
         Long id = 1L;
         when(clientRepository.findById(id)).thenReturn(Optional.empty());
 

@@ -39,6 +39,7 @@ class GrapeVarietiesServiceImpTest {
         //then
         assertThat(grapeVarietiesList).hasSize(2);
     }
+
     @Test
     @DisplayName("Test create")
     void testCreate() {
@@ -51,8 +52,8 @@ class GrapeVarietiesServiceImpTest {
 
         Long id = grapeVarietiesServiceImp.create(grapeVarietiesDto);
 
-        verify(grapeVarietiesRepository,times(1)).findGrapeVarietiesByName(grapeVarietiesDto.name());
-        verify(grapeVarietiesRepository,times(1)).save(ArgumentMatchers.any(GrapeVarieties.class));
+        verify(grapeVarietiesRepository, times(1)).findGrapeVarietiesByName(grapeVarietiesDto.name());
+        verify(grapeVarietiesRepository, times(1)).save(ArgumentMatchers.any(GrapeVarieties.class));
 
         assertThat(id).isEqualTo(grapeVarieties.getId());
     }

@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class RatingServiceImpTest {
+class RatingServiceImpTest {
 
     @InjectMocks
     private RatingServiceImp ratingService;
@@ -45,7 +45,7 @@ public class RatingServiceImpTest {
     }
 
     @Test
-    public void createRatingSuccessfullyWhenRatingNotExists() {
+    void createRatingSuccessfullyWhenRatingNotExists() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, 1L, 5.0);
         Client client = new Client();
         client.setRatedWines(new HashSet<>());
@@ -64,7 +64,7 @@ public class RatingServiceImpTest {
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenRatingExists() {
+    void createRatingThrowsExceptionWhenRatingExists() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, 1L, 5.0);
         when(clientService.getById(anyLong())).thenReturn(new Client());
         when(wineService.getById(anyLong())).thenReturn(new Wine());
@@ -75,38 +75,38 @@ public class RatingServiceImpTest {
 
 
     @Test
-    public void createRatingThrowsExceptionWhenRatingCreateDtoIsNull() {
+    void createRatingThrowsExceptionWhenRatingCreateDtoIsNull() {
         assertThrows(NullPointerException.class, () -> ratingService.create(null));
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenClientIdIsNull() {
+    void createRatingThrowsExceptionWhenClientIdIsNull() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(null, 1L, 5.0);
         assertThrows(NullPointerException.class, () -> ratingService.create(ratingCreateDto));
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenWineIdIsNull() {
+    void createRatingThrowsExceptionWhenWineIdIsNull() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, null, 5.0);
         assertThrows(NullPointerException.class, () -> ratingService.create(ratingCreateDto));
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenClientServiceGetByIdReturnsNull() {
+    void createRatingThrowsExceptionWhenClientServiceGetByIdReturnsNull() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, 1L, 5.0);
         when(clientService.getById(anyLong())).thenReturn(null);
         assertThrows(NullPointerException.class, () -> ratingService.create(ratingCreateDto));
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenWineServiceGetByIdReturnsNull() {
+    void createRatingThrowsExceptionWhenWineServiceGetByIdReturnsNull() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, 1L, 5.0);
         when(wineService.getById(anyLong())).thenReturn(null);
         assertThrows(NullPointerException.class, () -> ratingService.create(ratingCreateDto));
     }
 
     @Test
-    public void createRatingThrowsExceptionWhenLmStudioServiceCallLocalLMStudioReturnsInvalidJson() {
+    void createRatingThrowsExceptionWhenLmStudioServiceCallLocalLMStudioReturnsInvalidJson() {
         RatingCreateDto ratingCreateDto = new RatingCreateDto(1L, 1L, 5.0);
         Client client = new Client();
         client.setRatedWines(new HashSet<>());

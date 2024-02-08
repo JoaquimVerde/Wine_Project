@@ -53,7 +53,6 @@ class ItemControllerTest {
     }
 
 
-
     @Test
     @DisplayName("Test get all items when no items on database returns an empty list")
     void testGetAllItemsWhenNoItemsOnDatabase() throws Exception {
@@ -158,8 +157,6 @@ class ItemControllerTest {
                         .content(itemCreateJson))
                 .andExpect(status().isBadRequest());
     }
-
-
 
 
 }

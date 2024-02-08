@@ -57,7 +57,6 @@ public class WineControllerTest {
     private GrapeVarietiesRepository grapeVarietiesRepository;
 
 
-
     @BeforeAll
     public static void setUp() {
         objectMapper = new ObjectMapper();
@@ -106,8 +105,8 @@ public class WineControllerTest {
     void testCreateWineReturnCreateAndGetIdEqualsTo1() throws Exception {
 
         //Given
-        String regionJson ="{\"name\": \"Alentejo\"}";
-        String grapeVarietyJson ="{\"name\": \"Touriga\"}";
+        String regionJson = "{\"name\": \"Alentejo\"}";
+        String grapeVarietyJson = "{\"name\": \"Touriga\"}";
         String wineTypeJson = "{\"name\": \"Branco\"}";
         String wineJson = "{\"name\": \"Papa Figos\", \"wineTypeId\": 1, \"grapeVarietiesId\": [1], \"regionId\": 1, \"price\": \"7\", \"alcohol\": 11.5, \"year\": 2020}";
 
@@ -161,9 +160,9 @@ public class WineControllerTest {
         Region region = new Region("region1");
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
-        WineCreateDto existingWine = new WineCreateDto("ExistingWine",1L, grapes, 1L,7.99,12,2020);
+        WineCreateDto existingWine = new WineCreateDto("ExistingWine", 1L, grapes, 1L, 7.99, 12, 2020);
 
-        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(),existingWine.alcohol(), existingWine.year(), grapesList));
+        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(), existingWine.alcohol(), existingWine.year(), grapesList));
 
         // When trying to create the same wine again
         String jsonRequest = objectMapper.writeValueAsString(existingWine);
@@ -181,7 +180,7 @@ public class WineControllerTest {
         Set<Long> grapes = new HashSet<>();
         regionRepository.save(new Region("region"));
         wineTypeRepository.save(new WineType("wineType"));
-        WineCreateDto wine = new WineCreateDto("Wine",1L, grapes, 1L,7.99,12,2028);
+        WineCreateDto wine = new WineCreateDto("Wine", 1L, grapes, 1L, 7.99, 12, 2028);
 
 
         // When trying to create wine with future year
@@ -205,9 +204,9 @@ public class WineControllerTest {
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
 
-        WineCreateDto existingWine = new WineCreateDto("ExistingWine",1L, grapes, 1L,7.99,12,2020);
+        WineCreateDto existingWine = new WineCreateDto("ExistingWine", 1L, grapes, 1L, 7.99, 12, 2020);
 
-        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(),existingWine.alcohol(), existingWine.year(), grapesList));
+        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(), existingWine.alcohol(), existingWine.year(), grapesList));
 
 
         // When trying to delete wine
@@ -224,7 +223,7 @@ public class WineControllerTest {
         // When trying to delete wine with wrong id: 2
         mockMvc.perform(delete("/api/v1/wines/2"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage()+2));
+                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage() + 2));
 
     }
 
@@ -234,7 +233,7 @@ public class WineControllerTest {
 
         Set<Long> grapes = new HashSet<>();
 
-        WineUpdateDto wine = new WineUpdateDto("Wine",1L, grapes, 1L,7.99,12,2020);
+        WineUpdateDto wine = new WineUpdateDto("Wine", 1L, grapes, 1L, 7.99, 12, 2020);
 
 
         // When trying to update wine with wrong id: 2
@@ -243,7 +242,7 @@ public class WineControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage()+2));
+                .andExpect(content().string(Messages.WINE_ID_NOT_FOUND.getMessage() + 2));
 
     }
 
@@ -258,8 +257,8 @@ public class WineControllerTest {
         WineType wineType = new WineType("wineType");
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
-        WineUpdateDto wineUpdateDto = new WineUpdateDto("Wine",1L, grapes, 1L,7.99,12,2028);
-        Wine wine = new Wine(wineUpdateDto.name(), wineType,region,wineUpdateDto.price(),wineUpdateDto.alcohol(),2020,grapesList);
+        WineUpdateDto wineUpdateDto = new WineUpdateDto("Wine", 1L, grapes, 1L, 7.99, 12, 2028);
+        Wine wine = new Wine(wineUpdateDto.name(), wineType, region, wineUpdateDto.price(), wineUpdateDto.alcohol(), 2020, grapesList);
 
         wineRepository.save(wine);
 
@@ -285,10 +284,9 @@ public class WineControllerTest {
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
 
-        WineCreateDto existingWine = new WineCreateDto("ExistingWine",1L, grapes, 1L,7.99,12,2020);
+        WineCreateDto existingWine = new WineCreateDto("ExistingWine", 1L, grapes, 1L, 7.99, 12, 2020);
 
-        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(),existingWine.alcohol(), existingWine.year(), grapesList));
-
+        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(), existingWine.alcohol(), existingWine.year(), grapesList));
 
 
         // When trying to search wine with name that does not exist
@@ -309,9 +307,9 @@ public class WineControllerTest {
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
 
-        WineCreateDto existingWine = new WineCreateDto("ExistingWine",1L, grapes, 1L,7.99,12,2020);
+        WineCreateDto existingWine = new WineCreateDto("ExistingWine", 1L, grapes, 1L, 7.99, 12, 2020);
 
-        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(),existingWine.alcohol(), existingWine.year(), grapesList));
+        wineRepository.save(new Wine(existingWine.name(), wineType, region, existingWine.price(), existingWine.alcohol(), existingWine.year(), grapesList));
 
 
         // When trying to search wine with negative year
@@ -331,7 +329,7 @@ public class WineControllerTest {
         Region region = new Region("region1");
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
-        Wine wine = new Wine("wine", wineType, region, 7.99,12, 2020, grapesList);
+        Wine wine = new Wine("wine", wineType, region, 7.99, 12, 2020, grapesList);
         wine.setRated(true);
         wineRepository.save(wine);
 
@@ -339,7 +337,7 @@ public class WineControllerTest {
         // When trying to delete wine that was rated
         mockMvc.perform(delete("/api/v1/wines/1"))
                 .andExpect(status().isConflict())
-                .andExpect(content().string(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage()+1));
+                .andExpect(content().string(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage() + 1));
 
     }
 
@@ -353,7 +351,7 @@ public class WineControllerTest {
         Region region = new Region("region1");
         regionRepository.save(region);
         wineTypeRepository.save(wineType);
-        Wine wine = new Wine("wine", wineType, region, 7.99,12, 2020, grapesList);
+        Wine wine = new Wine("wine", wineType, region, 7.99, 12, 2020, grapesList);
         wine.setItem(true);
         wineRepository.save(wine);
 
@@ -361,14 +359,9 @@ public class WineControllerTest {
         // When trying to delete wine that was ordered
         mockMvc.perform(delete("/api/v1/wines/1"))
                 .andExpect(status().isConflict())
-                .andExpect(content().string(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage()+1));
+                .andExpect(content().string(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage() + 1));
 
     }
-
-
-
-
-
 
 
 }
