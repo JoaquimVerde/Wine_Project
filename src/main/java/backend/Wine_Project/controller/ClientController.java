@@ -4,6 +4,7 @@ import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.clientDto.ClientReadDto;
 import backend.Wine_Project.service.clientService.ClientServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -28,6 +29,7 @@ public class ClientController {
     }
     @Operation(summary = "Get all clients", description = "Returns all clients")
     @ApiResponse(responseCode = "200", description = "Successfully retrieve")
+    @Parameter(name = "pageNumber", description = "Page number to retrieve", example = "1")
     @GetMapping("/")
     public ResponseEntity<List<ClientReadDto>> getClients() {
         return new ResponseEntity<>(clientServiceImp.getAll(), HttpStatus.OK);
@@ -36,6 +38,7 @@ public class ClientController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - The client email or nif already existed")})
+    @Parameter(name = "client", description = "ClientCreateDto object to be created", example = "name: John, email:john@example.com, nif: 123456789")
     @PostMapping("/")
     public ResponseEntity<Long> addNewClient(@Valid @RequestBody ClientCreateDto client) {
 
@@ -45,6 +48,7 @@ public class ClientController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One clients nif or email already existed")})
+    @Parameter(name = "clients", description = "List of ClientCreateDto objects to be created", example = "[name: John, email:jonh@example.com, nif: 123456789, name: Mary, email:mary@example.com, nif: 987654321]")
     @PostMapping("/addClients")
     public ResponseEntity<List<ClientCreateDto>> addNewClients(@Valid@RequestBody List<ClientCreateDto> clients) {
         return new ResponseEntity<>(clientServiceImp.createCostumers(clients), HttpStatus.CREATED);

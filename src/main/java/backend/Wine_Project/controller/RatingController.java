@@ -4,6 +4,8 @@ import backend.Wine_Project.dto.ratingDto.RatingCreateDto;
 import backend.Wine_Project.dto.ratingDto.RatingReadDto;
 import backend.Wine_Project.service.ratingService.RatingServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -25,6 +27,7 @@ public class RatingController {
     }
     @Operation(summary = "Get all ratings", description = "Returns all ratings")
     @ApiResponse(responseCode = "200", description = "Successfully retrieve")
+    @Parameter(name = "pageNumber", description = "Page number to retrieve", example = "1")
     @GetMapping("/")
     public ResponseEntity<List<RatingReadDto>> getRatings() {
         return new ResponseEntity<>(ratingServiceImp.getAll(), HttpStatus.OK);
@@ -35,6 +38,7 @@ public class RatingController {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - The rating already existed")
     })
+    @Parameter(name = "rating", description = "RatingCreateDto object to be created", example = "clientId: 1, wineId: 1, score: 5")
     @PostMapping("/")
     public ResponseEntity<Long> addNewRating(@Valid @RequestBody RatingCreateDto rating) {
         return new ResponseEntity<>(ratingServiceImp.create(rating), HttpStatus.CREATED);

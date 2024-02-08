@@ -6,6 +6,9 @@ import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -38,6 +41,7 @@ public class GrapeVarietiesController {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - The grape variety already existed")
     })
+    @Parameter(name = "grapeVariety", description = "GrapeVarietiesDto object to be created", example = "name: Merlot")
     @PostMapping("/")
     public ResponseEntity<String> addNewGrapeVariety(@Valid @RequestBody GrapeVarietiesDto grapeVarietiesDto){
         grapeVarietiesService.create(grapeVarietiesDto);
@@ -47,16 +51,19 @@ public class GrapeVarietiesController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the grape variety already existed")})
+    @Parameter(name = "grapeVarieties", description = "List of GrapeVarietiesDto objects to be created", example = "[name: Merlot, name: Cabernet Sauvignon]")
     @PostMapping("/addGrapeVarieties")
     public ResponseEntity<List<GrapeVarietiesDto>> addNewGrapeVarieties(@RequestBody List<GrapeVarietiesDto> grapeVarieties) {
         return new ResponseEntity<>(grapeVarietiesService.createGrapeVarieties(grapeVarieties), HttpStatus.CREATED);
     }
+
 
     @Operation(summary = "Update grapeVariety by grapeVariety id", description = "Update a grape variety certain parameters by grapeVariety id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated"),
             @ApiResponse(responseCode = "404", description = "Not Found - The grapeVariety id doesn't exist")
     })
+    @Parameter(name = "grapeVarietyID", description = "GrapeVariety id to be updated",example = "1")
     @PatchMapping(path = "{grapeVarietyID}")
     public ResponseEntity<String> updateGrapeVariety(@PathVariable("grapeVarietyID") Long id, @Valid @RequestBody GrapeVarietiesDto grape) {
         grapeVarietiesService.updateGrapeVariety(id, grape);
