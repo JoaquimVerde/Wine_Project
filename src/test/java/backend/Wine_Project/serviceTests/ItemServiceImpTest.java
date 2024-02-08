@@ -6,22 +6,27 @@ import backend.Wine_Project.dto.itemDto.ItemGetDto;
 import backend.Wine_Project.exceptions.alreadyExists.ItemAlreadyExistsException;
 import backend.Wine_Project.exceptions.notFound.ItemIdNotFoundException;
 import backend.Wine_Project.model.Item;
+import backend.Wine_Project.model.wine.GrapeVarieties;
+import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.ItemRepository;
 import backend.Wine_Project.service.itemService.ItemServiceImp;
 import backend.Wine_Project.service.wineService.WineService;
+import backend.Wine_Project.service.wineService.WineServiceImp;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,6 +39,8 @@ class ItemServiceImpTest {
 
     @Mock
     private WineService wineService;
+    @InjectMocks
+    private WineServiceImp wineServiceImp;
   @InjectMocks
     private ItemServiceImp itemService;
 
