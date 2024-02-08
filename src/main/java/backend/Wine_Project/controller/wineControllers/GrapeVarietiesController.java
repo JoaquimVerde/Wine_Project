@@ -2,6 +2,7 @@ package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
+import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.GrapeVarietiesService;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,5 +50,16 @@ public class GrapeVarietiesController {
     @PostMapping("/addGrapeVarieties")
     public ResponseEntity<List<GrapeVarietiesDto>> addNewGrapeVarieties(@RequestBody List<GrapeVarietiesDto> grapeVarieties) {
         return new ResponseEntity<>(grapeVarietiesService.createGrapeVarieties(grapeVarieties), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update grapeVariety by grapeVariety id", description = "Update a grape variety certain parameters by grapeVariety id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Not Found - The grapeVariety id doesn't exist")
+    })
+    @PatchMapping(path = "{grapeVarietyID}")
+    public ResponseEntity<String> updateGrapeVariety(@PathVariable("grapeVarietyID") Long id, @Valid @RequestBody GrapeVarietiesDto grape) {
+        grapeVarietiesService.updateGrapeVariety(id, grape);
+        return new ResponseEntity<>("Grape Variety successfully updated", HttpStatus.OK);
     }
 }

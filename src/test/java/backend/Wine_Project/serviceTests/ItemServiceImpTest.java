@@ -1,5 +1,6 @@
 package backend.Wine_Project.serviceTests;
 
+
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.itemDto.ItemGetDto;
 import backend.Wine_Project.exceptions.alreadyExists.ItemAlreadyExistsException;
@@ -24,16 +25,18 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ItemServiceImpTest {
 
-    @InjectMocks
-    private ItemServiceImp itemService;
+@ExtendWith(SpringExtension.class)
+class ItemServiceImpTest {
 
     @Mock
     private ItemRepository itemRepository;
 
     @Mock
     private WineService wineService;
+  @InjectMocks
+    private ItemServiceImp itemService;
+
 
     @BeforeEach
     public void setup() {
@@ -117,4 +120,58 @@ public class ItemServiceImpTest {
     public void getItemByIdThrowsExceptionWhenIdIsNull() {
         assertThrows(IllegalArgumentException.class, () -> itemService.getById(null));
     }
+
+    
+
+
+    @Test
+    @DisplayName("Test get all")
+    void testGetAll() {
+        Region region = new Region("Douro");
+        WineType wineType = new WineType("Red");
+        GrapeVarieties grapeVarieties = new GrapeVarieties("Merlot");
+        Wine wine = new Wine("Wine", wineType, region,10,12, 2010, Set.of(grapeVarieties));
+        Wine wine1 = new Wine("Wine1", wineType, region,10,12, 2010, Set.of(grapeVarieties));
+        List<Item> mockItems = List.of(new Item(wine, 1), new Item(wine1,2));
+        when(this.itemRepository.findAll()).thenReturn(mockItems);
+
+
+        List<ItemGetDto> items = itemService.getAll();
+
+        verify(itemRepository,times(1)).findAll();
+        assertThat(items).hasSize(2);
+
+    }
+    @Test
+    @DisplayName("Test create item with valid input")
+    void testCreateWithValidInput() {
+        // Mocking wine retrieval
+
+        Region region = new Region("Douro");
+        WineType wineType = new WineType("Red");
+        GrapeVarieties grapeVarieties = new GrapeVarieties("Merlot");
+        Wine wine = new Wine("Wine", wineType, region,10,12, 2010, Set.of(grapeVarieties));
+        Long wineId = 1L;
+        when(wineService.getById(wineId)).thenReturn(wine);
+        when(itemRepository.findByWineAndQuantity(wine, 1)).thenReturn(Optional.empty());
+        Item itemToSave = new Item(wine, 1);
+        when(itemRepository.save(itemToSave)).thenReturn(itemToSave);
+
+        // Call create method
+        Long itemId = itemService.create(new ItemCreateDto(wineId, 1));
+
+        // Verify interactions
+        verify(wineService, times(1)).getById(wineId);
+        verify(itemRepository, times(1)).findByWineAndQuantity(wine, 1);
+        verify(itemRepository, times(1)).save(ArgumentMatchers.any(Item.class));
+
+        // Assertions
+       assertThat(itemId).isEqualTo(itemToSave.getId());
+    }
+
+
+
+
+
+
 }

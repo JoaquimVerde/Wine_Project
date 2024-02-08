@@ -18,4 +18,6 @@ public interface RegionService {
     Region getById(Long id);
 
     Set<WineReadDto> getWinesByRegion(Long regionId);
+
+    void updateRegion(Long id, RegionCreateDto region);
 }

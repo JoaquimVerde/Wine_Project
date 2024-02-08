@@ -40,13 +40,13 @@ public class ItemServiceImp implements ItemService {
 
     @Override
     public Long create(ItemCreateDto item) {
-        if (item.wineId() == null) {
-            throw new IllegalArgumentException("Wine id must not be null");
+        if (item.wineId() < 1) {
+            throw new IllegalArgumentException(Messages.WINE_ID_MUST_NOT_BE_LESS_THAN_1.getMessage());
         }
         Wine wine = wineService.getById(item.wineId());
         Optional<Item> itemOptional = this.itemRepository.findByWineAndQuantity(wine, item.quantity());
         if (itemOptional.isPresent())
-            throw new ItemAlreadyExistsException(Messages.ITEM_ALREADY_EXISTS.getMessage());
+            throw new ItemAlreadyExistsException(Messages.ITEM_ALREADY_EXISTS.getMessage() + itemOptional.get().getId());
         Item itemToAdd = new Item(wine, item.quantity());
         itemRepository.save(itemToAdd);
         wine.setItem(true);

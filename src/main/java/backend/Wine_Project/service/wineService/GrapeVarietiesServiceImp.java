@@ -63,4 +63,21 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService {
         return optionalGrapeVarieties.get();
     }
 
+    @Override
+    public void updateGrapeVariety(Long id, GrapeVarietiesDto grape){
+
+        Optional<GrapeVarieties> grapeVarietyOptional = grapeVarietiesRepository.findById(id);
+        if (grapeVarietyOptional.isEmpty()) {
+            throw new GrapeVarietyIdNotFoundException(Messages.GRAPE_VARIETY_ID_NOT_FOUND.getMessage());
+        }
+
+        GrapeVarieties grapeVarietyToUpdate = grapeVarietyOptional.get();
+
+        if (grape.name() != null && grape.name().length() > 0 && !grape.name().equals(grapeVarietyToUpdate.getName())) {
+            grapeVarietyToUpdate.setName(grape.name());
+        }
+        grapeVarietiesRepository.save(grapeVarietyToUpdate);
+
+    }
+
 }

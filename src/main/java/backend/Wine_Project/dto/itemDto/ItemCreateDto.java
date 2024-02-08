@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ItemCreateDto(
+
         @NotNull
         @NotEmpty
+        @Min(value = 1)
         Long wineId,
         @NotEmpty
         @Min(value = 1)

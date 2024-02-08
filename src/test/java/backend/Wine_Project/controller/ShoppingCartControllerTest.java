@@ -189,5 +189,15 @@ public class ShoppingCartControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Test delete shopping cart that does not exist throws 404 and exception")
+    void testDeleteShoppingCartThatDoesNotExist() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/shoppingCarts/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(Messages.SHOPPING_CART_NOT_FOUND.getMessage()));
+
+    }
+
 
 }

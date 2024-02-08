@@ -23,7 +23,8 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class OrderServiceImpTest {
 
@@ -41,7 +42,6 @@ public class OrderServiceImpTest {
     public void setUp() {
         orderServiceImp = new OrderServiceImp(orderRepositoryMock, shoppingCartServiceMock, emailService);
     }
-
 
     @Test
     public void getAllOrdersReturnsExpectedOrders() {

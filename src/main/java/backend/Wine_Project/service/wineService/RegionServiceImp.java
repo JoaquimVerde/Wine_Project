@@ -72,4 +72,20 @@ public class RegionServiceImp implements RegionService{
         }
         return WineConverter.fromSetOfWinesToSetOfWinesReadDto(regionRepository.findWinesByRegion(regionId));
     }
+
+    @Override
+    public void updateRegion(Long id, RegionCreateDto region){
+
+        Optional<Region> regionOptional = regionRepository.findById(id);
+        if (regionOptional.isEmpty()) {
+            throw new RegionIdNotFoundException(Messages.REGION_ID_NOT_FOUND.getMessage());
+        }
+
+        Region regionToUpdate = regionOptional.get();
+
+        if (region.name() != null && region.name().length() > 0 && !region.name().equals(regionToUpdate.getName())) {
+            regionToUpdate.setName(region.name());
+        }
+        regionRepository.save(regionToUpdate);
+    }
 }

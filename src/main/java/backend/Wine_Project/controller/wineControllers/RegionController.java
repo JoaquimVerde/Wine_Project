@@ -59,5 +59,16 @@ public class RegionController {
         return new ResponseEntity<>(regionService.createRegions(regions), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update region by region id", description = "Update a region certain parameters by region id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Not Found - The region id doesn't exist")
+    })
+    @PatchMapping(path = "{regionID}")
+    public ResponseEntity<String> updateRegion(@PathVariable("regionID") Long id, @Valid @RequestBody RegionCreateDto region) {
+        regionService.updateRegion(id, region);
+        return new ResponseEntity<>("Region successfully updated", HttpStatus.OK);
+    }
+
 
 }
