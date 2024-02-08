@@ -1,6 +1,5 @@
 package backend.Wine_Project.model.wine;
 
-import backend.Wine_Project.model.wine.Wine;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
@@ -12,9 +11,9 @@ public class GrapeVarieties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Grape variety name",type = "string",example = "Touriga Nacional")
+    @Schema(description = "Grape variety name", type = "string", example = "Touriga Nacional")
     private String name;
-    @Schema(description = "Wine",type = "Set",example = "[Quinta do Crasto]")
+    @Schema(description = "Wine", type = "Set", example = "[Quinta do Crasto]")
     @ManyToMany(mappedBy = "grapeVarietiesList")
     private Set<Wine> wine;
 

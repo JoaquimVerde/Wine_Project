@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ClientConverter {
 
-    public static ClientReadDto fromModelToClientReadDto (Client client){
+    public static ClientReadDto fromModelToClientReadDto(Client client) {
         return new ClientReadDto(
                 client.getName(),
                 client.getEmail(),
@@ -18,11 +18,11 @@ public class ClientConverter {
         );
     }
 
-    public static List<ClientReadDto> fromModelListToClientReadDtoList(List<Client> clients){
+    public static List<ClientReadDto> fromModelListToClientReadDtoList(List<Client> clients) {
         return clients.stream().map(ClientConverter::fromModelToClientReadDto).toList();
     }
 
-    public static Client fromClientCreateDtoToModel (ClientCreateDto client){
+    public static Client fromClientCreateDtoToModel(ClientCreateDto client) {
         return new Client(
                 client.name(),
                 client.email(),
@@ -30,7 +30,7 @@ public class ClientConverter {
         );
     }
 
-    public static ClientReadRatingDto fromModelToClientReadRatingDto (Client client){
+    public static ClientReadRatingDto fromModelToClientReadRatingDto(Client client) {
         return new ClientReadRatingDto(
                 client.getName()
         );

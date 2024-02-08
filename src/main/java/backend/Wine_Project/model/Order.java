@@ -10,15 +10,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Client",type = "Client",example = "João")
+    @Schema(description = "Client", type = "Client", example = "João")
     @ManyToOne
     private Client client;
-    @Schema(description = "Total price",type = "double",example = "100")
+    @Schema(description = "Total price", type = "double", example = "100")
     private double totalPrice;
-    @Schema(description = "Shopping cart",type = "ShoppingCart",example = "ShoppingCart")
+    @Schema(description = "Shopping cart", type = "ShoppingCart", example = "ShoppingCart")
     @OneToOne
     private ShoppingCart shoppingCart;
-    @Schema(description = "Invoice path",type = "string",example = "C:/Users/João/Downloads/invoice.pdf")
+    @Schema(description = "Invoice path", type = "string", example = "C:/Users/João/Downloads/invoice.pdf")
     @Column
     private String invoicePath;
 
@@ -54,16 +54,8 @@ public class Order {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
-    }
-
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
     }
 
     public String getInvoicePath() {

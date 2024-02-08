@@ -2,7 +2,6 @@ package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.regionDto.RegionCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
-import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
 import backend.Wine_Project.service.wineService.RegionService;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,16 +21,19 @@ import java.util.Set;
 @RequestMapping("api/v1/regions")
 public class RegionController {
     private final RegionService regionService;
+
     @Autowired
     public RegionController(RegionService regionService) {
         this.regionService = regionService;
     }
+
     @Operation(summary = "Get all regions", description = "Returns all regions names")
     @ApiResponse(responseCode = "200", description = "Successfully retrieve")
     @GetMapping("/")
-    public ResponseEntity<List<RegionCreateDto>> getRegions(){
+    public ResponseEntity<List<RegionCreateDto>> getRegions() {
         return new ResponseEntity<>(regionService.getAll(), HttpStatus.OK);
     }
+
     @Operation(summary = "Create a new region", description = "Create a new region with given parameters")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
@@ -39,10 +41,11 @@ public class RegionController {
     })
     @Parameter(name = "region", description = "RegionCreateDto object to be created", example = "name: Douro")
     @PostMapping("/")
-    public ResponseEntity<String> addNewRegion(@Valid @RequestBody RegionCreateDto regionCreateDto){
+    public ResponseEntity<String> addNewRegion(@Valid @RequestBody RegionCreateDto regionCreateDto) {
         regionService.create(regionCreateDto);
         return new ResponseEntity<>(Messages.REGION_CREATED.getMessage(), HttpStatus.CREATED);
     }
+
     @Operation(summary = "Get wines by region id", description = "Returns wines as per the region id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieve"),
@@ -53,13 +56,14 @@ public class RegionController {
     public ResponseEntity<Set<WineReadDto>> getWinesByRegionId(@PathVariable("regionId") Long regionId) {
         return new ResponseEntity<>(regionService.getWinesByRegion(regionId), HttpStatus.OK);
     }
+
     @Operation(summary = "Create a multiple regions", description = "Create multiple regions with given parameters")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
             @ApiResponse(responseCode = "409", description = "Conflict - One of the regions already existed")})
     @Parameter(name = "regions", description = "List of RegionCreateDto objects to be created", example = "[name: Douro, name: Alentejo]")
     @PostMapping("/addRegions")
-    public ResponseEntity<List<RegionCreateDto>> addNewRegions(@Valid@RequestBody List<RegionCreateDto> regions) {
+    public ResponseEntity<List<RegionCreateDto>> addNewRegions(@Valid @RequestBody List<RegionCreateDto> regions) {
         return new ResponseEntity<>(regionService.createRegions(regions), HttpStatus.CREATED);
     }
 
@@ -68,7 +72,7 @@ public class RegionController {
             @ApiResponse(responseCode = "200", description = "Successfully updated"),
             @ApiResponse(responseCode = "404", description = "Not Found - The region id doesn't exist")
     })
-    @Parameter(name = "regionID", description = "Region id to be updated",example = "1")
+    @Parameter(name = "regionID", description = "Region id to be updated", example = "1")
     @PatchMapping(path = "{regionID}")
     public ResponseEntity<String> updateRegion(@PathVariable("regionID") Long id, @Valid @RequestBody RegionCreateDto region) {
         regionService.updateRegion(id, region);

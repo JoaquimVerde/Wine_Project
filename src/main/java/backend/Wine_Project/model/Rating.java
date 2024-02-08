@@ -12,18 +12,17 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Client",type = "Client",example = "John Doe")
+    @Schema(description = "Client", type = "Client", example = "John Doe")
     @ManyToOne
     private Client client;
-    @Schema(description = "Wine",type = "Wine",example = "Quinta do Crasto")
+    @Schema(description = "Wine", type = "Wine", example = "Quinta do Crasto")
     @ManyToOne
     private Wine wine;
-    @Schema(description = "Rating",type = "double",example = "4.5")
+    @Schema(description = "Rating", type = "double", example = "4.5")
     private double rate;
-    @Schema(description = "Review",type = "string",example = "Great wine")
+    @Schema(description = "Review", type = "string", example = "Great wine")
     @Size(max = 10000)
     private String review;
-
 
 
     public Rating() {

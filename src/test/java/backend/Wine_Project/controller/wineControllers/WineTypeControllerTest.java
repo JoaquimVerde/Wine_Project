@@ -2,7 +2,6 @@ package backend.Wine_Project.controller.wineControllers;
 
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineTypeDto.WineTypeCreateDto;
-import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineTypeRepository;
 import backend.Wine_Project.util.Messages;

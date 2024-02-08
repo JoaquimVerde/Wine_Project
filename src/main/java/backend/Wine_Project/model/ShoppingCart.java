@@ -13,15 +13,15 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Client",type = "Client",example = "João")
+    @Schema(description = "Client", type = "Client", example = "João")
     @ManyToOne
     private Client client;
-    @Schema(description = "Items",type = "Set",example = "[Quinta do Crasto]")
+    @Schema(description = "Items", type = "Set", example = "[Quinta do Crasto]")
     @ManyToMany
     private Set<Item> items;
-    @Schema(description = "Total amount",type = "double",example = "100.0")
+    @Schema(description = "Total amount", type = "double", example = "100.0")
     double totalAmount;
-    @Schema(description = "Ordered",type = "boolean",example = "false")
+    @Schema(description = "Ordered", type = "boolean", example = "false")
     private boolean ordered;
 
     public ShoppingCart() {
@@ -30,7 +30,7 @@ public class ShoppingCart {
     public ShoppingCart(Client client, Set<Item> items) {
         this.client = client;
         this.items = new HashSet<>(items);
-        for (Item item: items) {
+        for (Item item : items) {
             this.totalAmount += item.getTotalPrice();
         }
     }

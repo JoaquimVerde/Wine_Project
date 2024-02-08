@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface GrapeVarietiesRepository extends JpaRepository<GrapeVarieties, Long> {
 
     Optional<GrapeVarieties> findGrapeVarietiesByName(String name);
-  
+
     @Modifying
     @Transactional
     @Query(value = "ALTER TABLE grape_varieties AUTO_INCREMENT = 1", nativeQuery = true)

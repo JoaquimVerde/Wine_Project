@@ -11,9 +11,9 @@ public class WineType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Wine type name",type = "string",example = "Red")
+    @Schema(description = "Wine type name", type = "string", example = "Red")
     private String name;
-    @Schema(description = "Wine",type = "Set",example = "[Quinta do Crasto]")
+    @Schema(description = "Wine", type = "Set", example = "[Quinta do Crasto]")
     @OneToMany(mappedBy = "wineType")
     private Set<Wine> wine;
 
@@ -50,7 +50,6 @@ public class WineType {
     public Set<Wine> getWine() {
         return wine;
     }
-
 
 
     public void setWine(Set<Wine> wine) {

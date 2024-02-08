@@ -10,18 +10,18 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Wine",type = "Wine",example = "Quinta do Crasto")
+    @Schema(description = "Wine", type = "Wine", example = "Quinta do Crasto")
     @OneToOne(cascade = CascadeType.ALL)
     private Wine wine;
-    @Schema(description = "Quantity",type = "int",example = "2")
+    @Schema(description = "Quantity", type = "int", example = "2")
     private int quantity;
-    @Schema(description = "Total price",type = "double",example = "20.0")
+    @Schema(description = "Total price", type = "double", example = "20.0")
     private double totalPrice;
 
     public Item() {
     }
 
-    public Item (Wine wine, int quantity) {
+    public Item(Wine wine, int quantity) {
         this.wine = wine;
         this.quantity = quantity;
         this.totalPrice = wine.getPrice() * quantity;

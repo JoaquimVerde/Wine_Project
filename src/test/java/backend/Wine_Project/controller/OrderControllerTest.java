@@ -100,7 +100,6 @@ class OrderControllerTest {
     }
 
 
-
     @Test
     @DisplayName("Test create order with non-existing shopping cart ID")
     void testCreateOrderWithNonExistingShoppingCartId() throws Exception {
@@ -224,7 +223,6 @@ class OrderControllerTest {
     }
 
 
-
     @Test
     @DisplayName("Test update order id does not exist throws order not found and 404")
     void testUpdateOrderThatDoesNotExist() throws Exception {
@@ -243,7 +241,7 @@ class OrderControllerTest {
     void testUpdateOrderReturns200AndSendsEmail() throws Exception {
 
         Set<Item> items = new HashSet<>();
-        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        Client client = new Client("Joaquim Verde", "joaquimsacchetti@gmail.com", 116333222);
         clientRepository.save(client);
         ShoppingCart shoppingCart = new ShoppingCart(client, items);
         shoppingCartRepository.save(shoppingCart);
@@ -263,7 +261,7 @@ class OrderControllerTest {
     void testUpdateOrderToFalseReturns200AndDoesNotSendEmail() throws Exception {
 
         Set<Item> items = new HashSet<>();
-        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        Client client = new Client("Joaquim Verde", "joaquimsacchetti@gmail.com", 116333222);
         clientRepository.save(client);
         ShoppingCart shoppingCart = new ShoppingCart(client, items);
         shoppingCartRepository.save(shoppingCart);
@@ -283,7 +281,7 @@ class OrderControllerTest {
     void testUpdateOrderWithInvalidJson() throws Exception {
 
         Set<Item> items = new HashSet<>();
-        Client client = new Client("Joaquim Verde","joaquimsacchetti@gmail.com", 116333222 );
+        Client client = new Client("Joaquim Verde", "joaquimsacchetti@gmail.com", 116333222);
         clientRepository.save(client);
         ShoppingCart shoppingCart = new ShoppingCart(client, items);
         shoppingCartRepository.save(shoppingCart);

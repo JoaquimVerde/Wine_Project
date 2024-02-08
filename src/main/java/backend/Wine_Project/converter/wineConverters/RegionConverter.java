@@ -7,18 +7,13 @@ import java.util.List;
 
 public class RegionConverter {
 
-    public static RegionCreateDto fromRegionToRegionDto(Region region){
+    public static RegionCreateDto fromRegionToRegionDto(Region region) {
         return new RegionCreateDto(
                 region.getName()
         );
     }
-    /*public static Region fromRegionDtoToRegion(RegionCreateDto regionCreateDto){
-        return new Region(
-                regionCreateDto.name(),
-                regionCreateDto.wine()
-        );
-    }*/
-    public static List<RegionCreateDto> fromRegionListToRegionDtoList(List<Region> regionList){
+
+    public static List<RegionCreateDto> fromRegionListToRegionDtoList(List<Region> regionList) {
         return regionList.stream()
                 .map(RegionConverter::fromRegionToRegionDto)
                 .toList();

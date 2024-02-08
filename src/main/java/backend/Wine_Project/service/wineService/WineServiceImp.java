@@ -14,8 +14,6 @@ import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
 import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineRepository;
-import backend.Wine_Project.service.ratingService.RatingServiceImp;
-import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,45 +25,44 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class WineServiceImp implements WineService{
+public class WineServiceImp implements WineService {
 
-private final WineRepository wineRepository;
+    private final WineRepository wineRepository;
 
-private final GrapeVarietiesService grapeVarietiesService;
-private final RegionService regionService;
-private final WineTypeService wineTypeService;
+    private final GrapeVarietiesService grapeVarietiesService;
+    private final RegionService regionService;
+    private final WineTypeService wineTypeService;
 
 
-
-@Autowired
-public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService){
-    this.wineRepository = wineRepository;
-    this.grapeVarietiesService = grapeVarietiesService;
-    this.regionService = regionService;
-    this.wineTypeService = wineTypeService;
-}
+    @Autowired
+    public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService) {
+        this.wineRepository = wineRepository;
+        this.grapeVarietiesService = grapeVarietiesService;
+        this.regionService = regionService;
+        this.wineTypeService = wineTypeService;
+    }
 
     @Override
-public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
+    public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
-    for (WineCreateDto wine: wines) {
-        Region region = regionService.getById(wine.regionId());
-        WineType wineType = wineTypeService.getById(wine.wineTypeId());
+        for (WineCreateDto wine : wines) {
+            Region region = regionService.getById(wine.regionId());
+            WineType wineType = wineTypeService.getById(wine.wineTypeId());
 
-        Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
-        if(optionalWine.isPresent())
-            throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
+            Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
+            if (optionalWine.isPresent())
+                throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
 
-        Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
-        for (Long id : wine.grapeVarietiesId()) {
-            grapeVarietiesSet.add(grapeVarietiesService.getById(id));
+            Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
+            for (Long id : wine.grapeVarietiesId()) {
+                grapeVarietiesSet.add(grapeVarietiesService.getById(id));
+            }
+
+            Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year(), grapeVarietiesSet);
+            wineRepository.save(newWine);
         }
-
-        Wine newWine = new Wine(wine.name(), wineType, region, wine.price(), wine.alcohol(), wine.year(), grapeVarietiesSet);
-        wineRepository.save(newWine);
+        return wines;
     }
-    return wines;
-}
 
     @Override
     public List<WineReadDto> getAll(int pageNumber, int pageSize) {
@@ -81,9 +78,9 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         WineType wineType = wineTypeService.getById(wine.wineTypeId());
 
         Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
-        if(optionalWine.isPresent())
+        if (optionalWine.isPresent())
             throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
-        if(wine.year() > LocalDate.now().getYear()){
+        if (wine.year() > LocalDate.now().getYear()) {
             throw new YearCannotBeFutureException(Messages.YEAR_CANNOT_BE_FUTURE.getMessage());
         }
 
@@ -99,7 +96,6 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
     }
 
 
-
     @Override
     public Wine getById(Long id) {
         Optional<Wine> optionalWine = wineRepository.findById(id);
@@ -111,27 +107,27 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
 
     public Set<WineReadDto> search(String name, int year, Long wineTypeId) {
-        if(name != null && year > 0 && wineTypeId != null){
+        if (name != null && year > 0 && wineTypeId != null) {
 
             List<Wine> wines = wineRepository.findWinesByNameAndYearAndWineTypeId(name, year, wineTypeId);
-            if(wines.isEmpty()){
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
 
         }
-        if(name != null && year > 0){
+        if (name != null && year > 0) {
             List<Wine> wines = wineRepository.findByNameAndYear(name, year);
-            if(wines.isEmpty()){
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
 
         }
-        if(name != null && wineTypeId != null){
+        if (name != null && wineTypeId != null) {
 
-            List<Wine> wines = wineRepository.findByNameAndWineTypeId(name,wineTypeId);
-            if(wines.isEmpty()){
+            List<Wine> wines = wineRepository.findByNameAndWineTypeId(name, wineTypeId);
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
@@ -139,21 +135,21 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
         if (year > 0 && wineTypeId != null) {
 
             List<Wine> wines = wineRepository.findByYearAndWineTypeId(year, wineTypeId);
-            if(wines.isEmpty()){
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (name != null) {
             List<Wine> wines = wineRepository.findByName(name);
-            if(wines.isEmpty()){
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
         }
         if (year > 0) {
-            List<Wine> wines = wineRepository.findByYear( year);
-            if(wines.isEmpty()){
+            List<Wine> wines = wineRepository.findByYear(year);
+            if (wines.isEmpty()) {
                 throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
             }
             return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
@@ -161,7 +157,7 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
 
         List<Wine> wines = wineRepository.findByWineTypeId(wineTypeId);
-        if(wines.isEmpty()){
+        if (wines.isEmpty()) {
             throw new WineNotFoundException(Messages.WINES_NOT_FOUND.getMessage());
         }
         return new HashSet<>(WineConverter.fromListOfWinesToListOfWinesReadDto(wines));
@@ -169,26 +165,26 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
     }
 
 
-
     public Long deleteWine(Long wineId) {
 
         if (!wineRepository.existsById(wineId)) {
             throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + wineId);
         }
-        if(getById(wineId).isItem() || getById(wineId).isRated()){
+        if (getById(wineId).isItem() || getById(wineId).isRated()) {
             throw new CannotDeleteOrderedWineException(Messages.WINE_WAS_ORDERED_OR_RATED.getMessage() + wineId);
         }
 
         wineRepository.deleteById(wineId);
         return wineId;
     }
+
     @Override
     public void updateWine(Long id, WineUpdateDto wine) {
         Optional<Wine> wineOptional = wineRepository.findById(id);
         if (wineOptional.isEmpty()) {
             throw new WineIdNotFoundException(Messages.WINE_ID_NOT_FOUND.getMessage() + id);
         }
-        if(wine.year() > LocalDate.now().getYear()){
+        if (wine.year() > LocalDate.now().getYear()) {
             throw new YearCannotBeFutureException(Messages.YEAR_CANNOT_BE_FUTURE.getMessage());
         }
 
@@ -212,9 +208,11 @@ public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
         wineRepository.save(wineToUpdate);
     }
-    @Override
-    public void saveWine (Wine wine){ wineRepository.save(wine);}
 
+    @Override
+    public void saveWine(Wine wine) {
+        wineRepository.save(wine);
+    }
 
 
 }

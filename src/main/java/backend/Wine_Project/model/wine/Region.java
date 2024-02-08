@@ -11,14 +11,14 @@ public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Region name",type = "string",example = "Douro")
+    @Schema(description = "Region name", type = "string", example = "Douro")
     private String name;
-    @Schema(description = "Wine",type = "Set",example = "[Quinta do Crasto]")
+    @Schema(description = "Wine", type = "Set", example = "[Quinta do Crasto]")
     @OneToMany(mappedBy = "region")
     private Set<Wine> wine;
 
 
-    public Region(){
+    public Region() {
     }
 
     public Region(String name, Set<Wine> wine) {

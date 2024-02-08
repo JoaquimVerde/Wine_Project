@@ -14,15 +14,15 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Schema(description = "Client name",type = "string",example = "João")
+    @Schema(description = "Client name", type = "string", example = "João")
     private String name;
-    @Schema(description = "Client email",type = "string",example = "joao@example.com")
+    @Schema(description = "Client email", type = "string", example = "joao@example.com")
     @Column(unique = true)
     private String email;
-    @Schema(description = "Client NIF",type = "int",example = "123456789")
+    @Schema(description = "Client NIF", type = "int", example = "123456789")
     @Column(unique = true)
     private int nif;
-    @Schema(description = "Rated wines",type = "Set",example = "[Quinta do Crasto]")
+    @Schema(description = "Rated wines", type = "Set", example = "[Quinta do Crasto]")
     @ManyToMany
     private Set<Wine> ratedWines;
 

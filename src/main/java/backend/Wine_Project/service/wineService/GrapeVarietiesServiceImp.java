@@ -64,7 +64,7 @@ public class GrapeVarietiesServiceImp implements GrapeVarietiesService {
     }
 
     @Override
-    public void updateGrapeVariety(Long id, GrapeVarietiesDto grape){
+    public void updateGrapeVariety(Long id, GrapeVarietiesDto grape) {
 
         Optional<GrapeVarieties> grapeVarietyOptional = grapeVarietiesRepository.findById(id);
         if (grapeVarietyOptional.isEmpty()) {

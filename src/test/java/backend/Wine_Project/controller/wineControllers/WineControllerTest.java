@@ -1,10 +1,8 @@
 package backend.Wine_Project.controller.wineControllers;
 
-import backend.Wine_Project.converter.wineConverters.GrapeVarietiesConverter;
-import backend.Wine_Project.dto.grapeVarietiesDto.GrapeVarietiesDto;
+
 import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineUpdateDto;
-import backend.Wine_Project.exceptions.YearCannotBeFutureException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
@@ -26,15 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

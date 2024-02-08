@@ -11,12 +11,12 @@ public class EmailService {
 
         public void sendEmailWithAttachment(String recipientEmail, String attachmentPath, String fileName, String costumerName) {
             try {
-                // Create the email
+
                 MultiPartEmail email = new MultiPartEmail();
                 email.setHostName("smtp.gmail.com");
-                email.setSmtpPort(587); // or your SMTP port
+                email.setSmtpPort(587);
                 email.setAuthenticator(new DefaultAuthenticator("joaquim.verde@gmail.com", "bwqa sxyu bkcp lqca"));
-                email.setStartTLSRequired(true); // If using TLS
+                email.setStartTLSRequired(true);
                 email.setFrom("Wine_Project@gmail.com");
                 email.addTo(recipientEmail);
                 email.setSubject("Order Invoice: "+ fileName);
@@ -24,17 +24,14 @@ public class EmailService {
                                 "Kind Regards,\n" +
                                 "Wine Team.");
 
-                // Create the attachment
                 EmailAttachment attachment = new EmailAttachment();
                 attachment.setPath(attachmentPath);
                 attachment.setDisposition(EmailAttachment.ATTACHMENT);
                 attachment.setDescription("PDF Attachment");
                 attachment.setName(fileName);
-
-                // Attach the file
                 email.attach(attachment);
 
-                // Send the email
+
                 email.send();
                 System.out.println("Email sent successfully.");
             } catch (Exception e) {

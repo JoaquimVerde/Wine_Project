@@ -2,7 +2,6 @@ package backend.Wine_Project.repository;
 
 import backend.Wine_Project.model.Client;
 import backend.Wine_Project.model.ShoppingCart;
-import backend.Wine_Project.model.wine.Wine;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 
-    Optional<ShoppingCart> findByClientAndOrdered(Client client, boolean ordered );
+    Optional<ShoppingCart> findByClientAndOrdered(Client client, boolean ordered);
 
     @Modifying
     @Transactional

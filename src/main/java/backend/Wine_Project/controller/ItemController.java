@@ -23,13 +23,14 @@ public class ItemController {
     public ItemController(ItemServiceImp itemService) {
         this.itemService = itemService;
     }
+
     @Operation(summary = "Get all items", description = "Returns all items")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all items")
-    @Parameter(name = "pageNumber", description = "Page number to retrieve", example = "1")
     @GetMapping("/")
     public ResponseEntity<List<ItemGetDto>> getItems() {
         return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
     }
+
     @Operation(summary = "Create new order", description = "Create a new order with given parameters")
     @ApiResponse(responseCode = "201", description = "Successfully created")
     @Parameter(name = "item", description = "ItemCreateDto object to be created", example = "name: Wine, quantity: 2, price: 20.0")

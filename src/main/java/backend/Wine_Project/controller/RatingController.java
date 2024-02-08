@@ -5,7 +5,6 @@ import backend.Wine_Project.dto.ratingDto.RatingReadDto;
 import backend.Wine_Project.service.ratingService.RatingServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -21,13 +20,14 @@ import java.util.List;
 public class RatingController {
 
     private final RatingServiceImp ratingServiceImp;
+
     @Autowired
     public RatingController(RatingServiceImp ratingServiceImp) {
         this.ratingServiceImp = ratingServiceImp;
     }
+
     @Operation(summary = "Get all ratings", description = "Returns all ratings")
     @ApiResponse(responseCode = "200", description = "Successfully retrieve")
-    @Parameter(name = "pageNumber", description = "Page number to retrieve", example = "1")
     @GetMapping("/")
     public ResponseEntity<List<RatingReadDto>> getRatings() {
         return new ResponseEntity<>(ratingServiceImp.getAll(), HttpStatus.OK);
