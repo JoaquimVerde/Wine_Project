@@ -5,10 +5,10 @@ import backend.Wine_Project.dto.wineDto.WineCreateDto;
 import backend.Wine_Project.dto.wineDto.WineReadDto;
 import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.exceptions.CannotDeleteOrderedWineException;
+import backend.Wine_Project.exceptions.YearCannotBeFutureException;
 import backend.Wine_Project.exceptions.alreadyExists.WineAlreadyExistsException;
 import backend.Wine_Project.exceptions.notFound.WineIdNotFoundException;
 import backend.Wine_Project.exceptions.notFound.WineNotFoundException;
-import backend.Wine_Project.exceptions.YearCannotBeFutureException;
 import backend.Wine_Project.model.wine.GrapeVarieties;
 import backend.Wine_Project.model.wine.Region;
 import backend.Wine_Project.model.wine.Wine;
@@ -16,13 +16,17 @@ import backend.Wine_Project.model.wine.WineType;
 import backend.Wine_Project.repository.WineRepository;
 import backend.Wine_Project.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class WineServiceImp implements WineService {
@@ -32,7 +36,6 @@ public class WineServiceImp implements WineService {
     private final GrapeVarietiesService grapeVarietiesService;
     private final RegionService regionService;
     private final WineTypeService wineTypeService;
-
 
     @Autowired
     public WineServiceImp(WineRepository wineRepository, GrapeVarietiesService grapeVarietiesService, RegionService regionService, WineTypeService wineTypeService) {
@@ -45,12 +48,14 @@ public class WineServiceImp implements WineService {
     @Override
     public List<WineCreateDto> createWines(List<WineCreateDto> wines) {
 
-        for (WineCreateDto wine : wines) {
+        for (WineCreateDto wine: wines) {
+
             Region region = regionService.getById(wine.regionId());
             WineType wineType = wineTypeService.getById(wine.wineTypeId());
 
             Optional<Wine> optionalWine = wineRepository.findByNameAndWineTypeAndYear(wine.name(), wineType, wine.year());
             if (optionalWine.isPresent())
+
                 throw new WineAlreadyExistsException(Messages.WINE_ALREADY_EXISTS.getMessage());
 
             Set<GrapeVarieties> grapeVarietiesSet = new HashSet<>();
@@ -96,6 +101,7 @@ public class WineServiceImp implements WineService {
     }
 
 
+    @Cacheable(value = "wineCache", key = "#wineCacheId")
     @Override
     public Wine getById(Long id) {
         Optional<Wine> optionalWine = wineRepository.findById(id);

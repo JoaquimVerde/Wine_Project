@@ -2,12 +2,15 @@ package backend.Wine_Project.model.wine;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+
 import java.util.Set;
 
 
 @Entity
 @Table
-public class Wine {
+public class Wine implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

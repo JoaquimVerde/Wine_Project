@@ -11,9 +11,7 @@ import backend.Wine_Project.model.Item;
 import backend.Wine_Project.model.Order;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.repository.OrderRepository;
-
 import backend.Wine_Project.service.EmailService;
-
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
 import backend.Wine_Project.util.Messages;
 import com.itextpdf.text.Document;
@@ -108,22 +106,33 @@ public class OrderServiceImp implements OrderService {
                 "NIF: " + shoppingCart.getClient().getNif() + "\n\n";
 
         //Product Header
-        String newHeader = "Product" + " ".repeat(45-7) + "| " + " Quantity" + " ".repeat(10) + "| " + "Unit. Price " + " ".repeat(14) + "| " + "Total Price\n";
-
-
+        String newHeader = String.format("%-50s| %-12s| %-15s| %s\n", "Product", "Quantity", "Unit Price", "Total Price");
         String headerLimit = "-".repeat(newHeader.length()) + "\n";
 
 
         // Build invoice text
+        // Calculate maximum width for each column
+        int maxProductNameWidth = 0;
+        int maxQuantityWidth = 0;
+        int maxUnitPriceWidth = 0;
+
+        for (Item item : shoppingCart.getItems()) {
+            maxProductNameWidth = Math.max(maxProductNameWidth, item.getWine().getName().length());
+            maxQuantityWidth = Math.max(maxQuantityWidth, String.valueOf(item.getQuantity()).length());
+            maxUnitPriceWidth = Math.max(maxUnitPriceWidth, String.valueOf(item.getWine().getPrice()).length());
+        }
+
+// Build invoice text
         StringBuilder invoiceText = new StringBuilder();
         for (Item item : shoppingCart.getItems()) {
-            String productName = item.getWine().getName() + " ".repeat(45 - item.getWine().getName().length()) + "|";
-            String quantity = item.getQuantity() + " ".repeat(8) + "|";
-            String unitPrice = item.getWine().getPrice() + " ". repeat(12) + "|";
-            String totalPrice = item.getTotalPrice() + " ".repeat(7);
+            String productName = String.format("%-" + (maxProductNameWidth + 2), item.getWine().getName());
+            String quantity = String.format("%-" + (maxQuantityWidth + 2), item.getQuantity());
+            String unitPrice = String.format("%-" + (maxUnitPriceWidth + 2), item.getWine().getPrice());
+            String totalPrice = "" + item.getTotalPrice();
             String line = productName + quantity + unitPrice + totalPrice + "\n";
             invoiceText.append(line);
         }
+
         // Total amount
         String totalAmount = "\nTotal Amount: " + shoppingCart.getTotalAmount();
 
