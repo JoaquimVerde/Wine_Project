@@ -71,6 +71,12 @@ public class OrderServiceImp implements OrderService {
         Order newOrder = new Order(shoppingCart);
         orderRepository.save(newOrder);
 
+        emailService.sendEmailRequestPayment(newOrder.getClient().getEmail(),
+                newOrder.getClient().getName(),
+                itemsToPayList(newOrder.getShoppingCart()),
+                newOrder.getTotalPrice(),
+                newOrder.getId());
+
         shoppingCartService.closeShoppingCart(shoppingCart);
 
         orderRepository.save(newOrder);
@@ -104,32 +110,19 @@ public class OrderServiceImp implements OrderService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Time todayTime = new Time(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute(), LocalDateTime.now().getSecond());
 
-        // Header
+
         String invoiceHead = centerAlignText("****************************************************\n");
         String invoiceNum = centerAlignText("\t\t\t\tInvoice " + shoppingCart.getId() + "\n");
         String invoiceDate = centerAlignText("\t\t\t\tDate: " + dateFormat.format(todayDate) + " --- "+todayTime+"\n");
         String invoiceHead2 = centerAlignText("****************************************************\n\n");
 
-        // Client data
+
         String clientData = "Client: " + shoppingCart.getClient().getName() + "\n" +
                 "NIF: " + shoppingCart.getClient().getNif() + "\n\n";
 
-        //Product Header
+
         String newHeader = String.format("%-50s| %-12s| %-15s| %s\n", "Product", "Quantity", "Unit Price", "Total Price");
         String headerLimit = "-".repeat(newHeader.length()) + "\n";
-
-
-        // Build invoice text
-        // Calculate maximum width for each column
-        int maxProductNameWidth = 0;
-        int maxQuantityWidth = 0;
-        int maxUnitPriceWidth = 0;
-
-        for (Item item : shoppingCart.getItems()) {
-            maxProductNameWidth = Math.max(maxProductNameWidth, item.getWine().getName().length());
-            //maxQuantityWidth = Math.max(maxQuantityWidth, String.valueOf(item.getQuantity()).length());
-            //maxUnitPriceWidth = Math.max(maxUnitPriceWidth, String.valueOf(item.getWine().getPrice()).length());
-        }
 
 
         StringBuilder invoiceText = new StringBuilder();
@@ -162,10 +155,10 @@ public class OrderServiceImp implements OrderService {
     }
 
     private String centerAlignText(String text) {
-        int lineLength = text.split("\n")[0].length(); // Get the length of the first line
-        int pageWidth = 120; // Assuming a standard page width
+        int lineLength = text.split("\n")[0].length();
+        int pageWidth = 120;
         int leftPadding = (pageWidth - lineLength) / 2;
-        return " ".repeat(leftPadding) + text; // Add left padding
+        return " ".repeat(leftPadding) + text;
     }
 
     @Override
@@ -195,6 +188,15 @@ public class OrderServiceImp implements OrderService {
         }
 
         orderRepository.save(orderToUpdate);
+    }
+
+    public String itemsToPayList(ShoppingCart shoppingCart){
+        String items = "";
+        for (Item item: shoppingCart.getItems()) {
+
+            items += (item.getWine().getName()+" ----- quantity: "+item.getQuantity()+" ----- total: "+item.getTotalPrice()+"\n");
+        }
+        return items;
     }
 
 }
