@@ -5,13 +5,13 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy project files into the container
-COPY ././
+COPY ./target/Wine_Project-0.0.1-SNAPSHOT.jar .
 
 # Build the application using Maven
 RUN mvn clean package
 
 # Application startup command
-CMD ["java", "-jar", "target/your-application.jar"]
+CMD ["java", "-jar", "Wine_Project-0.0.1-SNAPSHOT.jar"]
 
 # Expose a port if necessary
 EXPOSE 8080
