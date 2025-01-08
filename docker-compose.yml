@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.3.0
+    container_name: Wine_Project
+    environment:
+      MYSQL_DATABASE: Wine_Project_API
+      MYSQL_ROOT_PASSWORD: wines
+    ports:
+      - "3306:3306"
+    restart: always
