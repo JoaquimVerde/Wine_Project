@@ -38,6 +38,8 @@ public enum Messages {
     WINE_TYPE_CREATED("New wine type added successfully"),
     REGION_CREATED("New region added successfully"),
     CLIENT_CREATED("New client added successfully"),
+    ITEM_CREATED("New item created successfully"),
+    SHOPPING_CART_CREATED("Shopping cart created successfully"),
     CLIENT_NIF_ALREADY_EXISTS("Client nif already exists"),
 
 

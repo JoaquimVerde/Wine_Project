@@ -2,6 +2,7 @@ package backend.Wine_Project.service.clientService;
 
 import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.clientDto.ClientReadDto;
+import backend.Wine_Project.dto.clientDto.ClientUpdateDto;
 import backend.Wine_Project.converter.ClientConverter;
 import backend.Wine_Project.exceptions.alreadyExists.NifAlreadyExistsException;
 import backend.Wine_Project.exceptions.notFound.ClientIdNotFoundException;
@@ -69,6 +70,43 @@ public class ClientServiceImp implements ClientService {
     @Override
     public void saveClient(Client client) {
         clientRepository.save(client);
+    }
+
+
+    @Override
+    public Long updateClient(Long id, ClientUpdateDto client) {
+        Optional<Client> clientOptional = clientRepository.findById(id);
+        if(clientOptional.isEmpty()) {
+            throw new ClientIdNotFoundException(Messages.CLIENT_ID_NOT_FOUND.getMessage()+ " id: "+id);
+        }
+
+        Optional<Client> clientOptional1 = this.clientRepository.findClientByEmail(client.email());
+        Optional<Client> clientOptional2 = this.clientRepository.findClientByNif(client.nif());
+
+        if (clientOptional1.isPresent() && !clientOptional1.equals(clientOptional)) {
+            throw new EmailAlreadyExistsException(Messages.CLIENT_EMAIL_ALREADY_EXISTS.getMessage());
+        }
+        if (clientOptional2.isPresent() && !clientOptional2.equals(clientOptional)) {
+            throw new NifAlreadyExistsException(Messages.CLIENT_NIF_ALREADY_EXISTS.getMessage());
+        }
+
+        Client clientToUpdate = clientOptional.get();
+
+        if (client.name() != null && client.name().length() > 0 && !client.name().equals(clientToUpdate.getName())) {
+            clientToUpdate.setName(client.name());
+        }
+        if (client.email() != null && client.email().length() > 0 && !client.email().equals(clientToUpdate.getEmail())) {
+            clientToUpdate.setEmail(client.email());
+        }
+        if (client.nif() > 0 && client.nif() != clientToUpdate.getNif()) {
+            clientToUpdate.setNif(client.nif());
+        }
+
+        clientRepository.save(clientToUpdate);
+
+        return clientToUpdate.getId();
+
+
     }
 
 

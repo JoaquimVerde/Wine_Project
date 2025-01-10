@@ -2,6 +2,8 @@ package backend.Wine_Project.controller;
 
 import backend.Wine_Project.dto.clientDto.ClientCreateDto;
 import backend.Wine_Project.dto.clientDto.ClientReadDto;
+import backend.Wine_Project.dto.clientDto.ClientUpdateDto;
+import backend.Wine_Project.dto.wineDto.WineUpdateDto;
 import backend.Wine_Project.service.clientService.ClientServiceImp;
 import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,6 +55,13 @@ public class ClientController {
     @PostMapping("/addClients")
     public ResponseEntity<List<ClientCreateDto>> addNewClients(@Valid @RequestBody List<ClientCreateDto> clients) {
         return new ResponseEntity<>(clientServiceImp.createCostumers(clients), HttpStatus.CREATED);
+    }
+
+    @Parameter(name = "client", description = "client id to be updated", example = "1")
+    @PatchMapping(path = "{clientId}")
+    public ResponseEntity<String> updateClient(@PathVariable("clientId") Long id, @Valid @RequestBody ClientUpdateDto client) {
+        clientServiceImp.updateClient(id, client);
+        return new ResponseEntity<>("Client id: "+id+" successfully updated", HttpStatus.OK);
     }
 
 

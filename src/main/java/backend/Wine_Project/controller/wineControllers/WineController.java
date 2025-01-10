@@ -58,8 +58,7 @@ public class WineController {
     @Parameter(name = "wineTypeId", description = "Wine type id to search", example = "1")
 
     @GetMapping("/search")
-    public ResponseEntity<Set<WineReadDto>> searchWines(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0",required = false) int year,
-                                                        @RequestParam(required = false) Long wineTypeId) {
+    public ResponseEntity<Set<WineReadDto>> searchWines(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0",required = false) int year, @RequestParam(required = false) Long wineTypeId) {
         return new ResponseEntity<>(wineService.search(name, year, wineTypeId), HttpStatus.OK);
 
     }

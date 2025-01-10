@@ -6,6 +6,7 @@ import backend.Wine_Project.dto.shoppingCartDto.ShoppingCartUpdateDto;
 import backend.Wine_Project.model.ShoppingCart;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartService;
 import backend.Wine_Project.service.shopppingCartService.ShoppingCartServiceImp;
+import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,17 +39,18 @@ public class ShoppingCartController {
     @ApiResponse(responseCode = "201", description = "Successfully created")
     @Parameter(name = "shoppingCart", description = "ShoppingCartCreateDto object to be created", example = "clientId: 1, items: [{itemId: 1, quantity: 2}, {itemId: 2, quantity: 3}]")
     @PostMapping("/")
-    public ResponseEntity<Long> createShoppingCart(@RequestBody ShoppingCartCreateDto shoppingCart) {
-        return new ResponseEntity<>(shoppingCartService.create(shoppingCart), HttpStatus.CREATED);
+    public ResponseEntity<String> createShoppingCart(@RequestBody ShoppingCartCreateDto shoppingCart) {
+        Long id = shoppingCartService.create(shoppingCart);
+        return new ResponseEntity<>(Messages.SHOPPING_CART_CREATED.getMessage()+ " - id: "+id, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete shopping cart", description = "Delete a shopping cart with given id")
     @ApiResponse(responseCode = "200", description = "Successfully deleted")
     @Parameter(name = "shoppingCartID", description = "Shopping cart id to delete", example = "1")
     @DeleteMapping(path = "{shoppingCartID}")
-    public ResponseEntity<ShoppingCart> deleteShoppingCart(@PathVariable("shoppingCartID") Long shoppingCartID) {
+    public ResponseEntity<String> deleteShoppingCart(@PathVariable("shoppingCartID") Long shoppingCartID) {
         shoppingCartService.delete(shoppingCartID);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Shopping cart ID: "+shoppingCartID+" was successfully deleted", HttpStatus.OK);
     }
 
     @Operation(summary = "Update shopping cart", description = "Update a shopping cart with given parameters")
@@ -56,9 +58,9 @@ public class ShoppingCartController {
     @Parameter(name = "shoppingCartId", description = "Shopping cart id to update", example = "1")
     @Parameter(name = "shoppingCartUpdateDto", description = "ShoppingCartUpdateDto object to be updated", example = "clientId: 1, items: [{itemId: 1, quantity: 2}, {itemId: 2, quantity: 3}]")
     @PatchMapping(path = "{shoppingCartId}")
-    public ResponseEntity<Long> updateShoppingCart(@PathVariable("shoppingCartId") Long shoppingCartId, @RequestBody ShoppingCartUpdateDto shoppingCartUpdateDto) {
+    public ResponseEntity<String> updateShoppingCart(@PathVariable("shoppingCartId") Long shoppingCartId, @RequestBody ShoppingCartUpdateDto shoppingCartUpdateDto) {
         shoppingCartService.update(shoppingCartId, shoppingCartUpdateDto);
-        return new ResponseEntity<>(shoppingCartId, HttpStatus.OK);
+        return new ResponseEntity<>("Shopping cart with id "+shoppingCartId+" was updated", HttpStatus.OK);
     }
 
 }

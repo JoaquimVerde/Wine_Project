@@ -3,6 +3,7 @@ package backend.Wine_Project.controller;
 import backend.Wine_Project.dto.itemDto.ItemCreateDto;
 import backend.Wine_Project.dto.itemDto.ItemGetDto;
 import backend.Wine_Project.service.itemService.ItemServiceImp;
+import backend.Wine_Project.util.Messages;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,8 +36,9 @@ public class ItemController {
     @ApiResponse(responseCode = "201", description = "Successfully created")
     @Parameter(name = "item", description = "ItemCreateDto object to be created", example = "name: Wine, quantity: 2, price: 20.0")
     @PostMapping("/")
-    public ResponseEntity<Long> addNewOrder(@RequestBody ItemCreateDto item) {
-        return new ResponseEntity<>(itemService.create(item), HttpStatus.CREATED);
+    public ResponseEntity<String> addNewOrder(@RequestBody ItemCreateDto item) {
+        Long id = itemService.create(item);
+        return new ResponseEntity<>(Messages.ITEM_CREATED.getMessage() + " - id: "+ id, HttpStatus.CREATED);
     }
 
 
